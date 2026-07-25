@@ -1,4 +1,4 @@
-import React, { ComponentProps, ComponentType, ElementType } from "react";
+import React, { ComponentProps, ComponentType, ElementType, ReactNode } from "react";
 import { Sidebar } from "@/components/ui/sidebar";
 import { LucideIcon } from "lucide-react";
 import {
@@ -7,6 +7,7 @@ import {
   ColumnDef
 } from "@tanstack/react-table";
 import { SidebarGroup } from "@/components/custom/sidebar";
+import { navigation } from "@/layouts/navbar";
 
 // ============================================================================
 // SIDEBAR INTERFACES
@@ -23,11 +24,13 @@ export interface NavMainItem {
 export interface NavSubItem {
   title: string
   url: string
+  description?: string
 }
 
 export interface NavDropdown {
   main: NavMainItem[]
   secondary: NavMainItem[]
+  navigation?: NavMainItem[]
 }
 
 export interface NavMessage {
@@ -140,6 +143,16 @@ export interface BrandProps {
 
 export interface TeamSwitcherProps {
   teams: TeamProps[];
+}
+
+export interface HeaderProps {
+  top?: ReactNode;
+  bottom?: ReactNode;
+  left: ReactNode;
+  right: ReactNode;
+  user?: any | null;
+  auth: AuthSidebarProps;
+  nav: NavDropdown
 }
 
 // ============================================================================
