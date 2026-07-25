@@ -1,6 +1,6 @@
 {
-  "name": "gorth-base-primitive",
-  "version": "1.1.6",
+  "name": "@gorth/primitive",
+  "version": "2.0.0",
   "description": "Shared shadcn-based UI package",
   "type": "module",
   "author": "Gorthenburg",
@@ -14,7 +14,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/goraria/gorth-ui.git"
+    "url": "git+https://github.com/goraria/base-primitive.git"
   },
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -145,8 +145,8 @@
     "react-resizable-panels": "^4.12.2",
     "react-svg-credit-card-payment-icons": "^6.0.4",
     "react-use-measure": "^2.1.7",
-    "recharts": "3.10.0",
-    "shadcn": "^4.14.1",
+    "recharts": "3.10.1",
+    "shadcn": "^4.15.0",
     "shiki": "^4.3.1",
     "simplex-noise": "^4.0.3",
     "sonner": "^2.0.7",
@@ -167,15 +167,15 @@
     "@tailwindcss/cli": "^4.3.3",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/fs-extra": "^11.0.4",
-    "@types/node": "^25.9.4",
+    "@types/node": "^26.1.1",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@types/three": "^0.185.1",
-    "eslint": "^9.39.4",
+    "eslint": "^10.8.0",
     "prettier": "^3.9.6",
     "tailwindcss": "^4.3.3",
     "tsup": "^8.5.1",
-    "typescript": "^5.9.3"
+    "typescript": "^7.0.2"
   },
   "packageManager": "pnpm@10.33.4"
 }

@@ -4,7 +4,7 @@ import { defineConfig } from "tsup"
 
 export default defineConfig({
   clean: true,
-  dts: true,
+  dts: false, //
   bundle: true,
   // Keep shared modules (e.g. React contexts) in common chunks
   // so different entrypoints consume the same runtime instance.
