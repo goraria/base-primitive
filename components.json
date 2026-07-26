@@ -1,13 +1,14 @@
 {
   "$schema": "https://ui.shadcn.com/schema.json",
-  "style": "radix-vega",
+  "style": "base-vega",
   "rsc": true,
   "tsx": true,
   "tailwind": {
     "config": "",
     "css": "src/styles/globals.css",
     "baseColor": "neutral",
-    "cssVariables": true
+    "cssVariables": true,
+    "prefix": ""
   },
   "iconLibrary": "lucide",
   "aliases": {
@@ -19,5 +20,6 @@
   },
   "rtl": false,
   "menuColor": "default",
-  "menuAccent": "subtle"
+  "menuAccent": "subtle",
+  "registries": {}
 }

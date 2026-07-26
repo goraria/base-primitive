@@ -212,7 +212,7 @@ export function DataTableColumnHeader<TData, TValue>({
   return (
     // <div className={cn("flex items-center gap-2", className)}>
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger>
         <Button
           variant="ghost"
           // size="sm"
@@ -455,7 +455,7 @@ export function DataTableViewOptions<TData>({
 }) {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger>
         <Button
           variant="outline"
           size="icon"
@@ -501,7 +501,7 @@ export function DataTableFacetedFilter<TData, TValue>({
 
   return (
     <Popover>
-      <PopoverTrigger asChild>
+      <PopoverTrigger>
         <Button variant="outline" size="default" className="h-9 border-dashed">
           <PlusCircle className="mr-2 h-4 w-4" />
           {title}
@@ -613,7 +613,7 @@ export const columns: ColumnDef<Payment>[] = [
       <Checkbox
         checked={
           table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
+          table.getIsSomePageRowsSelected()
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Chọn tất cả"
@@ -725,7 +725,7 @@ export const columns: ColumnDef<Payment>[] = [
 
       return (
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger>
             <Button
               variant="ghost"
               size="icon"

@@ -114,7 +114,7 @@ export function Utility({
 	return (
 		<>
 			<DropdownMenu>
-				<DropdownMenuTrigger asChild>
+				<DropdownMenuTrigger>{/* asChild */}
 					<Button
 						variant="ghost"
 						className="cursor-pointer"

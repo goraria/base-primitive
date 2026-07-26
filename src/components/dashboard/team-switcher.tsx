@@ -32,7 +32,7 @@ export function TeamSwitcher({ teams }: { teams: TeamProps[] }) {
     <SidebarMenu>
       <SidebarMenuItem>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger>{/* asChild */}
             <SidebarMenuButton
               size="lg"
               className="h-14 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"

@@ -38,7 +38,7 @@ export function ThemeColorSwitch() {
 
   return (
     <Popover>
-      <PopoverTrigger asChild>
+      <PopoverTrigger>{/* asChild */}
         <Button variant="outline" className="w-10 h-10 p-0">
           <div 
             className="w-6 h-6 rounded-full" 

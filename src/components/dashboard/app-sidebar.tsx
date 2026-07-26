@@ -33,7 +33,7 @@ export function AppSidebar({ data, auth, ...props }: AppSidebarProps) {
         ) : (
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton size="lg" className="h-14" asChild>
+              <SidebarMenuButton size="lg" className="h-14">{/* asChild */}
                 {data.brand && data.brand.logo ? (
                   <Link href="/">
                     <div className="flex aspect-square size-9 items-center justify-center rounded-md text-sidebar-primary-foreground">

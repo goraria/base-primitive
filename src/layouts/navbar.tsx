@@ -152,7 +152,7 @@ export function Navbar({ top, bottom, left, right, user, auth, nav }: HeaderProp
                           <ul className="grid gap-1 md:w-[500px] md:grid-cols-2 rounded-md">
                             {item.items.map((child) => (
                               <li key={child.title}>
-                                <NavigationMenuLink asChild>
+                                <NavigationMenuLink>{/* asChild */}
                                   <Link
                                     href={child.url}
                                     className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
@@ -171,7 +171,7 @@ export function Navbar({ top, bottom, left, right, user, auth, nav }: HeaderProp
                         </NavigationMenuContent>
                       </>
                     ) : (
-                      <NavigationMenuLink asChild className="bg-transparent rounded-md">
+                      <NavigationMenuLink className="bg-transparent rounded-md">{/* asChild */}
                         <Link
                           href={item.url}
                           className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-base font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50"
@@ -188,7 +188,7 @@ export function Navbar({ top, bottom, left, right, user, auth, nav }: HeaderProp
 
           {/* Mobile Menu Button */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger asChild className="md:hidden">
+            <SheetTrigger className="md:hidden">{/* asChild */}
               <Button variant="ghost" size="icon" className="mr-2">
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">Toggle menu</span>
@@ -336,7 +336,7 @@ export function NavbarOld({
 
           {/* Mobile Menu Button */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger asChild className="md:hidden">
+            <SheetTrigger className="md:hidden">{/* asChild */}
               <Button variant="ghost" size="icon" className="mr-2">
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">Toggle menu</span>

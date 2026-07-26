@@ -46,7 +46,7 @@ export function NavUserX({ user }: { user: UserProps }) {
     <SidebarMenu>
       <SidebarMenuItem>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger>{/* asChild */}
             <SidebarMenuButton
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
@@ -216,7 +216,7 @@ export function NavUser({
       {type === "navbar" ? (
         <>
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+            <DropdownMenuTrigger>{/* asChild */}
               <Button
                 variant="ghost"
                 size="icon"
@@ -240,7 +240,7 @@ export function NavUser({
           <SidebarMenu>
             <SidebarMenuItem>
               <DropdownMenu>
-                <DropdownMenuTrigger asChild>
+                <DropdownMenuTrigger>{/* asChild */}
                   {size === "lg" ? (
                     <SidebarMenuButton
                       size="lg"

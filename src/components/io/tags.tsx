@@ -106,7 +106,7 @@ export const Tags = ({
 export type TagsTriggerProps = ComponentProps<typeof Button>
 
 export const TagsTrigger = ({ className, children, ...props }: TagsTriggerProps) => (
-  <PopoverTrigger asChild>
+  <PopoverTrigger>{/* asChild */}
     <Button
       className={cn("h-auto w-full justify-between p-2", className)}
       role="combobox"

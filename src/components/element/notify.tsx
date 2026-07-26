@@ -66,7 +66,7 @@ export function NotifyButton() {
   return (
     <>
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
+        <DropdownMenuTrigger>{/* asChild */}
           <Button variant="ghost" size="icon" className="relative">
             <Bell className="h-6 w-6" />
             <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-[10px] text-white">

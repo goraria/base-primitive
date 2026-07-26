@@ -157,7 +157,7 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
             {/* Mobile menu trigger */}
             {isMobile && (
               <Popover>
-                <PopoverTrigger asChild>
+                <PopoverTrigger>{/* asChild */}
                   <Button
                     className="group h-9 w-9 hover:bg-accent hover:text-accent-foreground"
                     size="icon"

@@ -47,7 +47,7 @@ export function MessSidebar({ data, auth, ...props }: MessSidebarProps) {
         <SidebarHeader>
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton size="default" asChild className="md:p-0">
+              <SidebarMenuButton size="default" className="md:p-0">{/* asChild */}
                 {data.brand && data.brand.logo ? (
                   <Link href="/">
                     <div className="flex aspect-square size-9 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">

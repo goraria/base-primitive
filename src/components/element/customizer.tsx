@@ -89,7 +89,7 @@ export function Customizer({
   return (
     <span className={className} {...props}>
       <Sheet>
-        <SheetTrigger asChild>
+        <SheetTrigger>{/* asChild */}
           <Button variant="default" className="cursor-pointer" size="icon">
             <Settings2 />
             <span className="sr-only">Quick Setting</span>

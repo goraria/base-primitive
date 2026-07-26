@@ -36,7 +36,7 @@ export function ApplicationProvider({
           <Progress>
             <Bar className="bg-primary!"/>
           </Progress>
-          <TooltipProvider delayDuration={0}>
+          <TooltipProvider>{/* delayDuration={0} */}
             {children}
             <ToasterProvider/>
           </TooltipProvider>

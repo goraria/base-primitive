@@ -38,12 +38,12 @@ export function NavOrigin({ items, ...props }: NavCoreProps) {
         {items.map((item) => (
           <Collapsible
             key={item.title}
-            asChild
+            // asChild
             defaultOpen={item.isActive}
             className="group/collapsible"
           >
             <SidebarMenuItem>
-              <CollapsibleTrigger asChild>
+              <CollapsibleTrigger>{/* asChild */}
                 <SidebarMenuButton tooltip={item.title}>
                   {item.icon && <item.icon />}
                   <span>{item.title}</span>
@@ -54,7 +54,7 @@ export function NavOrigin({ items, ...props }: NavCoreProps) {
                 <SidebarMenuSub>
                   {item.items?.map((subItem: any) => (
                     <SidebarMenuSubItem key={subItem.title}>
-                      <SidebarMenuSubButton asChild>
+                      <SidebarMenuSubButton>{/* asChild */}
                         <Link href={subItem.url}>
                           <span>{subItem.title}</span>
                         </Link>
@@ -123,7 +123,7 @@ export function NavMaster({ items, ...props }: NavCoreProps) {
                 <SidebarMenuButton
                   tooltip={item.title}
                   isActive={isActive}
-                  asChild
+                  // asChild
                 >
                   <Link href={item.url} onClick={() => setOpen(true)}>
                     {item.icon && <item.icon />}
@@ -137,12 +137,11 @@ export function NavMaster({ items, ...props }: NavCoreProps) {
           return (
             <Collapsible
               key={`${item.title}-${item.url}-${idx}`}
-              asChild
               defaultOpen={isActive}
               className="group/collapsible"
             >
               <SidebarMenuItem>
-                <CollapsibleTrigger asChild>
+                <CollapsibleTrigger>{/* asChild */}
                   <SidebarMenuButton
                     tooltip={item.title}
                     isActive={isActive}
@@ -160,7 +159,7 @@ export function NavMaster({ items, ...props }: NavCoreProps) {
                       return (
                         <SidebarMenuSubItem key={subItem.title}>
                           <SidebarMenuSubButton
-                            asChild
+                            // asChild
                             isActive={isSubActive}
                             onClick={() => setOpen(true)}
                           >
@@ -211,7 +210,7 @@ export function NavMain({ items, ...props }: NavCoreProps) {
                 <SidebarMenuButton
                   tooltip={item.title}
                   isActive={isActive}
-                  asChild
+                  // asChild
                 >
                   <Link href={item.url} onClick={() => setOpen(true)}>
                     {item.icon && <item.icon />}
@@ -225,13 +224,12 @@ export function NavMain({ items, ...props }: NavCoreProps) {
           return (
             <Collapsible
               key={`${item.title}-${item.url}-${idx}`}
-              asChild
               open={isOpen}
               onOpenChange={(next) => setOpenIndex(next ? idx : null)}
               className="group/collapsible"
             >
               <SidebarMenuItem>
-                <CollapsibleTrigger asChild>
+                <CollapsibleTrigger>{/* asChild */}
                   <SidebarMenuButton
                     tooltip={item.title}
                     isActive={isActive}
@@ -264,7 +262,7 @@ export function NavMain({ items, ...props }: NavCoreProps) {
                       return (
                         <SidebarMenuSubItem key={`${item.title}-${subItem.title}-${subItem.url}-${sIdx}`}>
                           <SidebarMenuSubButton
-                            asChild
+                            // asChild
                             isActive={isSubActive}
                             onClick={() => setOpen(true)}
                           >
@@ -339,7 +337,7 @@ export function NavMainOld({ items, ...props }: NavCoreProps) {
                 <SidebarMenuButton
                   tooltip={item.title}
                   isActive={isMenuActive(item)}
-                  asChild
+                  // asChild
                 >
                   <Link href={item.url} onClick={() => setOpen(true)}>
                     {Icon && <Icon />}
@@ -353,13 +351,12 @@ export function NavMainOld({ items, ...props }: NavCoreProps) {
           return (
             <Collapsible
               key={`${item.title}-${item.url}-${idx}`}
-              asChild
               open={isOpen}
               onOpenChange={(next) => setOpenIndex(next ? idx : null)}
               className="group/collapsible"
             >
               <SidebarMenuItem>
-                <CollapsibleTrigger asChild>
+                <CollapsibleTrigger>{/* asChild */}
                   <SidebarMenuButton
                     tooltip={item.title}
                     isActive={isMenuActive(item)}
@@ -390,7 +387,7 @@ export function NavMainOld({ items, ...props }: NavCoreProps) {
                       {item.items?.map((subItem, sIdx) => (
                         <SidebarMenuSubItem key={`${item.title}-${subItem.title}-${subItem.url}-${sIdx}`}>
                           <SidebarMenuSubButton
-                            asChild
+                            // asChild
                             isActive={isSubMenuActive(subItem)}
                             onClick={() => setOpen(true)}
                           >
@@ -452,7 +449,7 @@ export function NavMasterOld({ items, ...props }: NavCoreProps) {
                 <SidebarMenuButton
                   tooltip={item.title}
                   isActive={isActive}
-                  asChild
+                  // asChild
                 >
                   <Link href={item.url} onClick={() => setOpen(true)}>
                     {item.icon && <item.icon />}
@@ -466,13 +463,12 @@ export function NavMasterOld({ items, ...props }: NavCoreProps) {
           return (
             <Collapsible
               key={`${item.title}-${item.url}-${idx}`}
-              asChild
               open={openIndex === undefined ? isActive : openIndex === idx}
               onOpenChange={(next) => setOpenIndex(next ? idx : null)}
               className="group/collapsible"
             >
               <SidebarMenuItem>
-                <CollapsibleTrigger asChild>
+                <CollapsibleTrigger>{/* asChild */}
                   <SidebarMenuButton
                     tooltip={item.title}
                     isActive={isActive}
@@ -490,7 +486,7 @@ export function NavMasterOld({ items, ...props }: NavCoreProps) {
                       return (
                         <SidebarMenuSubItem key={subItem.title}>
                           <SidebarMenuSubButton
-                            asChild
+                            // asChild
                             isActive={isSubActive}
                             onClick={() => setOpen(true)}
                           >
@@ -591,7 +587,7 @@ export function NavSub({ items }: NavCoreProps) {
                 <SidebarMenuButton
                   tooltip={item.title}
                   isActive={isMenuActive(item)}
-                  asChild
+                  // asChild
                 >
                   <Link href={item.url} onClick={() => setOpen(true)}>
                     {item.icon && <item.icon />}
@@ -605,13 +601,13 @@ export function NavSub({ items }: NavCoreProps) {
           return (
             <Collapsible
               key={`${item.title}-${item.url}-${idx}`}
-              asChild
+              // asChild
               open={isOpen}
               onOpenChange={(next) => setOpenIndex(next ? idx : null)}
               className="group/collapsible"
             >
               <SidebarMenuItem>
-                <CollapsibleTrigger asChild>
+                <CollapsibleTrigger>{/* asChild */}
                   <SidebarMenuButton
                     tooltip={item.title}
                     isActive={isMenuActive(item)}
@@ -642,7 +638,7 @@ export function NavSub({ items }: NavCoreProps) {
                       {item.items?.map((subItem, sIdx) => (
                         <SidebarMenuSubItem key={`${item.title}-${subItem.title}-${subItem.url}-${sIdx}`}>
                           <SidebarMenuSubButton
-                            asChild
+                            // asChild
                             isActive={isSubMenuActive(subItem)}
                             onClick={() => setOpen(true)}
                             className="h-9"
