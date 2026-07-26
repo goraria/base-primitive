@@ -1,14 +1,14 @@
 /// <reference types="node" />
 
-import { defineConfig } from "tsup"
+import { defineConfig } from "tsdown"
 
 export default defineConfig({
   clean: true,
-  dts: false, //
-  bundle: true,
+  dts: true,
+  fixedExtension: false,
   // Keep shared modules (e.g. React contexts) in common chunks
   // so different entrypoints consume the same runtime instance.
-  splitting: true,
+  // splitting: true,
   entry: [
     "src/index.ts",
     "src/components/**/*.tsx",
@@ -37,5 +37,7 @@ export default defineConfig({
   outDir: "dist",
   treeshake: true,
 
-  external: ["react", "react-dom"],
+  deps: {
+    neverBundle: ["react", "react-dom"],
+  },
 })
