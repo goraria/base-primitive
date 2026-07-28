@@ -23,7 +23,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/custom/sidebar"
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/custom/button";
 import {
   BadgeCheck,
   Bell,
@@ -46,11 +46,14 @@ export function NavUserX({ user }: { user: UserProps }) {
     <SidebarMenu>
       <SidebarMenuItem>
         <DropdownMenu>
-          <DropdownMenuTrigger>{/* asChild */}
-            <SidebarMenuButton
-              size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-            >
+          <DropdownMenuTrigger
+            render={
+              <SidebarMenuButton
+                size="lg"
+                className="data-open:bg-sidebar-accent data-open:text-sidebar-accent-foreground"
+              />
+            }
+          >
               <Avatar className="">
                 <AvatarImage src={user.avatar} alt={user.name} />
                 <AvatarFallback className="rounded-md">CN</AvatarFallback>
@@ -60,7 +63,6 @@ export function NavUserX({ user }: { user: UserProps }) {
                 <span className="truncate text-xs">{user.email}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
-            </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
             className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
@@ -68,18 +70,20 @@ export function NavUserX({ user }: { user: UserProps }) {
             align="end"
             sideOffset={4}
           >
-            <DropdownMenuLabel className="p-0 font-normal">
-              <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <Avatar className="">
-                  <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="">CN</AvatarFallback>
-                </Avatar>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.name}</span>
-                  <span className="truncate text-xs">{user.email}</span>
+            <DropdownMenuGroup>
+              <DropdownMenuLabel className="p-0 font-normal">
+                <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+                  <Avatar className="">
+                    <AvatarImage src={user.avatar} alt={user.name} />
+                    <AvatarFallback className="">CN</AvatarFallback>
+                  </Avatar>
+                  <div className="grid flex-1 text-left text-sm leading-tight">
+                    <span className="truncate font-medium">{user.name}</span>
+                    <span className="truncate text-xs">{user.email}</span>
+                  </div>
                 </div>
-              </div>
-            </DropdownMenuLabel>
+              </DropdownMenuLabel>
+            </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
@@ -129,12 +133,14 @@ export function NavUserDropdown({
     <>
       {user ? (
         <>
-          <DropdownMenuLabel className="p-0 font-normal">
-            <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-              <NavAvatar user={user} />
-              <NavName user={user} />
-            </div>
-          </DropdownMenuLabel>
+          <DropdownMenuGroup>
+            <DropdownMenuLabel className="p-0 font-normal">
+              <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+                <NavAvatar user={user} />
+                <NavName user={user} />
+              </div>
+            </DropdownMenuLabel>
+          </DropdownMenuGroup>
           <DropdownMenuSeparator />
           {auth.authenticated ? (
             <>
@@ -216,14 +222,16 @@ export function NavUser({
       {type === "navbar" ? (
         <>
           <DropdownMenu>
-            <DropdownMenuTrigger>{/* asChild */}
-              <Button
-                variant="ghost"
-                size="icon"
-                className="p-0 cursor-pointer"
-              >
+            <DropdownMenuTrigger
+              render={
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="p-0 cursor-pointer"
+                />
+              }
+            >
                 <NavAvatar user={user} />
-              </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
               className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
@@ -240,36 +248,28 @@ export function NavUser({
           <SidebarMenu>
             <SidebarMenuItem>
               <DropdownMenu>
-                <DropdownMenuTrigger>{/* asChild */}
-                  {size === "lg" ? (
+                <DropdownMenuTrigger
+                  render={
+                    size === "lg" ? (
                     <SidebarMenuButton
                       size="lg"
-                      className="h-14 data-[active=true]:bg-professional-main/24 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-                    >
-                      <NavAvatar user={user} />
-                      <NavName user={user} />
-                      <ChevronsUpDown className="ml-auto size-4" />
-                    </SidebarMenuButton>
+                      className="h-14 data-active:bg-professional-main/24 data-open:bg-sidebar-accent data-open:text-sidebar-accent-foreground"
+                    />
                   ) : size === "icon" ? (
                     <SidebarMenuButton
                       size="default"
-                      className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground md:p-0"
-                    >
-                      <NavAvatar user={user} />
-                      <NavName user={user} />
-                      <ChevronsUpDown className="ml-auto size-4" />
-                    </SidebarMenuButton>
+                      className="data-open:bg-sidebar-accent data-open:text-sidebar-accent-foreground md:p-0"
+                    />
                   ) : (
-                    <>
-                      <SidebarMenuButton
-                        className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground md:p-0"
-                      >
-                        <NavAvatar user={user} />
-                        <NavName user={user} />
-                        <ChevronsUpDown className="ml-auto size-4" />
-                      </SidebarMenuButton>
-                    </>
-                  )}
+                    <SidebarMenuButton
+                      className="data-open:bg-sidebar-accent data-open:text-sidebar-accent-foreground md:p-0"
+                    />
+                  )
+                  }
+                >
+                  <NavAvatar user={user} />
+                  <NavName user={user} />
+                  <ChevronsUpDown className="ml-auto size-4" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
                   className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"

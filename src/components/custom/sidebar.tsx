@@ -7,7 +7,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { useIsMobile } from "@/hooks/use-mobile"
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/custom/button"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import {
@@ -484,17 +484,16 @@ const sidebarMenuButtonVariants = cva(
     // "group-data-[collapsible=icon]:size-9! group-data-[collapsible=icon]:p-2.5!",
     "[&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
 
-    // Hover/Active CHỈ khi KHÔNG active
-    "data-[active=false]:hover:bg-sidebar-accent data-[active=false]:hover:text-sidebar-accent-foreground",
-    "data-[active=false]:active:bg-sidebar-accent data-[active=false]:active:text-sidebar-accent-foreground",
-    // khi menu đang mở (state=open) cũng chỉ áp dụng nếu KHÔNG active
-    "data-[state=open]:data-[active=false]:hover:bg-sidebar-accent data-[state=open]:data-[active=false]:hover:text-sidebar-accent-foreground",
+    // Base UI exposes boolean states as presence attributes:
+    // data-active / data-open, not data-active="true" / data-state="open".
+    "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+    "active:bg-sidebar-accent active:text-sidebar-accent-foreground",
 
-    // Trạng thái ACTIVE — luôn giữ màu brand, không đổi khi hover/focus/active
-    "data-[active=true]:bg-professional-main/24 data-[active=true]:text-professional-main data-[active=true]:font-medium",
-    "data-[active=true]:hover:bg-professional-main/24 data-[active=true]:hover:text-professional-main",
-    "data-[active=true]:active:bg-professional-main/24 data-[active=true]:active:text-professional-main",
-    "data-[active=true]:focus:bg-professional-main/24 data-[active=true]:focus:text-professional-main",
+    // Active parent items keep the brand color in every interaction state.
+    "data-active:bg-professional-main/24 data-active:text-professional-main data-active:font-medium",
+    "data-active:hover:bg-professional-main/24 data-active:hover:text-professional-main",
+    "data-active:active:bg-professional-main/24 data-active:active:text-professional-main",
+    "data-active:focus:bg-professional-main/24 data-active:focus:text-professional-main",
   ].join(" "),
   // "peer/menu-button group/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm ring-sidebar-ring outline-hidden transition-[width,height,padding] group-has-data-[sidebar=menu-action]/menu-item:pr-8 group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-open:hover:bg-sidebar-accent data-open:hover:text-sidebar-accent-foreground data-active:bg-sidebar-accent data-active:font-medium data-active:text-sidebar-accent-foreground [&_svg]:size-4 [&_svg]:shrink-0 [&>span:last-child]:truncate",
   {

@@ -25,11 +25,9 @@ export function NavSecondary({ items, ...props }: NavCoreProps) {
 
             return (
               <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton>
-                  <Link href={item.url}>
-                    <Icon />
-                    <span>{item.title}</span>
-                  </Link>
+                <SidebarMenuButton render={<Link href={item.url} />}>
+                  <Icon />
+                  <span>{item.title}</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             )

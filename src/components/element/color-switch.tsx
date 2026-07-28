@@ -38,13 +38,11 @@ export function ThemeColorSwitch() {
 
   return (
     <Popover>
-      <PopoverTrigger>{/* asChild */}
-        <Button variant="outline" className="w-10 h-10 p-0">
+      <PopoverTrigger render={<Button variant="outline" className="w-10 h-10 p-0" />}>
           <div 
             className="w-6 h-6 rounded-full" 
             style={{ backgroundColor: currentColor }}
           />
-        </Button>
       </PopoverTrigger>
       <PopoverContent className="w-48 p-2">
         <div className="grid grid-cols-3 gap-2">

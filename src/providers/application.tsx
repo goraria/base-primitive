@@ -22,12 +22,10 @@ const queryClient = new QueryClient({
 
 export function ApplicationProvider({
   children,
-  ...props
-}: React.ComponentProps<typeof ThemeProvider>) {
+}: React.PropsWithChildren) {
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider {...props}>
-        {/*<ThemeWrapper>*/}
+      <ThemeProvider>
         <ProgressProvider
           height="4px"
           options={{ showSpinner: false, template: null }}
@@ -36,12 +34,11 @@ export function ApplicationProvider({
           <Progress>
             <Bar className="bg-primary!"/>
           </Progress>
-          <TooltipProvider>{/* delayDuration={0} */}
+          <TooltipProvider>
             {children}
             <ToasterProvider/>
           </TooltipProvider>
         </ProgressProvider>
-        {/*</ThemeWrapper>*/}
       </ThemeProvider>
     </QueryClientProvider>
   );

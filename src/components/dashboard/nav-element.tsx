@@ -10,7 +10,7 @@ import { SearchBarHolder } from "@/components/element/search-bar";
 import { ModeToggle } from "@/components/element/mode-toggle";
 import { Customizer } from "@/components/element/customizer";
 import { Utility } from "@/components/element/utility";
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/custom/button"
 import { Search } from "lucide-react";
 
 export function NavElement({

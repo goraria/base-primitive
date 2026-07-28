@@ -1,15 +1,16 @@
 "use client"
 
 import React from "react"
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/custom/button";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
+	DropdownMenuGroup,
 	DropdownMenuItem,
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/custom/dropdown"
 import { 
 	Grid2X2, 
 	Calendar, 
@@ -114,29 +115,31 @@ export function Utility({
 	return (
 		<>
 			<DropdownMenu>
-				<DropdownMenuTrigger>{/* asChild */}
-					<Button
+				<DropdownMenuTrigger
+					render={<Button
 						variant="ghost"
 						className="cursor-pointer"
 						size="icon"
-					>
+					/>}
+				>
 						<Grid2X2 className="h-[1.2rem] w-[1.2rem]" />
 						<span className="sr-only">Quick Setting</span>
-					</Button>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align="end" className="w-80">
-					<DropdownMenuLabel
-            className="flex justify-between items-center p-0 pl-2" // px-4 py-3
-          >
-            Phím tắt
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8" // rounded-full
+					<DropdownMenuGroup>
+						<DropdownMenuLabel
+							className="flex justify-between items-center p-0 pl-2" // px-4 py-3
+						>
+							Phím tắt
+							<Button
+								variant="ghost"
+								size="icon"
+								className="h-8 w-8" // rounded-full
             >
-              <Plus className="h-4 w-4"/>
-            </Button>
-          </DropdownMenuLabel>
+								<Plus className="h-4 w-4"/>
+							</Button>
+						</DropdownMenuLabel>
+					</DropdownMenuGroup>
 					<DropdownMenuSeparator />
 					<ScrollArea className="h-[356px]">
 						<div className="grid grid-cols-2 gap-1">

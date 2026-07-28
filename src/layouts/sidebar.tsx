@@ -31,7 +31,7 @@
 //   SidebarMenu,
 //   SidebarMenuItem,
 //   SidebarRail,
-// } from "@/components/ui/sidebar"
+// } from "@/components/custom/sidebar"
 // import { appGlobal } from "@/lib/constants";
 
 // // This is sample data.

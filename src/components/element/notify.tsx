@@ -1,12 +1,12 @@
 import React from "react";
 import {
   DropdownMenu,
-  DropdownMenuContent, DropdownMenuItem,
+  DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator, DropdownMenuShortcut,
   DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
+} from "@/components/custom/dropdown";
+import { Button } from "@/components/custom/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { LucideIcon, Bell, X } from "lucide-react";
 
@@ -66,16 +66,18 @@ export function NotifyButton() {
   return (
     <>
       <DropdownMenu>
-        <DropdownMenuTrigger>{/* asChild */}
-          <Button variant="ghost" size="icon" className="relative">
+        <DropdownMenuTrigger
+          render={<Button variant="ghost" size="icon" className="relative" />}
+        >
             <Bell className="h-6 w-6" />
             <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-[10px] text-white">
               8
             </span>
-          </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-80">
-          <DropdownMenuLabel className="h-9 px-2.5 py-2">Thông báo</DropdownMenuLabel>
+          <DropdownMenuGroup>
+            <DropdownMenuLabel className="h-9 px-2.5 py-2">Thông báo</DropdownMenuLabel>
+          </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <ScrollArea className="h-[320px]">
             {/* <DropdownMenuItem className="flex flex-col items-start gap-1">

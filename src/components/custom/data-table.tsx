@@ -31,6 +31,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuCheckboxItem,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -39,7 +40,7 @@ import {
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/custom/dropdown"
 import {
   Select,
   SelectContent,
@@ -66,8 +67,8 @@ import {
   CardHeader,
   CardFooter
 } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/custom/button"
+import { Badge } from "@/components/custom/badge"
 import { Input } from "@/components/ui/input"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Separator } from "@/components/ui/separator"
@@ -212,21 +213,21 @@ export function DataTableColumnHeader<TData, TValue>({
   return (
     // <div className={cn("flex items-center gap-2", className)}>
     <DropdownMenu>
-      <DropdownMenuTrigger>
-        <Button
+      <DropdownMenuTrigger
+        render={<Button
           variant="ghost"
           // size="sm"
-          className="data-[state=open]:bg-accent" // -ml-3
-        >
-          <span>{title}</span>
-          {column.getIsSorted() === "desc" ? (
-            <ArrowDown />
-          ) : column.getIsSorted() === "asc" ? (
-            <ArrowUp />
-          ) : (
-            <ChevronsUpDown />
-          )}
-        </Button>
+          className="data-open:bg-accent" // -ml-3
+        />}
+      >
+        <span>{title}</span>
+        {column.getIsSorted() === "desc" ? (
+          <ArrowDown />
+        ) : column.getIsSorted() === "asc" ? (
+          <ArrowUp />
+        ) : (
+          <ChevronsUpDown />
+        )}
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start">
         <DropdownMenuItem onClick={() => column.clearSorting()}>
@@ -414,8 +415,8 @@ export function DataTablePagination<TData>({
                   variant="outline"
                   size="icon"
                   className="cursor-pointer" // h-9 w-9
-                  // onClick={() => {}}
-                  // disabled
+                // onClick={() => {}}
+                // disabled
                 >
                   {/* <span className="px-2 text-sm text-muted-foreground">...</span> */}
                   <Ellipsis className="h-4 w-4" />
@@ -455,18 +456,20 @@ export function DataTableViewOptions<TData>({
 }) {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
-        <Button
+      <DropdownMenuTrigger
+        render={<Button
           variant="outline"
           size="icon"
           className="ml-auto hidden lg:flex" // h-8
-        >
-          <Settings2 />
-          {/*Cài đặt hiển thị*/}
-        </Button>
+        />}
+      >
+        <Settings2 />
+        {/*Cài đặt hiển thị*/}
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[150px]">
-        <DropdownMenuLabel>Ẩn/Hiện cột</DropdownMenuLabel>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>Ẩn/Hiện cột</DropdownMenuLabel>
+        </DropdownMenuGroup>
         <DropdownMenuSeparator />
         {table
           .getAllColumns()
@@ -501,44 +504,44 @@ export function DataTableFacetedFilter<TData, TValue>({
 
   return (
     <Popover>
-      <PopoverTrigger>
-        <Button variant="outline" size="default" className="h-9 border-dashed">
-          <PlusCircle className="mr-2 h-4 w-4" />
-          {title}
-          {selectedValues?.size > 0 && (
-            <>
-              <Separator orientation="vertical" className="mx-2 h-4" />
-              <Badge
-                variant="secondary"
-                className="rounded-sm px-1 font-normal lg:hidden"
-              >
-                {selectedValues.size}
-              </Badge>
-              <div className="hidden space-x-1 lg:flex">
-                {selectedValues.size > 2 ? (
-                  <Badge
-                    variant="secondary"
-                    className="rounded-sm px-1 font-normal"
-                  >
-                    {selectedValues.size} selected
-                  </Badge>
-                ) : (
-                  options
-                    .filter((option) => selectedValues.has(option.value))
-                    .map((option) => (
-                      <Badge
-                        variant="secondary"
-                        key={String(option.value)}
-                        className="rounded-sm px-1 font-normal"
-                      >
-                        {option.label}
-                      </Badge>
-                    ))
-                )}
-              </div>
-            </>
-          )}
-        </Button>
+      <PopoverTrigger
+        render={<Button variant="outline" size="default" className="h-9 border-dashed" />}
+      >
+        <PlusCircle className="mr-2 h-4 w-4" />
+        {title}
+        {selectedValues?.size > 0 && (
+          <>
+            <Separator orientation="vertical" className="mx-2 h-4" />
+            <Badge
+              variant="secondary"
+              className="rounded-sm px-1 font-normal lg:hidden"
+            >
+              {selectedValues.size}
+            </Badge>
+            <div className="hidden space-x-1 lg:flex">
+              {selectedValues.size > 2 ? (
+                <Badge
+                  variant="secondary"
+                  className="rounded-sm px-1 font-normal"
+                >
+                  {selectedValues.size} selected
+                </Badge>
+              ) : (
+                options
+                  .filter((option) => selectedValues.has(option.value))
+                  .map((option) => (
+                    <Badge
+                      variant="secondary"
+                      key={String(option.value)}
+                      className="rounded-sm px-1 font-normal"
+                    >
+                      {option.label}
+                    </Badge>
+                  ))
+              )}
+            </div>
+          </>
+        )}
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0" align="start">
         <Command>
@@ -725,15 +728,15 @@ export const columns: ColumnDef<Payment>[] = [
 
       return (
         <DropdownMenu>
-          <DropdownMenuTrigger>
-            <Button
+          <DropdownMenuTrigger
+            render={<Button
               variant="ghost"
               size="icon"
               className="p-0" // h-8 w-8
-            >
-              <span className="sr-only">Mở menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
+            />}
+          >
+            <span className="sr-only">Mở menu</span>
+            <MoreHorizontal className="h-4 w-4" />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             {/* <DropdownMenuLabel>Actions</DropdownMenuLabel> */}
