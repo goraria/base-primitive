@@ -64,6 +64,11 @@
       "import": "./dist/components/io/*.js",
       "default": "./dist/components/io/*.js"
     },
+    "./pages/*": {
+      "types": "./dist/pages/*.d.ts",
+      "import": "./dist/pages/*.js",
+      "default": "./dist/pages/*.js"
+    },
     "./layouts/*": {
       "types": "./dist/layouts/*.d.ts",
       "import": "./dist/layouts/*.js",
