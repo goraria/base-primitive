@@ -35,7 +35,11 @@ import {
   MediaTextDisplay,
   MediaPreviewTimeDisplay
 } from "media-chrome/react"
-import type { ComponentProps, CSSProperties } from "react"
+import type {
+  ComponentProps,
+  CSSProperties,
+  MouseEvent as ReactMouseEvent,
+} from "react"
 import { cn } from "@/lib/utils"
 
 export type VideoPlayerProps = ComponentProps<typeof MediaController>
@@ -52,15 +56,27 @@ const variables = {
   "--media-range-track-background": "var(--border)",
 } as CSSProperties
 
-export const VideoPlayer = ({ style, ...props }: VideoPlayerProps) => (
-  <MediaController
-    style={{
-      ...variables,
-      ...style,
-    }}
-    {...(props as any)}
-  />
-)
+export function VideoPlayer({
+  className,
+  style,
+  ...props
+}: VideoPlayerProps) {
+  return (
+    <MediaController
+      className={cn(
+        "relative flex aspect-video w-full items-center justify-center overflow-hidden bg-black",
+        "[&_[slot=media]]:m-0 [&_[slot=media]]:block [&_[slot=media]]:max-h-full [&_[slot=media]]:w-full [&_[slot=media]]:object-contain",
+        "fullscreen:fixed fullscreen:inset-0 fullscreen:h-screen fullscreen:max-h-none fullscreen:w-screen fullscreen:max-w-none fullscreen:rounded-none fullscreen:border-0 fullscreen:ring-0",
+        className,
+      )}
+      style={{
+        ...variables,
+        ...style,
+      }}
+      {...(props as any)}
+    />
+  )
+}
 
 export type VideoPlayerControlBarProps = ComponentProps<typeof MediaControlBar>
 
@@ -174,9 +190,44 @@ export const VideoPlayerErrorDialog = ({ className, ...props }: VideoPlayerError
 
 export type VideoPlayerFullscreenButtonProps = ComponentProps<typeof MediaFullscreenButton>
 
-export const VideoPlayerFullscreenButton = ({ className, ...props }: VideoPlayerFullscreenButtonProps) => (
-  <MediaFullscreenButton className={cn("p-2.5", className)} {...(props as any)} />
-)
+interface WebkitFullscreenVideo extends HTMLVideoElement {
+  webkitEnterFullscreen?: () => void
+  webkitSupportsFullscreen?: boolean
+}
+
+export function VideoPlayerFullscreenButton({
+  className,
+  onClick,
+  ...props
+}: VideoPlayerFullscreenButtonProps) {
+  function handleClick(event: ReactMouseEvent<HTMLElement>) {
+    onClick?.(event as never)
+
+    if (event.defaultPrevented || document.fullscreenEnabled) {
+      return
+    }
+
+    const controller = event.currentTarget.closest("media-controller")
+    const video = controller?.querySelector<WebkitFullscreenVideo>(
+      'video[slot="media"]',
+    )
+
+    if (
+      video?.webkitEnterFullscreen &&
+      video.webkitSupportsFullscreen !== false
+    ) {
+      video.webkitEnterFullscreen()
+    }
+  }
+
+  return (
+    <MediaFullscreenButton
+      className={cn("p-2.5", className)}
+      onClick={handleClick}
+      {...(props as any)}
+    />
+  )
+}
 
 export type VideoPlayerGestureReceiverProps = ComponentProps<typeof MediaGestureReceiver>
 
@@ -276,9 +327,19 @@ export const VideoPlayerPreviewTimeDisplay = ({
 
 export type VideoPlayerContentProps = ComponentProps<"video">
 
-export const VideoPlayerContent = ({ className, ...props }: VideoPlayerContentProps) => (
-  <video className={cn("mt-0 mb-0", className)} {...(props as any)} />
-)
+export function VideoPlayerContent({
+  className,
+  ...props
+}: VideoPlayerContentProps) {
+  return (
+    <video
+      slot="media"
+      playsInline
+      className={cn("m-0 block size-full object-contain", className)}
+      {...props}
+    />
+  )
+}
 
 // Demo
 export function Demo() {

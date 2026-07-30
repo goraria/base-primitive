@@ -27,7 +27,7 @@ export function ApplicationProvider({
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
         <ProgressProvider
-          height="4px"
+          height="2px"
           options={{ showSpinner: false, template: null }}
           shallowRouting
         >
