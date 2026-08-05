@@ -172,6 +172,209 @@ export interface BadgeIconProps {
   icon: LucideIcon
 }
 
+// ============================================================================
+// TANSTACK QUERY
+// ============================================================================
+
+// export type CallerMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE"
+
+// export type CallerToastConfig =
+//   | boolean
+//   | {
+//       loading?: string
+//       success?: string
+//       error?: string
+//     }
+
+// export interface CallerOptions<TData = unknown> {
+//   url: string
+//   method?: CallerMethod
+//   data?: TData
+//   params?: Record<string, unknown>
+//   headers?: Record<string, string>
+//   timeout?: number
+//   toast?: CallerToastConfig
+//   withCredentials?: boolean
+// }
+
+// export interface CallerExtraOptions {
+//   auth?: boolean
+//   baseURL?: string | null
+//   unwrapData?: boolean
+// }
+
+// export type CallerConfig<TData = unknown> = CallerOptions<TData> & CallerExtraOptions
+
+// export type CallerRequestOptions<TData = unknown> = Omit<
+//   CallerOptions<TData>,
+//   "method" | "url"
+// >
+
+// export type CallerRequestConfig<TData = unknown> =
+//   CallerRequestOptions<TData> & CallerExtraOptions
+
+// export interface ApiErrorPayload {
+//   message?: unknown
+//   error?: unknown
+//   errors?: unknown
+// }
+
+// export interface EndpointFetchArgs {
+//   url: string
+//   baseUrl?: string | null
+//   method?: CallerMethod
+//   body?: unknown
+//   data?: unknown
+//   params?: Record<string, unknown>
+//   headers?: HeadersInit
+//   timeout?: number
+// }
+
+// export interface EndpointFetchBaseQueryError {
+//   status: number | "FETCH_ERROR"
+//   data?: unknown
+//   error?: string
+// }
+
+// export interface EndpointQueryMeta {
+//   response?: {
+//     status: number
+//   }
+// }
+
+// export interface EndpointQueryReturnValue<TResult, TError> {
+//   data?: TResult
+//   error?: TError
+//   meta?: EndpointQueryMeta
+// }
+
+// export interface EndpointBaseQueryApi {
+//   signal?: AbortSignal
+// }
+
+// export interface EndpointBaseQueryExtraOptions {
+//   endpointType?: "query" | "mutation"
+// }
+
+// export type EndpointBaseQueryFn<TArgs, TResult, TError> = (
+//   args: TArgs,
+//   api: EndpointBaseQueryApi,
+//   extraOptions?: EndpointBaseQueryExtraOptions
+// ) => Promise<EndpointQueryReturnValue<TResult, TError>>
+
+// export type EndpointQueryArg<TArg> = {
+//   bivarianceHack: (arg: TArg) => string | EndpointFetchArgs
+// }["bivarianceHack"]
+
+// export type EndpointQueryFn<TResult, TArg> = (
+//   arg: TArg,
+//   api: EndpointBaseQueryApi,
+//   extraOptions: EndpointBaseQueryExtraOptions | undefined,
+//   baseQuery: EndpointBaseQueryFn<
+//     string | EndpointFetchArgs,
+//     unknown,
+//     EndpointFetchBaseQueryError
+//   >
+// ) => Promise<EndpointQueryReturnValue<TResult, EndpointFetchBaseQueryError>>
+
+// export interface EndpointDefinition<
+//   TResult = unknown,
+//   TArg = unknown,
+//   TType extends "query" | "mutation" = "query",
+// > {
+//   type: TType
+//   query?: EndpointQueryArg<TArg>
+//   queryFn?: EndpointQueryFn<TResult, TArg>
+//   transformResponse?: (raw: unknown) => TResult
+//   transformErrorResponse?: (raw: unknown) => unknown
+//   providesTags?: unknown
+//   invalidatesTags?: unknown
+// }
+
+// export type EndpointFunctions<TEndpoints extends Record<string, unknown>> = {
+//   [K in keyof TEndpoints]: TEndpoints[K] extends EndpointDefinition<
+//     infer TResult,
+//     infer TArg,
+//     "query" | "mutation"
+//   >
+//     ? undefined extends TArg
+//       ? (
+//           arg?: TArg,
+//           api?: EndpointBaseQueryApi
+//         ) => Promise<
+//           EndpointQueryReturnValue<TResult, EndpointFetchBaseQueryError>
+//         >
+//       : (
+//           arg: TArg,
+//           api?: EndpointBaseQueryApi
+//         ) => Promise<
+//           EndpointQueryReturnValue<TResult, EndpointFetchBaseQueryError>
+//         >
+//     : never
+// }
+
+// export interface EndpointHookOptions {
+//   skip?: boolean
+// }
+
+// export interface EndpointHookResult<TResult, TArg> {
+//   data: TResult | null
+//   error: EndpointFetchBaseQueryError | null
+//   loading: boolean
+//   result: EndpointQueryReturnValue<TResult, EndpointFetchBaseQueryError> | null
+//   meta?: EndpointQueryMeta
+//   refresh: (
+//     arg?: TArg
+//   ) => Promise<EndpointQueryReturnValue<TResult, EndpointFetchBaseQueryError>>
+// }
+
+// export type EndpointHookFunctions<TEndpoints extends Record<string, unknown>> = {
+//   [K in keyof TEndpoints]: TEndpoints[K] extends EndpointDefinition<
+//     infer TResult,
+//     infer TArg,
+//     "query" | "mutation"
+//   >
+//     ? undefined extends TArg
+//       ? (
+//           arg?: TArg,
+//           options?: EndpointHookOptions
+//         ) => EndpointHookResult<TResult, TArg>
+//       : (
+//           arg: TArg,
+//           options?: EndpointHookOptions
+//         ) => EndpointHookResult<TResult, TArg>
+//     : never
+// }
+
+// export interface EndpointBuilder {
+//   query<TResult, TArg>(
+//     definition: Omit<EndpointDefinition<TResult, TArg, "query">, "type">
+//   ): EndpointDefinition<TResult, TArg, "query">
+//   mutation<TResult, TArg>(
+//     definition: Omit<EndpointDefinition<TResult, TArg, "mutation">, "type">
+//   ): EndpointDefinition<TResult, TArg, "mutation">
+// }
+
+// export interface CreateEndpointConfig<TEndpoints extends Record<string, unknown>> {
+//   baseQuery: EndpointBaseQueryFn<
+//     string | EndpointFetchArgs,
+//     unknown,
+//     EndpointFetchBaseQueryError
+//   >
+//   reducerPath?: string
+//   tagTypes?: string[]
+//   endpoints: (builder: EndpointBuilder) => TEndpoints
+// }
+
+// export interface EndpointFetchBaseQueryConfig {
+//   baseUrl?: string
+//   prepareHeaders?: (headers: Headers) => Promise<Headers> | Headers
+// }
+
+// export interface EndpointApiResponseEnvelope<TData = unknown> {
+//   data?: TData
+//   message?: string
+// }
 
 // ============================================================================
 // DATATABLES INTERFACES
