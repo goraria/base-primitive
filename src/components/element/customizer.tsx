@@ -16,16 +16,16 @@ import {
   useCustomizer,
 } from '@/hooks/use-customizer'
 import { CircleCheck, RotateCcw, Settings } from 'lucide-react'
-import { IconDir } from '@/assets/custom/icon-dir'
-import { IconLayoutCompact } from '@/assets/custom/icon-layout-compact'
-import { IconLayoutDefault } from '@/assets/custom/icon-layout-default'
-import { IconLayoutFull } from '@/assets/custom/icon-layout-full'
-import { IconSidebarFloating } from '@/assets/custom/icon-sidebar-floating'
-import { IconSidebarInset } from '@/assets/custom/icon-sidebar-inset'
-import { IconSidebarSidebar } from '@/assets/custom/icon-sidebar-sidebar'
-import { IconThemeDark } from '@/assets/custom/icon-theme-dark'
-import { IconThemeLight } from '@/assets/custom/icon-theme-light'
-import { IconThemeSystem } from '@/assets/custom/icon-theme-system'
+import { IconDir } from '@/components/icons/icon-dir'
+import { IconLayoutCompact } from '@/components/icons/icon-layout-compact'
+import { IconLayoutDefault } from '@/components/icons/icon-layout-default'
+import { IconLayoutFull } from '@/components/icons/icon-layout-full'
+import { IconSidebarFloating } from '@/components/icons/icon-sidebar-floating'
+import { IconSidebarInset } from '@/components/icons/icon-sidebar-inset'
+import { IconSidebarSidebar } from '@/components/icons/icon-sidebar-sidebar'
+import { IconThemeDark } from '@/components/icons/icon-theme-dark'
+import { IconThemeLight } from '@/components/icons/icon-theme-light'
+import { IconThemeSystem } from '@/components/icons/icon-theme-system'
 import { cn } from '@/lib/utils'
 import { useDirection } from '@/providers/direction'
 import { type Collapsible, useLayout } from '@/providers/layout'
@@ -284,7 +284,7 @@ function RadioGroupItem({
         <item.icon
           className={cn(
             !isTheme &&
-              'fill-muted-foreground stroke-muted-foreground group-data-checked:fill-primary group-data-checked:stroke-primary'
+            'fill-muted-foreground stroke-muted-foreground group-data-checked:fill-primary group-data-checked:stroke-primary'
           )}
           aria-hidden='true'
         />

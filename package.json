@@ -109,14 +109,14 @@
       "import": "./dist/components/dashboard/*.js",
       "default": "./dist/components/dashboard/*.js"
     },
+    "./icons/*": {
+      "types": "./dist/components/icons/*.d.ts",
+      "import": "./dist/components/icons/*.js",
+      "default": "./dist/components/icons/*.js"
+    },
     "./assets/*": {
       "import": "./src/assets/*",
       "default": "./src/assets/*"
-    },
-    "./assets/custom/*": {
-      "types": "./dist/assets/custom/*.d.ts",
-      "import": "./dist/assets/custom/*.js",
-      "default": "./dist/assets/custom/*.js"
     },
     "./globals.css": {
       "import": "./dist/globals.css",
