@@ -263,7 +263,7 @@ function SidebarTrigger({
       data-sidebar="trigger"
       data-slot="sidebar-trigger"
       variant="ghost"
-      size="icon-sm"
+      // size="icon-sm"
       className={cn(className)}
       onClick={(event) => {
         onClick?.(event)
@@ -404,7 +404,7 @@ function SidebarGroupLabel({
           className
         ),
       },
-        props
+      props
     ),
     render,
     state: {
@@ -428,7 +428,7 @@ function SidebarGroupAction({
           className
         ),
       },
-        props
+      props
     ),
     render,
     state: {
@@ -602,8 +602,8 @@ function SidebarMenuAction({
   ...props
 }: useRender.ComponentProps<"button"> &
   React.ComponentProps<"button"> & {
-  showOnHover?: boolean
-}) {
+    showOnHover?: boolean
+  }) {
   return useRender({
     defaultTagName: "button",
     props: mergeProps<"button">(
@@ -718,10 +718,10 @@ function SidebarMenuSubButton({
   ...props
 }: useRender.ComponentProps<"a"> &
   React.ComponentProps<"a"> & {
-  size?: "sm" | "md"
-  isActive?: boolean
-  children?: React.ReactNode
-}) {
+    size?: "sm" | "md"
+    isActive?: boolean
+    children?: React.ReactNode
+  }) {
   return useRender({
     defaultTagName: "a",
     props: mergeProps<"a">(

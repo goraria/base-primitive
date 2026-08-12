@@ -23,6 +23,10 @@ export default defineConfig({
     "src/pages/*.tsx",
     "src/assets/**/*.ts",
     "src/assets/**/*.tsx",
+    "src/assets/**/*.svg",
+    "src/assets/**/*.png",
+    "src/assets/**/*.jpg",
+    "src/assets/**/*.jpeg",
   ],
   loader: {
     '.png': 'copy',
