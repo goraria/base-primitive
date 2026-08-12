@@ -3,8 +3,8 @@
 import React from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { useParams, useRouter } from "next/navigation"
-import { ArchiveX, File, Inbox, Send, Trash2, Command } from "lucide-react"
+import { useParams } from "next/navigation"
+import { Command } from "lucide-react"
 
 import { NavUser } from "@/components/dashboard/nav-user"
 import { Label } from "@/components/ui/label"
@@ -21,15 +21,17 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/custom/sidebar"
-import { Button } from "@/components/custom/button"
 import { Switch } from "@/components/ui/switch"
-import { MessSidebarProps } from "@/lib/utils/interface"
+import type { MessSidebarProps } from "@/lib/interface"
+import { cn } from "@/lib/utils"
 
 export function MessSidebar({ data, auth, ...props }: MessSidebarProps) {
   // Note: I'm using state to show active item.
   // IRL you should use the url/router.
   const [activeItem, setActiveItem] = React.useState(data.navMain[0])
   const [messages, setMessages] = React.useState(data.navMessage)
+  const params = useParams<{ id?: string }>()
+  const activeMessageId = typeof params.id === "string" ? decodeURIComponent(params.id) : ""
   const { setOpen } = useSidebar()
   return (
     <Sidebar
@@ -47,11 +49,17 @@ export function MessSidebar({ data, auth, ...props }: MessSidebarProps) {
         <SidebarHeader>
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton size="default" className="md:p-0">{/* asChild */}
+              <SidebarMenuButton size="default" className="md:p-0" render={<Link href="/" />}>
                 {data.brand && data.brand.logo ? (
-                  <Link href="/">
+                  <>
                     <div className="flex aspect-square size-9 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
-                      <img src={data.brand.logo} className="size-9" alt={data.brand.name}/>
+                      <Image
+                        src={data.brand.logo}
+                        width={36}
+                        height={36}
+                        className="size-9"
+                        alt={data.brand.name}
+                      />
                     </div>
                     <div className="grid flex-1 text-left text-sm leading-tight">
                       {data.brand.plan ? (
@@ -63,9 +71,9 @@ export function MessSidebar({ data, auth, ...props }: MessSidebarProps) {
                         <span className="truncate font-medium text-xl">{data.brand.name}</span>
                       )}
                     </div>
-                  </Link>
+                  </>
                 ) : (
-                  <Link href="/">
+                  <>
                     <div className="flex aspect-square size-9 items-center justify-center rounded-md bg-professional-main text-sidebar-primary-foreground">
                       <Command className="size-4" />
                     </div>
@@ -73,7 +81,7 @@ export function MessSidebar({ data, auth, ...props }: MessSidebarProps) {
                       <span className="truncate font-medium">Gorth Inc</span>
                       <span className="truncate text-xs">Enterprise</span>
                     </div>
-                  </Link>
+                  </>
                 )}
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -92,7 +100,7 @@ export function MessSidebar({ data, auth, ...props }: MessSidebarProps) {
                       }}
                       onClick={() => {
                         setActiveItem(item)
-                        const mail = data.navMessage.sort(() => Math.random() - 0.5)
+                        const mail = [...data.navMessage].sort(() => Math.random() - 0.5)
                         setMessages(
                           mail.slice(
                             0,
@@ -147,9 +155,13 @@ export function MessSidebar({ data, auth, ...props }: MessSidebarProps) {
             <SidebarGroupContent>
               {messages.map((mail) => (
                 <Link
-                  href="#"
+                  href={`/message/${encodeURIComponent(mail.email)}`}
                   key={mail.email}
-                  className="flex flex-col items-start gap-2 border-b p-4 text-sm leading-tight whitespace-nowrap last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                  onClick={() => setOpen(false)}
+                  className={cn(
+                    "flex flex-col items-start gap-2 border-b p-4 text-sm leading-tight whitespace-nowrap last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                    activeMessageId === mail.email && "bg-sidebar-accent text-sidebar-accent-foreground"
+                  )}
                 >
                   <div className="flex w-full items-center gap-2">
                     <span>{mail.name}</span>{" "}

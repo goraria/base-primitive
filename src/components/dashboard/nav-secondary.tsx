@@ -9,12 +9,11 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/custom/sidebar"
-import { NavMainItem } from "@/lib/utils/interface";
+import type { NavMainItem } from "@/lib/interface";
 
 interface NavCoreProps extends React.ComponentPropsWithoutRef<typeof SidebarGroup> {
   items: NavMainItem[];
 }
-
 export function NavSecondary({ items, ...props }: NavCoreProps) {
   return (
     <SidebarGroup {...props}>
@@ -26,9 +25,9 @@ export function NavSecondary({ items, ...props }: NavCoreProps) {
             return (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton render={<Link href={item.url} />}>
-                  <Icon />
-                  <span>{item.title}</span>
-                </SidebarMenuButton>
+                    <Icon />
+                    <span>{item.title}</span>
+                  </SidebarMenuButton>
               </SidebarMenuItem>
             )
           })}

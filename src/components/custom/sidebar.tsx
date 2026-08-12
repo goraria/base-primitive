@@ -474,28 +474,50 @@ function SidebarMenuItem({ className, ...props }: React.ComponentProps<"li">) {
   )
 }
 
+// const sidebarMenuButtonVariants = cva(
+//   [
+//     // base
+//     "peer/menu-button flex w-full items-center gap-2.5 overflow-hidden rounded-md p-2.5 text-left text-sm outline-hidden ring-sidebar-ring transition-[width,height,padding,color,background-color]",
+//     "focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50",
+//     "group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50",
+//     "group-data-[collapsible=icon]:size-9!",
+//     // "group-data-[collapsible=icon]:size-9! group-data-[collapsible=icon]:p-2.5!",
+//     "[&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
+
+//     // Base UI exposes boolean states as presence attributes:
+//     // data-active / data-open, not data-active="true" / data-state="open".
+//     "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+//     "active:bg-sidebar-accent active:text-sidebar-accent-foreground",
+
+//     // Active parent items keep the brand color in every interaction state.
+//     "data-active:bg-professional-main/24 data-active:text-professional-main data-active:font-medium",
+//     "data-active:hover:bg-professional-main/24 data-active:hover:text-professional-main",
+//     "data-active:active:bg-professional-main/24 data-active:active:text-professional-main",
+//     "data-active:focus:bg-professional-main/24 data-active:focus:text-professional-main",
+//   ].join(" "),
+//   // "peer/menu-button group/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm ring-sidebar-ring outline-hidden transition-[width,height,padding] group-has-data-[sidebar=menu-action]/menu-item:pr-8 group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-open:hover:bg-sidebar-accent data-open:hover:text-sidebar-accent-foreground data-active:bg-sidebar-accent data-active:font-medium data-active:text-sidebar-accent-foreground [&_svg]:size-4 [&_svg]:shrink-0 [&>span:last-child]:truncate",
+//   {
+//     variants: {
+//       variant: {
+//         default: "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+//         outline:
+//           "bg-background shadow-[0_0_0_1px_hsl(var(--sidebar-border))] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:shadow-[0_0_0_1px_hsl(var(--sidebar-accent))]",
+//       },
+//       size: {
+//         default: "h-9 text-sm",
+//         sm: "h-7 text-xs",
+//         lg: "h-12 text-sm group-data-[collapsible=icon]:p-0!",
+//       },
+//     },
+//     defaultVariants: {
+//       variant: "default",
+//       size: "default",
+//     },
+//   }
+// )
+
 const sidebarMenuButtonVariants = cva(
-  [
-    // base
-    "peer/menu-button flex w-full items-center gap-2.5 overflow-hidden rounded-md p-2.5 text-left text-sm outline-hidden ring-sidebar-ring transition-[width,height,padding,color,background-color]",
-    "focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50",
-    "group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50",
-    "group-data-[collapsible=icon]:size-9!",
-    // "group-data-[collapsible=icon]:size-9! group-data-[collapsible=icon]:p-2.5!",
-    "[&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
-
-    // Base UI exposes boolean states as presence attributes:
-    // data-active / data-open, not data-active="true" / data-state="open".
-    "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-    "active:bg-sidebar-accent active:text-sidebar-accent-foreground",
-
-    // Active parent items keep the brand color in every interaction state.
-    "data-active:bg-professional-main/24 data-active:text-professional-main data-active:font-medium",
-    "data-active:hover:bg-professional-main/24 data-active:hover:text-professional-main",
-    "data-active:active:bg-professional-main/24 data-active:active:text-professional-main",
-    "data-active:focus:bg-professional-main/24 data-active:focus:text-professional-main",
-  ].join(" "),
-  // "peer/menu-button group/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm ring-sidebar-ring outline-hidden transition-[width,height,padding] group-has-data-[sidebar=menu-action]/menu-item:pr-8 group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-open:hover:bg-sidebar-accent data-open:hover:text-sidebar-accent-foreground data-active:bg-sidebar-accent data-active:font-medium data-active:text-sidebar-accent-foreground [&_svg]:size-4 [&_svg]:shrink-0 [&>span:last-child]:truncate",
+  "peer/menu-button group/menu-button flex w-full items-center gap-2.5 overflow-hidden rounded-md p-2.5 text-left text-sm ring-sidebar-ring outline-hidden transition-[width,height,padding] group-has-data-[sidebar=menu-action]/menu-item:pr-9 group-data-[collapsible=icon]:size-9! group-data-[collapsible=icon]:p-2.5! hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-open:hover:bg-sidebar-accent data-open:hover:text-sidebar-accent-foreground data-active:bg-sidebar-accent data-active:font-medium data-active:text-sidebar-accent-foreground [&_svg]:size-4 [&_svg]:shrink-0 [&>span:last-child]:truncate",
   {
     variants: {
       variant: {
@@ -518,6 +540,7 @@ const sidebarMenuButtonVariants = cva(
 
 function SidebarMenuButton({
   render,
+  children,
   isActive = false,
   variant = "default",
   size = "default",
@@ -525,16 +548,18 @@ function SidebarMenuButton({
   className,
   ...props
 }: useRender.ComponentProps<"button"> &
-    React.ComponentProps<"button"> & {
-  isActive?: boolean
-  tooltip?: string | React.ComponentProps<typeof TooltipContent>
-} & VariantProps<typeof sidebarMenuButtonVariants>) {
+  React.ComponentProps<"button"> & {
+    isActive?: boolean
+    tooltip?: string | React.ComponentProps<typeof TooltipContent>
+    children?: React.ReactNode
+  } & VariantProps<typeof sidebarMenuButtonVariants>) {
   const { isMobile, state } = useSidebar()
   const comp = useRender({
     defaultTagName: "button",
     props: mergeProps<"button">(
       {
         className: cn(sidebarMenuButtonVariants({ variant, size }), className),
+        children,
       },
       props
     ),
@@ -686,6 +711,7 @@ function SidebarMenuSubItem({
 
 function SidebarMenuSubButton({
   render,
+  children,
   size = "md",
   isActive = false,
   className,
@@ -694,15 +720,17 @@ function SidebarMenuSubButton({
   React.ComponentProps<"a"> & {
   size?: "sm" | "md"
   isActive?: boolean
+  children?: React.ReactNode
 }) {
   return useRender({
     defaultTagName: "a",
     props: mergeProps<"a">(
       {
         className: cn(
-          "flex h-9 min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 text-sidebar-foreground ring-sidebar-ring outline-hidden group-data-[collapsible=icon]:hidden hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[size=md]:text-sm data-[size=sm]:text-xs data-active:bg-sidebar-accent data-active:text-sidebar-accent-foreground [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-sidebar-accent-foreground",
+          "flex h-9 min-w-0 items-center gap-2.5 overflow-hidden rounded-md px-2.5 text-sidebar-foreground ring-sidebar-ring outline-hidden group-data-[collapsible=icon]:hidden hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[size=md]:text-sm data-[size=sm]:text-xs data-active:bg-sidebar-accent data-active:text-sidebar-accent-foreground [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-sidebar-accent-foreground",
           className
         ),
+        children,
       },
       props
     ),

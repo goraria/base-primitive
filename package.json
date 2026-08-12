@@ -1,6 +1,6 @@
 {
   "name": "@gorth/primitive",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "description": "Shared shadcn-based UI package",
   "type": "module",
   "author": "Gorthenburg",
@@ -49,6 +49,11 @@
       "import": "./dist/lib/*.js",
       "default": "./dist/lib/*.js"
     },
+    "./hooks/*": {
+      "types": "./dist/hooks/*.d.ts",
+      "import": "./dist/hooks/*.js",
+      "default": "./dist/hooks/*.js"
+    },
     "./modules/*": {
       "types": "./dist/modules/*.d.ts",
       "import": "./dist/modules/*.js",
@@ -64,11 +69,6 @@
       "import": "./dist/components/io/*.js",
       "default": "./dist/components/io/*.js"
     },
-    "./pages/*": {
-      "types": "./dist/pages/*.d.ts",
-      "import": "./dist/pages/*.js",
-      "default": "./dist/pages/*.js"
-    },
     "./layouts/*": {
       "types": "./dist/layouts/*.d.ts",
       "import": "./dist/layouts/*.js",
@@ -79,15 +79,10 @@
       "import": "./dist/providers/*.js",
       "default": "./dist/providers/*.js"
     },
-    "./hooks/*": {
-      "types": "./dist/hooks/*.d.ts",
-      "import": "./dist/hooks/*.js",
-      "default": "./dist/hooks/*.js"
-    },
-    "./icons/*": {
-      "types": "./dist/components/icons/*.d.ts",
-      "import": "./dist/components/icons/*.js",
-      "default": "./dist/components/icons/*.js"
+    "./pages/*": {
+      "types": "./dist/pages/*.d.ts",
+      "import": "./dist/pages/*.js",
+      "default": "./dist/pages/*.js"
     },
     "./block/*": {
       "types": "./dist/components/block/*.d.ts",
@@ -117,6 +112,11 @@
     "./assets/*": {
       "import": "./src/assets/*",
       "default": "./src/assets/*"
+    },
+    "./assets/custom/*": {
+      "types": "./dist/assets/custom/*.d.ts",
+      "import": "./dist/assets/custom/*.js",
+      "default": "./dist/assets/custom/*.js"
     },
     "./globals.css": {
       "import": "./dist/globals.css",
@@ -157,37 +157,37 @@
     "@bprogress/next": "^3.2.12",
     "@bprogress/react": "^1.2.7",
     "@shadcn/react": "^0.3.0",
-    "@tanstack/react-form": "^1.33.3",
+    "@tanstack/react-form": "^1.33.5",
     "@tanstack/react-query": "^5.101.4",
     "@tanstack/react-ranger": "^0.0.5",
-    "@tanstack/react-table": "^9.0.0",
+    "@tanstack/react-table": "^9.1.2",
     "@tanstack/react-virtual": "^3.14.9",
-    "ai": "^7.0.52",
+    "ai": "^7.0.62",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "color": "^5.0.3",
     "date-fns": "^4.4.0",
     "embla-carousel-react": "^8.6.0",
-    "framer-motion": "^13.0.0",
+    "framer-motion": "^13.1.0",
     "fs-extra": "^11.4.0",
     "input-otp": "^1.4.2",
-    "lucide-react": "^1.28.0",
+    "lucide-react": "^1.31.0",
     "media-chrome": "^4.19.2",
-    "motion": "^13.0.0",
+    "motion": "^13.1.0",
     "react-day-picker": "^10.0.1",
-    "react-dropzone": "^20.0.0",
+    "react-dropzone": "^20.1.0",
     "react-fast-marquee": "^1.6.5",
     "react-image-crop": "^11.1.2",
-    "react-medium-image-zoom": "^5.4.8",
+    "react-medium-image-zoom": "^5.4.9",
     "react-resizable-panels": "^4.12.2",
     "react-svg-credit-card-payment-icons": "^6.0.4",
     "react-use-measure": "^2.1.7",
     "recharts": "3.10.1",
-    "shadcn": "^4.16.1",
-    "shiki": "^4.4.2",
+    "shadcn": "^4.17.0",
+    "shiki": "^4.4.3",
     "simplex-noise": "^4.0.3",
-    "sonner": "^2.0.7",
+    "sonner": "^2.0.8",
     "swr": "^2.5.0",
     "tailwind-merge": "^3.6.0",
     "three": "^0.185.1",
@@ -205,7 +205,7 @@
     "@tailwindcss/cli": "^4.3.3",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/fs-extra": "^11.0.4",
-    "@types/node": "^26.1.2",
+    "@types/node": "^26.2.0",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
     "@types/three": "^0.185.4",

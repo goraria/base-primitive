@@ -19,7 +19,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/custom/sidebar"
-import { TeamProps } from "@/lib/utils/interface";
+import type { TeamProps } from "@/lib/interface";
 
 export function TeamSwitcher({ teams }: { teams: TeamProps[] }) {
   const { isMobile } = useSidebar()
@@ -34,12 +34,10 @@ export function TeamSwitcher({ teams }: { teams: TeamProps[] }) {
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger
-            render={
-              <SidebarMenuButton
+            render={<SidebarMenuButton
               size="lg"
-              className="h-14 data-open:bg-sidebar-accent data-open:text-sidebar-accent-foreground"
-              />
-            }
+              className="h-14 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+            />}
           >
               <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-9 items-center justify-center rounded-md">
                 <activeTeam.logo className="size-4" />

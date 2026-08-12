@@ -12,7 +12,6 @@ export default defineConfig({
   entry: [
     "src/index.ts",
     "src/components/**/*.tsx",
-    "src/pages/*.tsx",
     "src/layouts/*.tsx",
     "src/providers/*.tsx",
     "src/hooks/*.ts",
@@ -21,9 +20,9 @@ export default defineConfig({
     "src/lib/**/*.tsx",
     "src/cores/**/*.ts",
     "src/modules/*.ts",
-    "src/assets/*.png",
-    "src/assets/*.jpg",
-    "src/assets/*.jpeg",
+    "src/pages/*.tsx",
+    "src/assets/**/*.ts",
+    "src/assets/**/*.tsx",
   ],
   loader: {
     '.png': 'copy',

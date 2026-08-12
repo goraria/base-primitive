@@ -11,10 +11,8 @@ export default function NotFoundPage() {
           <h1 className="mx-2 mb-2 text-8xl leading-none font-medium">404</h1>
           <h4 className="mx-2 mb-2 text-2xl font-medium tracking-tight">Page Not Found️ ⚠️</h4>
           <p className="mb-6 mx-2">We could not find the page you are looking for</p>
-          <Button className="">
-            <Link href="/">
-              Back to home
-            </Link>
+          <Button nativeButton={false} render={<Link href="/" />}>
+            Back to home
           </Button>
           <div className="mt-6">
             <Image src={imageNotFound} alt="page-misc" width={512} height={512} loading="eager" className="h-auto w-auto max-w-full visible"/>

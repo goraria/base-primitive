@@ -3,6 +3,7 @@
 import React, { JSX } from "react";
 import Link from "next/link"
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 import {
   Avatar,
   AvatarFallback,
@@ -23,7 +24,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/custom/sidebar"
-import { Button } from "@/components/custom/button";
+import { Button } from "@/components/ui/button";
 import {
   BadgeCheck,
   Bell,
@@ -37,7 +38,7 @@ import {
   LucideIcon,
 } from "lucide-react"
 
-import { AppSidebarUserProps, AuthSidebarProps, NavDropdown, NavMainItem, UserProps } from "@/lib/utils/interface";
+import type { AppSidebarUserProps, AuthSidebarProps, NavDropdown, NavMainItem, UserProps } from "@/lib/interface";
 
 export function NavUserX({ user }: { user: UserProps }) {
   const { isMobile } = useSidebar()
@@ -47,12 +48,10 @@ export function NavUserX({ user }: { user: UserProps }) {
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger
-            render={
-              <SidebarMenuButton
-                size="lg"
-                className="data-open:bg-sidebar-accent data-open:text-sidebar-accent-foreground"
-              />
-            }
+            render={<SidebarMenuButton
+              size="lg"
+              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+            />}
           >
               <Avatar className="">
                 <AvatarImage src={user.avatar} alt={user.name} />
@@ -223,15 +222,13 @@ export function NavUser({
         <>
           <DropdownMenu>
             <DropdownMenuTrigger
-              render={
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="p-0 cursor-pointer"
-                />
-              }
+              render={<Button
+                variant="ghost"
+                size="icon"
+                className="p-0 cursor-pointer"
+              />}
             >
-                <NavAvatar user={user} />
+              <NavAvatar user={user} />
             </DropdownMenuTrigger>
             <DropdownMenuContent
               className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
@@ -250,21 +247,15 @@ export function NavUser({
               <DropdownMenu>
                 <DropdownMenuTrigger
                   render={
-                    size === "lg" ? (
                     <SidebarMenuButton
-                      size="lg"
-                      className="h-14 data-active:bg-professional-main/24 data-open:bg-sidebar-accent data-open:text-sidebar-accent-foreground"
+                      size={size === "lg" ? "lg" : "default"}
+                      className={cn(
+                        "data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground",
+                        size === "lg"
+                          ? "h-14 data-[active=true]:bg-professional-main/24"
+                          : "md:p-0"
+                      )}
                     />
-                  ) : size === "icon" ? (
-                    <SidebarMenuButton
-                      size="default"
-                      className="data-open:bg-sidebar-accent data-open:text-sidebar-accent-foreground md:p-0"
-                    />
-                  ) : (
-                    <SidebarMenuButton
-                      className="data-open:bg-sidebar-accent data-open:text-sidebar-accent-foreground md:p-0"
-                    />
-                  )
                   }
                 >
                   <NavAvatar user={user} />
