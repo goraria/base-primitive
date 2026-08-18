@@ -35,6 +35,8 @@ import {
   Mail
 } from "lucide-react";
 import { HeaderProps } from "@/lib/utils/interface";
+import { ModeSwitcher } from "@/components/element/mode-toggle";
+import { Customizer } from "@/components/element/customizer";
 
 export const navigation = [
   {
@@ -217,22 +219,26 @@ export function Navbar({ top, bottom, left, right, user, auth, nav }: HeaderProp
             </SheetContent>
           </Sheet>
 
-          {right ? right : (
-            <div className="ml-auto flex items-center space-x-2">
-              <NavUser
-                user={user}
-                type="navbar"
-                side="bottom"
-                align="end"
-                size="icon"
-                auth={auth}
-                nav={{
-                  main: nav.main,
-                  secondary: nav.secondary,
-                }}
-              />
-            </div>
-          )}
+          <div className="flex flex-row ml-auto items-center gap-2">
+            {right ? right : (
+              <>
+                <ModeSwitcher/>
+                <Customizer/>
+                <NavUser
+                  user={user}
+                  type="navbar"
+                  side="bottom"
+                  align="end"
+                  size="icon"
+                  auth={auth}
+                  nav={{
+                    main: nav.main,
+                    secondary: nav.secondary,
+                  }}
+                />
+              </>
+            )}
+          </div>
         </div>
       </div>
     </header>

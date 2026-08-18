@@ -158,7 +158,7 @@ export function NavUserDropdown({
               <NavDropdownItem
                 icon={LogOut}
                 title="Đăng xuất"
-                action={auth.logout}
+                action={() => auth.logout}
               />
             </>
           ) : nav.secondary.map((item, index) => (
@@ -170,9 +170,9 @@ export function NavUserDropdown({
                 title={item.title}
                 action={(
                   item.url === "/sign-in" ? (
-                    auth.login
+                    () => auth.login
                   ) : item.url === "/sign-up" ? (
-                    auth.register
+                    () => auth.register
                   ) : () => {}
                 )}
                 // link={item.url}
@@ -221,19 +221,19 @@ export function NavUser({
       {type === "navbar" ? (
         <>
           <DropdownMenu>
-            <DropdownMenuTrigger
-              render={<Button
+            <DropdownMenuTrigger render={
+              <Button
                 variant="ghost"
                 size="icon"
                 className="p-0 cursor-pointer"
-              />}
-            >
+              />
+            }>
               <NavAvatar user={user} />
             </DropdownMenuTrigger>
             <DropdownMenuContent
-              className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-              side={isMobile ? "bottom" : "right"}
-              align={align}
+              className="min-w-56 rounded-lg"
+              side="bottom"
+              align="end"
               sideOffset={4}
             >
               <NavUserDropdown user={user} nav={nav} auth={auth} />

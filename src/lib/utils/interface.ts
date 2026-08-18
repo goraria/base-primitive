@@ -148,8 +148,8 @@ export interface TeamSwitcherProps {
 export interface HeaderProps {
   top?: ReactNode;
   bottom?: ReactNode;
-  left: ReactNode;
-  right: ReactNode;
+  left?: ReactNode;
+  right?: ReactNode;
   user?: any | null;
   auth: AuthSidebarProps;
   nav: NavDropdown

@@ -4,6 +4,9 @@ import React, { ReactNode, useEffect } from "react"
 import Image from "next/image"
 import { Separator } from "@/components/ui/separator"
 import { HeaderProps } from "@/lib/utils/interface";
+import { NavUser } from "@/components/dashboard/nav-user";
+import { Customizer } from "@/components/element/customizer";
+import { ModeSwitcher } from "@/components/element/mode-toggle";
 // import { NavElement } from "@/components/dashboard/nav-element"
 // import { Breadcrumbar } from "@/components/layout/breadcrumbar"
 
@@ -21,9 +24,25 @@ export function Dashbar({ top, bottom, left, right, user, auth, nav }: HeaderPro
             {/*<Breadcrumbar />*/}
           </div>
           <div className="items-center">
-            <div className="ml-auto flex items-center space-x-2">
-              {right}
-              {/*<NavElement user={null} />*/}
+            <div className="flex flex-row ml-auto items-center gap-2">
+              {right ? right : (
+                <>
+                  <ModeSwitcher/>
+                  <Customizer/>
+                  <NavUser
+                    user={user}
+                    type="navbar"
+                    side="bottom"
+                    align="end"
+                    size="icon"
+                    auth={auth}
+                    nav={{
+                      main: nav.main, // data.navDropdown,
+                      secondary: nav.secondary // data.navSignal
+                    }}
+                  />
+                </>
+              )}
             </div>
           </div>
         </div>

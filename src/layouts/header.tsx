@@ -2,8 +2,9 @@
 
 import Link from 'next/link'
 import { Button } from '@/components/custom/button'
+import { HeaderProps } from "@/lib/utils/interface";
 
-export function Header() {
+export function Header({ top, bottom, left, right, user, auth, nav }: HeaderProps) {
 
   return (
     <header className="flex h-16 items-center justify-between gap-4 border-b px-4">
