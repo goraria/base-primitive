@@ -1,6 +1,6 @@
 {
   "name": "@gorth/primitive",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "description": "Shared shadcn-based UI package",
   "type": "module",
   "author": "Gorthenburg",
