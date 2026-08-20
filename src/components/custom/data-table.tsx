@@ -1,23 +1,34 @@
-"use client"
+"use client";
 
-import React, { useState, ComponentType } from "react"
-import Image from "next/image"
+import React, {
+  type ComponentType,
+  type HTMLAttributes,
+  type ReactNode,
+} from "react";
+import Image from "next/image";
 import {
-  Table as TanStackTable,
   Column,
   ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
+  type ReactTable,
+  type RowData,
+  type TableOptions,
+  columnFacetingFeature,
+  columnFilteringFeature,
+  columnResizingFeature,
+  columnSizingFeature,
+  columnVisibilityFeature,
+  createFacetedRowModel,
+  createFacetedUniqueValues,
+  createFilteredRowModel,
+  createPaginatedRowModel,
+  createSortedRowModel,
   flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-  getFacetedRowModel,
-  getFacetedUniqueValues,
-} from "@tanstack/react-table"
+  rowPaginationFeature,
+  rowSelectionFeature,
+  rowSortingFeature,
+  tableFeatures,
+  useTable,
+} from "@tanstack/react-table";
 
 import {
   Table,
@@ -26,7 +37,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -40,14 +51,14 @@ import {
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
-} from "@/components/custom/dropdown"
+} from "@/components/custom/dropdown";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import {
   Command,
   CommandEmpty,
@@ -56,22 +67,18 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from "@/components/ui/command"
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import {
-  Card,
-  CardHeader,
-  CardFooter
-} from "@/components/ui/card"
-import { Button } from "@/components/custom/button"
-import { Badge } from "@/components/custom/badge"
-import { Input } from "@/components/ui/input"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Separator } from "@/components/ui/separator"
+} from "@/components/ui/popover";
+import { Card, CardHeader, CardFooter } from "@/components/ui/card";
+import { Button } from "@/components/custom/button";
+import { Badge } from "@/components/custom/badge";
+import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Separator } from "@/components/ui/separator";
 
 import {
   type LucideIcon,
@@ -97,15 +104,104 @@ import {
   Download,
   Timer,
   X,
-} from "lucide-react"
-import { cn } from "@/lib/utils"
-import {
-  DataTableProps,
-  DataTableColumnHeaderProps,
-  DataTableSortButtonProps,
-  DataTablePaginationProps,
-  DataTableFacetedFilterProps
-} from "@/lib/utils/interface"
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+
+export const dataTableFeatures = tableFeatures({
+  columnFilteringFeature,
+  rowSortingFeature,
+  rowPaginationFeature,
+  rowSelectionFeature,
+  columnVisibilityFeature,
+  columnSizingFeature,
+  columnResizingFeature,
+  columnFacetingFeature,
+  filteredRowModel: createFilteredRowModel(),
+  sortedRowModel: createSortedRowModel(),
+  paginatedRowModel: createPaginatedRowModel(),
+  facetedRowModel: createFacetedRowModel(),
+  facetedUniqueValues: createFacetedUniqueValues(),
+});
+
+export type DataTableFeatures = typeof dataTableFeatures;
+export type DataTableFilterValue = string | number | boolean;
+export type DataTableColumnDef<
+  TData extends RowData,
+  TValue = any,
+> = ColumnDef<DataTableFeatures, TData, TValue>;
+
+export interface DataTableFilterOption {
+  label: string;
+  value: DataTableFilterValue;
+  icon?: ComponentType<{ className?: string }>;
+}
+
+export interface DataTableFilter {
+  column: string;
+  title?: string;
+  options: DataTableFilterOption[];
+}
+
+export interface DataTableSearch {
+  column: string;
+  placeholder: string;
+}
+
+export interface DataTableProps<TData extends RowData> {
+  columns: DataTableColumnDef<TData>[];
+  data: TData[];
+  search?: DataTableSearch;
+  filters?: DataTableFilter[];
+  /** @deprecated Use `filters` instead. */
+  filter?: DataTableFilter[];
+  fluidColumn?: string;
+  /** @deprecated Use `fluidColumn` instead. */
+  max?: string;
+  initialPageSize?: number;
+  pageSizeOptions?: number[];
+  getRowId?: TableOptions<DataTableFeatures, TData>["getRowId"];
+  enableRowSelection?: TableOptions<
+    DataTableFeatures,
+    TData
+  >["enableRowSelection"];
+  emptyMessage?: ReactNode;
+  onRowClick?: (row: TData) => void;
+  onReload?: () => void;
+  onDownload?: () => void;
+  onCreate?: () => void;
+}
+
+export interface DataTableColumnHeaderProps<
+  TData extends RowData,
+  TValue = unknown,
+  TFeatures extends DataTableFeatures = DataTableFeatures,
+> extends HTMLAttributes<HTMLDivElement> {
+  column: Column<TFeatures, TData, TValue>;
+  title: string;
+}
+
+export type DataTableSortButtonProps<
+  TData extends RowData,
+  TValue = unknown,
+  TFeatures extends DataTableFeatures = DataTableFeatures,
+> = DataTableColumnHeaderProps<TData, TValue, TFeatures>;
+
+export interface DataTablePaginationProps<
+  TData extends RowData,
+  TFeatures extends DataTableFeatures = DataTableFeatures,
+> {
+  table: ReactTable<TFeatures, TData>;
+}
+
+export interface DataTableFacetedFilterProps<
+  TData extends RowData,
+  TValue = unknown,
+  TFeatures extends DataTableFeatures = DataTableFeatures,
+> {
+  column?: Column<TFeatures, TData, TValue>;
+  title?: string;
+  options: DataTableFilterOption[];
+}
 
 export const statuses = [
   {
@@ -128,7 +224,7 @@ export const statuses = [
     label: "Thất bại",
     icon: CircleOff,
   },
-]
+];
 
 export const priorities = [
   {
@@ -146,50 +242,51 @@ export const priorities = [
     value: "high",
     icon: ArrowUp,
   },
-]
+];
 
 export type Payment = {
-  id: string
-  amount: number
-  user: string
-  status: "pending" | "processing" | "success" | "failed"
-  email: string
-  avatar?: string
-  firstname?: string
-  lastname?: string
-  username?: string
-  phone_number?: string
-}
+  id: string;
+  amount: number;
+  user: string;
+  status: "pending" | "processing" | "success" | "failed";
+  email: string;
+  avatar?: string;
+  firstname?: string;
+  lastname?: string;
+  username?: string;
+  phone_number?: string;
+};
 
-export function DataTableSortButton<TData, TValue>({
+export function DataTableSortButton<
+  TData extends RowData,
+  TValue,
+  TFeatures extends DataTableFeatures = DataTableFeatures,
+>({
   column,
   title,
   className,
-}: DataTableSortButtonProps<TData, TValue>) {
+}: DataTableSortButtonProps<TData, TValue, TFeatures>) {
   if (!column.getCanSort()) {
-    return <div className={cn(className)}>{title}</div>
+    return <div className={cn(className)}>{title}</div>;
   }
 
   const handleSort = () => {
-    const currentSort = column.getIsSorted()
+    const currentSort = column.getIsSorted();
 
     if (currentSort === false) {
       // Lần 1: No sort → Asc
-      column.toggleSorting(false)
+      column.toggleSorting(false);
     } else if (currentSort === "asc") {
       // Lần 2: Asc → Desc
-      column.toggleSorting(true)
+      column.toggleSorting(true);
     } else {
       // Lần 3: Desc → Clear sort
-      column.clearSorting()
+      column.clearSorting();
     }
-  }
+  };
 
   return (
-    <Button
-      variant="ghost"
-      onClick={handleSort}
-    >
+    <Button variant="ghost" onClick={handleSort}>
       <span>{title}</span>
       {column.getIsSorted() === "desc" ? (
         <ArrowDown className="ml-2 h-4 w-4" />
@@ -199,26 +296,32 @@ export function DataTableSortButton<TData, TValue>({
         <ArrowUpDown className="ml-2 h-4 w-4" />
       )}
     </Button>
-  )
+  );
 }
 
-export function DataTableColumnHeader<TData, TValue>({
+export function DataTableColumnHeader<
+  TData extends RowData,
+  TValue,
+  TFeatures extends DataTableFeatures = DataTableFeatures,
+>({
   column,
   title,
   className,
-}: DataTableColumnHeaderProps<TData, TValue>) {
+}: DataTableColumnHeaderProps<TData, TValue, TFeatures>) {
   if (!column.getCanSort()) {
-    return <div className={cn(className)}>{title}</div>
+    return <div className={cn(className)}>{title}</div>;
   }
   return (
     // <div className={cn("flex items-center gap-2", className)}>
     <DropdownMenu>
       <DropdownMenuTrigger
-        render={<Button
-          variant="ghost"
-          // size="sm"
-          className="data-open:bg-accent" // -ml-3
-        />}
+        render={
+          <Button
+            variant="ghost"
+            // size="sm"
+            className="data-open:bg-accent" // -ml-3
+          />
+        }
       >
         <span>{title}</span>
         {column.getIsSorted() === "desc" ? (
@@ -250,14 +353,19 @@ export function DataTableColumnHeader<TData, TValue>({
       </DropdownMenuContent>
     </DropdownMenu>
     // </div>
-  )
+  );
 }
 
-export function DataTablePaginationOld<TData>({
+export function DataTablePaginationOld<
+  TData extends RowData,
+  TFeatures extends DataTableFeatures = DataTableFeatures,
+>({
   table,
-}: DataTablePaginationProps<TData>) {
+}: DataTablePaginationProps<TData, TFeatures>) {
   return (
-    <div className="flex items-center justify-between"> {/** px-2 */}
+    <div className="flex items-center justify-between">
+      {" "}
+      {/** px-2 */}
       <div className="text-muted-foreground flex-1 text-sm">
         {table.getFilteredSelectedRowModel().rows.length} trong{" "}
         {table.getFilteredRowModel().rows.length} hàng được chọn.
@@ -266,13 +374,13 @@ export function DataTablePaginationOld<TData>({
         <div className="flex items-center space-x-2">
           <p className="text-sm font-medium">Số hàng mỗi trang</p>
           <Select
-            value={`${table.getState().pagination.pageSize}`}
+            value={`${table.state.pagination.pageSize}`}
             onValueChange={(value) => {
-              table.setPageSize(Number(value))
+              table.setPageSize(Number(value));
             }}
           >
             <SelectTrigger className="h-8 w-[70px]">
-              <SelectValue placeholder={table.getState().pagination.pageSize} />
+              <SelectValue placeholder={table.state.pagination.pageSize} />
             </SelectTrigger>
             <SelectContent side="top">
               {[7, 10, 25, 50, 100].map((pageSize) => (
@@ -284,7 +392,7 @@ export function DataTablePaginationOld<TData>({
           </Select>
         </div>
         <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-          Trang {table.getState().pagination.pageIndex + 1} trong{" "}
+          Trang {table.state.pagination.pageIndex + 1} trong{" "}
           {table.getPageCount()}
         </div>
         <div className="flex items-center space-x-2">
@@ -331,64 +439,75 @@ export function DataTablePaginationOld<TData>({
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export function DataTablePagination<TData>({
+export function DataTablePagination<
+  TData extends RowData,
+  TFeatures extends DataTableFeatures = DataTableFeatures,
+>({
   table,
-}: DataTablePaginationProps<TData>) {
-  const currentPage = table.getState().pagination.pageIndex + 1
-  const totalPages = table.getPageCount()
+}: DataTablePaginationProps<TData, TFeatures>) {
+  const currentPage = table.state.pagination.pageIndex + 1;
+  const totalPages = table.getPageCount();
 
   // Logic để tạo các page numbers hiển thị
   const getPageNumbers = () => {
-    const pages: (number | string)[] = []
+    const pages: (number | string)[] = [];
 
     if (totalPages <= 7) {
       // Nếu tổng số trang <= 7, hiển thị tất cả
       for (let i = 1; i <= totalPages; i++) {
-        pages.push(i)
+        pages.push(i);
       }
     } else {
       // Logic phức tạp hơn cho nhiều trang
       if (currentPage <= 4) {
         // Hiển thị: 1 2 3 4 5 ... 10
         for (let i = 1; i <= 5; i++) {
-          pages.push(i)
+          pages.push(i);
         }
-        pages.push('...')
-        pages.push(totalPages)
+        pages.push("...");
+        pages.push(totalPages);
       } else if (currentPage >= totalPages - 3) {
         // Hiển thị: 1 ... 6 7 8 9 10
-        pages.push(1)
-        pages.push('...')
+        pages.push(1);
+        pages.push("...");
         for (let i = totalPages - 4; i <= totalPages; i++) {
-          pages.push(i)
+          pages.push(i);
         }
       } else {
         // Hiển thị: 1 ... 4 5 6 ... 10
-        pages.push(1)
-        pages.push('...')
+        pages.push(1);
+        pages.push("...");
         for (let i = currentPage - 1; i <= currentPage + 1; i++) {
-          pages.push(i)
+          pages.push(i);
         }
-        pages.push('...')
-        pages.push(totalPages)
+        pages.push("...");
+        pages.push(totalPages);
       }
     }
 
-    return pages
-  }
+    return pages;
+  };
 
-  const pageNumbers = getPageNumbers()
+  const pageNumbers = getPageNumbers();
 
   return (
     <div className="flex items-center justify-between">
-      <div className="flex text-muted-foreground text-sm space-x-2">{/** flex-1 */}
+      <div className="flex text-muted-foreground text-sm space-x-2">
+        {/** flex-1 */}
         <div>
-          Hiển thị {currentPage === 1 ? 1 : (currentPage - 1) * table.getState().pagination.pageSize + 1} đến{" "}
-          {Math.min(currentPage * table.getState().pagination.pageSize, table.getFilteredRowModel().rows.length)} trong{" "}
-          {table.getFilteredRowModel().rows.length} mục
+          Hiển thị{" "}
+          {currentPage === 1
+            ? 1
+            : (currentPage - 1) * table.state.pagination.pageSize + 1}{" "}
+          đến{" "}
+          {Math.min(
+            currentPage * table.state.pagination.pageSize,
+            table.getFilteredRowModel().rows.length,
+          )}{" "}
+          trong {table.getFilteredRowModel().rows.length} mục
         </div>
         <div>
           {table.getFilteredSelectedRowModel().rows.length} trong{" "}
@@ -410,13 +529,13 @@ export function DataTablePagination<TData>({
 
           {pageNumbers.map((page, index) => (
             <React.Fragment key={index}>
-              {page === '...' ? (
+              {page === "..." ? (
                 <Button
                   variant="outline"
                   size="icon"
                   className="cursor-pointer" // h-9 w-9
-                // onClick={() => {}}
-                // disabled
+                  // onClick={() => {}}
+                  // disabled
                 >
                   {/* <span className="px-2 text-sm text-muted-foreground">...</span> */}
                   <Ellipsis className="h-4 w-4" />
@@ -446,22 +565,27 @@ export function DataTablePagination<TData>({
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export function DataTableViewOptions<TData>({
+export function DataTableViewOptions<
+  TData extends RowData,
+  TFeatures extends DataTableFeatures = DataTableFeatures,
+>({
   table,
 }: {
-  table: TanStackTable<TData>
+  table: ReactTable<TFeatures, TData>;
 }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        render={<Button
-          variant="outline"
-          size="icon"
-          className="ml-auto hidden lg:flex" // h-8
-        />}
+        render={
+          <Button
+            variant="outline"
+            size="icon"
+            className="ml-auto hidden lg:flex" // h-8
+          />
+        }
       >
         <Settings2 />
         {/*Cài đặt hiển thị*/}
@@ -475,7 +599,7 @@ export function DataTableViewOptions<TData>({
           .getAllColumns()
           .filter(
             (column) =>
-              typeof column.accessorFn !== "undefined" && column.getCanHide()
+              typeof column.accessorFn !== "undefined" && column.getCanHide(),
           )
           .map((column) => {
             return (
@@ -487,25 +611,37 @@ export function DataTableViewOptions<TData>({
               >
                 {column.id}
               </DropdownMenuCheckboxItem>
-            )
+            );
           })}
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }
 
-export function DataTableFacetedFilter<TData, TValue>({
+export function DataTableFacetedFilter<
+  TData extends RowData,
+  TValue,
+  TFeatures extends DataTableFeatures = DataTableFeatures,
+>({
   column,
   title,
   options,
-}: DataTableFacetedFilterProps<TData, TValue>) {
-  const facets = column?.getFacetedUniqueValues()
-  const selectedValues = new Set(column?.getFilterValue() as (string | number | boolean)[])
+}: DataTableFacetedFilterProps<TData, TValue, TFeatures>) {
+  const facets = column?.getFacetedUniqueValues();
+  const selectedValues = new Set(
+    column?.getFilterValue() as (string | number | boolean)[],
+  );
 
   return (
     <Popover>
       <PopoverTrigger
-        render={<Button variant="outline" size="default" className="h-9 border-dashed" />}
+        render={
+          <Button
+            variant="outline"
+            size="default"
+            className="h-9 border-dashed"
+          />
+        }
       >
         <PlusCircle className="mr-2 h-4 w-4" />
         {title}
@@ -550,20 +686,20 @@ export function DataTableFacetedFilter<TData, TValue>({
             <CommandEmpty>Không tìm thấy kết quả.</CommandEmpty>
             <CommandGroup>
               {options.map((option) => {
-                const isSelected = selectedValues.has(option.value)
+                const isSelected = selectedValues.has(option.value);
                 return (
                   <CommandItem
                     key={String(option.value)}
                     onSelect={() => {
                       if (isSelected) {
-                        selectedValues.delete(option.value)
+                        selectedValues.delete(option.value);
                       } else {
-                        selectedValues.add(option.value)
+                        selectedValues.add(option.value);
                       }
-                      const filterValues = Array.from(selectedValues)
+                      const filterValues = Array.from(selectedValues);
                       column?.setFilterValue(
-                        filterValues.length ? filterValues : undefined
-                      )
+                        filterValues.length ? filterValues : undefined,
+                      );
                     }}
                   >
                     <div
@@ -571,7 +707,7 @@ export function DataTableFacetedFilter<TData, TValue>({
                         "mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
                         isSelected
                           ? "bg-primary text-primary-foreground"
-                          : "opacity-50 [&_svg]:invisible"
+                          : "opacity-50 [&_svg]:invisible",
                       )}
                     >
                       <Check className={cn("h-4 w-4")} />
@@ -586,7 +722,7 @@ export function DataTableFacetedFilter<TData, TValue>({
                       </span>
                     )}
                   </CommandItem>
-                )
+                );
               })}
             </CommandGroup>
             {selectedValues.size > 0 && (
@@ -606,17 +742,16 @@ export function DataTableFacetedFilter<TData, TValue>({
         </Command>
       </PopoverContent>
     </Popover>
-  )
+  );
 }
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<DataTableFeatures, Payment>[] = [
   {
     id: "select",
     header: ({ table }) => (
       <Checkbox
         checked={
-          table.getIsAllPageRowsSelected() ||
-          table.getIsSomePageRowsSelected()
+          table.getIsAllPageRowsSelected() || table.getIsSomePageRowsSelected()
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Chọn tất cả"
@@ -640,7 +775,7 @@ export const columns: ColumnDef<Payment>[] = [
       <DataTableColumnHeader column={column} title="Profile" />
     ),
     cell: ({ row }) => {
-      const user = row.original
+      const user = row.original;
       return (
         <div className="flex items-center gap-3">
           <div className="flex-shrink-0">
@@ -655,21 +790,20 @@ export const columns: ColumnDef<Payment>[] = [
             ) : (
               <div className="h-9 w-9 rounded-md bg-accent flex items-center justify-center">
                 <span className="text-sm font-medium text-primary">
-                  {user.firstname?.[0] ?? "J"}{user.lastname?.[0] ?? "G"}
+                  {user.firstname?.[0] ?? "J"}
+                  {user.lastname?.[0] ?? "G"}
                 </span>
               </div>
             )}
           </div>
           <div className="min-w-0 flex-1">
-            <div className="truncate lowercase">
-              {user.email}
-            </div>
+            <div className="truncate lowercase">{user.email}</div>
             <div className="truncate text-xs text-muted-foreground">
               {user.username ?? "japtor"} | {user.phone_number || "No phone"}
             </div>
           </div>
         </div>
-      )
+      );
     },
     size: 300, // Width cho Profile column
   },
@@ -679,7 +813,7 @@ export const columns: ColumnDef<Payment>[] = [
       <DataTableColumnHeader column={column} title="User" />
     ),
     filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
+      return value.includes(row.getValue(id));
     },
     size: 200, // Width cho User column
   },
@@ -688,13 +822,13 @@ export const columns: ColumnDef<Payment>[] = [
     // header: "Email",
     header: ({ column }) => (
       <DataTableSortButton column={column} title="Email" />
-    )
+    ),
   },
   {
     accessorKey: "status",
     header: "Status",
     filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
+      return value.includes(row.getValue(id));
     },
     size: 120, // Width cho Status column
   },
@@ -724,16 +858,18 @@ export const columns: ColumnDef<Payment>[] = [
     enableResizing: false,
     size: 50, // Width cho Actions column
     cell: ({ row }) => {
-      const payment = row.original
+      const payment = row.original;
 
       return (
         <DropdownMenu>
           <DropdownMenuTrigger
-            render={<Button
-              variant="ghost"
-              size="icon"
-              className="p-0" // h-8 w-8
-            />}
+            render={
+              <Button
+                variant="ghost"
+                size="icon"
+                className="p-0" // h-8 w-8
+              />
+            }
           >
             <span className="sr-only">Mở menu</span>
             <MoreHorizontal className="h-4 w-4" />
@@ -771,75 +907,73 @@ export const columns: ColumnDef<Payment>[] = [
             <DropdownMenuItem variant="destructive">Xóa</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      )
+      );
     },
   },
-]
+];
 
-export function DataTable<TData, TValue>({
+export function DataTable<TData extends RowData>({
   columns,
   data,
   search,
+  filters,
   filter,
+  fluidColumn,
   max,
+  initialPageSize = 10,
+  pageSizeOptions = [7, 10, 25, 50, 100],
+  getRowId,
+  enableRowSelection = true,
+  emptyMessage = "Không có dữ liệu.",
+  onRowClick,
   onReload,
   onDownload,
   onCreate,
-  onUpdate,
-  onChange
-}: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = useState({})
-  // const [columnOrder, setColumnOrder] = useState<string[]>(order)
-  // const [columnOrder, setColumnOrder] = useState<string[]>([
-  //   "select", "pro", "user", "email", "status", "amount", "actions"
-  // ])
+}: DataTableProps<TData>) {
+  const activeFilters = filters ?? filter;
+  const flexibleColumn = fluidColumn ?? max;
 
-  const table = useReactTable({
+  const table = useTable({
+    features: dataTableFeatures,
     data,
     columns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onSortingChange: setSorting,
-    getSortedRowModel: getSortedRowModel(),
-    onColumnFiltersChange: setColumnFilters,
-    getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,
-    // onColumnOrderChange: setColumnOrder,
-    getFacetedRowModel: getFacetedRowModel(),
-    getFacetedUniqueValues: getFacetedUniqueValues(),
+    getRowId,
+    enableRowSelection,
     enableColumnResizing: true,
-    columnResizeMode: 'onChange',
-    state: {
-      sorting,
-      columnFilters,
-      columnVisibility,
-      rowSelection,
-      // columnOrder,
+    columnResizeMode: "onChange",
+    initialState: {
+      pagination: {
+        pageIndex: 0,
+        pageSize: initialPageSize,
+      },
     },
-  })
+  });
 
-  const isFiltered = table.getState().columnFilters.length > 0
+  const isFiltered = table.state.columnFilters.length > 0;
 
   return (
     <Card className="p-0">
       <CardHeader className="flex items-center justify-between pt-6">
         <div className="flex items-center space-x-2">
-          <Input
-            placeholder={search.placeholder}
-            value={(table.getColumn(search.column)?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
-              table.getColumn(search.column)?.setFilterValue(event.target.value)
-            }
-            className="max-w-sm"
-          />
-          {filter && filter.map((f, index) => (
+          {search && (
+            <Input
+              placeholder={search.placeholder}
+              value={
+                (table.getColumn(search.column)?.getFilterValue() as string) ??
+                ""
+              }
+              onChange={(event) =>
+                table
+                  .getColumn(search.column)
+                  ?.setFilterValue(event.target.value)
+              }
+              className="max-w-sm"
+            />
+          )}
+          {activeFilters?.map((f) => (
             <DataTableFacetedFilter
-              key={index}
-              column={table?.getColumn(f.column)}
+              key={f.column}
+              column={table.getColumn(f.column)}
               title={f.title}
               options={f.options}
             />
@@ -863,16 +997,16 @@ export function DataTable<TData, TValue>({
          </div> */}
         <div className="flex items-center space-x-2">
           <Select
-            value={`${table.getState().pagination.pageSize}`}
+            value={`${table.state.pagination.pageSize}`}
             onValueChange={(value) => {
-              table.setPageSize(Number(value))
+              table.setPageSize(Number(value));
             }}
           >
             <SelectTrigger className="w-20">
-              <SelectValue placeholder={table.getState().pagination.pageSize} />
+              <SelectValue placeholder={table.state.pagination.pageSize} />
             </SelectTrigger>
             <SelectContent side="bottom">
-              {[7, 10, 25, 50, 100].map((pageSize) => (
+              {pageSizeOptions.map((pageSize) => (
                 <SelectItem key={pageSize} value={`${pageSize}`}>
                   {pageSize}
                 </SelectItem>
@@ -880,30 +1014,36 @@ export function DataTable<TData, TValue>({
             </SelectContent>
           </Select>
           <DataTableViewOptions table={table} />
-          <Button
-            variant="outline"
-            size="icon"
-            className=""
-            onClick={onDownload}
-          >
-            <Download className="h-4 w-4" />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            className=""
-            onClick={onReload}
-          >
-            <RotateCw className="h-4 w-4" />
-          </Button>
-          <Button
-            variant="default"
-            size="icon"
-            className=""
-            onClick={onCreate}
-          >
-            <PlusCircle className="h-4 w-4" />
-          </Button>
+          {onDownload && (
+            <Button
+              variant="outline"
+              size="icon"
+              className=""
+              onClick={onDownload}
+            >
+              <Download className="h-4 w-4" />
+            </Button>
+          )}
+          {onReload && (
+            <Button
+              variant="outline"
+              size="icon"
+              className=""
+              onClick={onReload}
+            >
+              <RotateCw className="h-4 w-4" />
+            </Button>
+          )}
+          {onCreate && (
+            <Button
+              variant="default"
+              size="icon"
+              className=""
+              onClick={onCreate}
+            >
+              <PlusCircle className="h-4 w-4" />
+            </Button>
+          )}
         </div>
       </CardHeader>
       <div className="border-y">
@@ -912,25 +1052,25 @@ export function DataTable<TData, TValue>({
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header, index) => {
-                  const isColumn = header.column.id === max
+                  const isColumn = header.column.id === flexibleColumn;
 
                   return (
                     <TableHead
                       key={`${header.id}-${index}`}
                       style={{
-                        width: isColumn ? 'auto' : `${header.getSize()}px`,
-                        minWidth: isColumn ? '200px' : undefined
+                        width: isColumn ? "auto" : `${header.getSize()}px`,
+                        minWidth: isColumn ? "200px" : undefined,
                       }}
-                      className={cn('h-14', isColumn ? 'w-auto' : '')}
+                      className={cn("h-14", isColumn ? "w-auto" : "")}
                     >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
                     </TableHead>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
@@ -941,29 +1081,38 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  onClick={() => onRowClick?.(row.original)}
                 >
                   {row.getVisibleCells().map((cell, index) => {
-                    const isColumn = cell.column.id === max
+                    const isColumn = cell.column.id === flexibleColumn;
 
                     return (
                       <TableCell
                         key={`${cell.id}-${index}`}
                         style={{
-                          width: isColumn ? 'auto' : `${cell.column.getSize()}px`,
-                          minWidth: isColumn ? '200px' : undefined
+                          width: isColumn
+                            ? "auto"
+                            : `${cell.column.getSize()}px`,
+                          minWidth: isColumn ? "200px" : undefined,
                         }}
-                        className={cn('h-16', isColumn ? 'w-auto' : '')}
+                        className={cn("h-16", isColumn ? "w-auto" : "")}
                       >
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
                       </TableCell>
-                    )
+                    );
                   })}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
-                  Không có dữ liệu.
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  {emptyMessage}
                 </TableCell>
               </TableRow>
             )}
@@ -975,7 +1124,7 @@ export function DataTable<TData, TValue>({
         {/* <DataTablePagination table={table} /> */}
       </CardFooter>
     </Card>
-  )
+  );
 }
 
 // // Generic Types
