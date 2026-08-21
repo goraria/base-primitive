@@ -159,7 +159,7 @@ export function NavUserDropdown({
                 <NavDropdownItem
                   icon={LogOut}
                   title="Sign out"
-                  action={async () => await auth.logout}
+                  action={auth.logout}
                 />
               </DropdownMenuGroup>
             </>
@@ -172,9 +172,9 @@ export function NavUserDropdown({
                 title={item.title}
                 action={(
                   item.url === "/sign-in" ? (
-                    () => auth.login
+                    auth.login
                   ) : item.url === "/sign-up" ? (
-                    () => auth.register
+                    auth.register
                   ) : () => { }
                 )}
               // link={item.url}
