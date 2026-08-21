@@ -1,11 +1,13 @@
 "use client";
 
 import * as React from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import {
   Bar,
   Progress,
   AppProgressProvider as ProgressProvider,
+  useProgress,
 } from "@bprogress/next";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToasterProvider } from "@/providers/toaster";
@@ -15,10 +17,7 @@ import {
   type Collapsible,
   type LayoutVariant,
 } from "@/providers/layout";
-import {
-  DirectionProvider,
-  type Direction,
-} from "@/providers/direction";
+import { DirectionProvider, type Direction } from "@/providers/direction";
 // import { ThemeWrapper } from "./theme/theme-wrapper";
 
 const queryClient = new QueryClient({
@@ -28,6 +27,35 @@ const queryClient = new QueryClient({
     },
   },
 });
+
+function BrowserHistoryProgress() {
+  const pathname = usePathname();
+  const search = useSearchParams().toString();
+  const historyNavigation = React.useRef(false);
+  const { start, stop } = useProgress();
+
+  React.useEffect(() => {
+    function handlePopState() {
+      historyNavigation.current = true;
+      start();
+    }
+
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [start]);
+
+  React.useEffect(() => {
+    if (!historyNavigation.current) return;
+
+    historyNavigation.current = false;
+    stop();
+  }, [pathname, search, stop]);
+
+  return null;
+}
 
 export function ApplicationProvider({
   children,
@@ -55,6 +83,9 @@ export function ApplicationProvider({
               <Progress>
                 <Bar className="bg-primary!" />
               </Progress>
+              <React.Suspense fallback={null}>
+                <BrowserHistoryProgress />
+              </React.Suspense>
               <TooltipProvider>
                 {children}
                 <ToasterProvider />
