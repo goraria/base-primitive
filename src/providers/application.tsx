@@ -1,6 +1,11 @@
 "use client";
 
-import * as React from "react";
+import React, {
+  PropsWithChildren,
+  Suspense,
+  useEffect,
+  useRef,
+} from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import {
@@ -28,13 +33,13 @@ const queryClient = new QueryClient({
   },
 });
 
-function BrowserHistoryProgress() {
+function SuspenseProgress() {
   const pathname = usePathname();
   const search = useSearchParams().toString();
-  const historyNavigation = React.useRef(false);
+  const historyNavigation = useRef(false);
   const { start, stop } = useProgress();
 
-  React.useEffect(() => {
+  useEffect(() => {
     function handlePopState() {
       historyNavigation.current = true;
       start();
@@ -47,7 +52,7 @@ function BrowserHistoryProgress() {
     };
   }, [start]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!historyNavigation.current) return;
 
     historyNavigation.current = false;
@@ -62,7 +67,7 @@ export function ApplicationProvider({
   initialCollapsible,
   initialDirection,
   initialVariant,
-}: React.PropsWithChildren<{
+}: PropsWithChildren<{
   initialCollapsible?: Collapsible;
   initialDirection?: Direction;
   initialVariant?: LayoutVariant;
@@ -83,9 +88,9 @@ export function ApplicationProvider({
               <Progress>
                 <Bar className="bg-primary!" />
               </Progress>
-              <React.Suspense fallback={null}>
-                <BrowserHistoryProgress />
-              </React.Suspense>
+              <Suspense fallback={null}>
+                <SuspenseProgress />
+              </Suspense>
               <TooltipProvider>
                 {children}
                 <ToasterProvider />
