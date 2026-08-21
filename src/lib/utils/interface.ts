@@ -55,21 +55,14 @@ export interface NavMessage {
 export interface UserProps {
   name: string;
   email: string;
-  avatar?: string | null;
-  image?: string | null;
-  imageUrl?: string | null;
-  avatarUrl?: string | null;
-  fullName?: string | null;
-  firstName?: string | null;
-  lastName?: string | null;
-  user_metadata?: Record<string, unknown>;
+  avatar: string;
   // name?: string | null;
   // email?: string | null;
   // avatar?: string | null;
 }
 
 export interface AppSidebarUserProps {
-  user?: any | null;
+  user?: UserProps | null;
   nav: NavDropdown;
   auth: AuthSidebarProps;
   type?: "sidebar" | "navbar";
@@ -118,7 +111,6 @@ export interface NavCoreProps extends React.ComponentPropsWithoutRef<
 }
 
 export interface AuthSidebarProps {
-  account?: Partial<UserProps> | null;
   loading: boolean;
   authenticated: boolean;
   // refresh: () => Promise<AuthUser | null>
@@ -138,7 +130,7 @@ export interface AppSidebarPropsX extends ComponentProps<typeof Sidebar> {
     name: string;
     description: string;
   };
-  user?: any | null;
+  user?: UserProps | null;
   // user: AppSidebarUser;
 }
 
@@ -169,7 +161,7 @@ export interface HeaderProps {
   bottom?: ReactNode;
   left?: ReactNode;
   right?: ReactNode;
-  user?: any | null;
+  user?: UserProps | null;
   auth: AuthSidebarProps;
   nav: NavDropdown;
 }

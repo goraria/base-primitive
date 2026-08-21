@@ -3,6 +3,7 @@
 import React, { JSX } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { formatUserInitials } from "@/lib/utils/formatter";
 import {
   Avatar,
   AvatarFallback,
@@ -47,6 +48,7 @@ import type {
 
 export function NavUserX({ user }: { user: UserProps }) {
   const { isMobile } = useSidebar();
+  const initials = formatUserInitials(user.name);
 
   return (
     <SidebarMenu>
@@ -61,8 +63,8 @@ export function NavUserX({ user }: { user: UserProps }) {
             }
           >
             <Avatar className="">
-              <AvatarImage src={user.avatar ?? undefined} alt={user.name} />
-              <AvatarFallback className="rounded-md">CN</AvatarFallback>
+              <AvatarImage src={user.avatar || undefined} alt={user.name} />
+              <AvatarFallback className="rounded-md">{initials}</AvatarFallback>
             </Avatar>
             <div className="grid flex-1 text-left text-sm leading-tight">
               <span className="truncate font-medium">{user.name}</span>
@@ -81,10 +83,10 @@ export function NavUserX({ user }: { user: UserProps }) {
                 <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                   <Avatar className="">
                     <AvatarImage
-                      src={user.avatar ?? undefined}
+                      src={user.avatar || undefined}
                       alt={user.name}
                     />
-                    <AvatarFallback className="">CN</AvatarFallback>
+                    <AvatarFallback className="">{initials}</AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
                     <span className="truncate font-medium">{user.name}</span>
@@ -132,11 +134,11 @@ export function NavUserDropdown({
   nav,
   auth,
 }: {
-  user?: any | null;
+  user?: UserProps | null;
   nav: NavDropdown;
   auth: AuthSidebarProps;
 }): JSX.Element {
-  const currentUser = user ?? auth.account ?? null;
+  const currentUser = user ?? null;
 
   return (
     <>
@@ -248,7 +250,7 @@ export function NavUser({
   align = "end",
 }: AppSidebarUserProps) {
   const { isMobile } = useSidebar();
-  const currentUser = user ?? auth.account ?? null;
+  const currentUser = user ?? null;
 
   return (
     <>
@@ -338,78 +340,30 @@ export function NavUser({
   );
 }
 
-export function NavAvatar({ user }: { user?: any | null }) {
-  const metadata = user?.user_metadata ?? {};
-  const name = String(
-    user?.fullName ??
-      user?.name ??
-      metadata.full_name ??
-      metadata.name ??
-      user?.email ??
-      "User",
-  );
-  const image =
-    user?.imageUrl ??
-    user?.avatarUrl ??
-    user?.image ??
-    user?.avatar ??
-    metadata.avatar_url ??
-    metadata.picture ??
-    undefined;
-  const initials =
-    name
-      .trim()
-      .split(/\s+/)
-      .slice(0, 2)
-      .map((part: string) => part.charAt(0))
-      .join("")
-      .toUpperCase() || "U";
+export function NavAvatar({ user }: { user?: UserProps | null }) {
+  const initials = formatUserInitials(user?.name);
 
   return (
-    <>
-      <Avatar className="">
-        {user ? (
-          <>
-            <AvatarImage src={image} alt={name} />
-            <AvatarFallback
-              className="bg-foreground/24 text-primary-foreground"
-              suppressHydrationWarning
-            >
-              {initials}
-            </AvatarFallback>
-            {/* <AvatarImage src={user?.imageUrl} alt={`${user?.fullName}`} /> */}
-            {/* <AvatarFallback className="rounded-md">JG</AvatarFallback> */}
-            {/* <AvatarImage src={nullToUndefined(user?.avatar_url)} alt={nullToUndefined(user?.name)} /> */}
-            {/* <AvatarFallback className="rounded-lg">WD</AvatarFallback> */}
-          </>
-        ) : (
-          <>
-            {/* <AvatarImage src={user?.user_metadata?.avatar_url ?? user?.user_metadata?.picture ?? undefined} alt={`${user?.user_metadata?.name}`} /> */}
-            <AvatarFallback className="bg-foreground/24 text-primary-foreground">
-              VA
-            </AvatarFallback>
-          </>
-        )}
-      </Avatar>
-    </>
+    <Avatar>
+      {user ? (
+        <AvatarImage src={user.avatar || undefined} alt={user.name} />
+      ) : null}
+      <AvatarFallback
+        className="bg-muted-foreground text-primary-foreground"
+        suppressHydrationWarning
+      >
+        {initials}
+      </AvatarFallback>
+    </Avatar>
   );
 }
 
-export function NavName({ user }: { user?: any | null }) {
-  const metadata = user?.user_metadata ?? {};
-  const name =
-    user?.fullName ??
-    user?.name ??
-    metadata.full_name ??
-    metadata.name ??
-    user?.email ??
-    "User";
-
+export function NavName({ user }: { user?: UserProps | null }) {
   return (
     <>
       <div className="grid flex-1 text-left text-sm leading-tight">
         <span className="truncate font-medium" suppressHydrationWarning>
-          {name}
+          {user?.name ?? "User"}
         </span>
         <span className="truncate text-xs" suppressHydrationWarning>
           {user?.email ?? "user@gorth.org"}

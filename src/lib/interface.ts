@@ -33,18 +33,10 @@ export interface NavMessage {
 export interface UserProps {
   name: string;
   email: string;
-  avatar?: string | null;
-  image?: string | null;
-  imageUrl?: string | null;
-  avatarUrl?: string | null;
-  fullName?: string | null;
-  firstName?: string | null;
-  lastName?: string | null;
-  user_metadata?: Record<string, unknown>;
+  avatar: string;
 }
 
 export interface AuthSidebarProps {
-  account?: Partial<UserProps> | null;
   loading: boolean;
   authenticated: boolean;
   login: (returnTo?: string) => void;
@@ -101,7 +93,7 @@ export interface MessSidebarProps extends ComponentProps<typeof Sidebar> {
 }
 
 export interface AppSidebarUserProps {
-  user?: Partial<UserProps> | null;
+  user?: UserProps | null;
   nav: NavDropdown;
   auth: AuthSidebarProps;
   type?: "sidebar" | "navbar";
