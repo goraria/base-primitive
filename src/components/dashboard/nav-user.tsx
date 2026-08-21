@@ -369,10 +369,10 @@ export function NavDropdownItem({
   return (
     <>
       <DropdownMenuItem
-        className=""
+        className="cursor-pointer"
         onClick={action}
       >
-        <Icon className="h-4 w-4" />
+        <Icon className="size-4" />
         {link ? <Link href={link}>{title}</Link> : <span>{title}</span>}
       </DropdownMenuItem>
     </>
