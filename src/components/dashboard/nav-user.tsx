@@ -155,11 +155,13 @@ export function NavUserDropdown({
                 </DropdownMenuGroup>
               ))}
               <DropdownMenuSeparator />
-              <NavDropdownItem
-                icon={LogOut}
-                title="Sign out"
-                action={async () => await auth.logout}
-              />
+              <DropdownMenuGroup>
+                <NavDropdownItem
+                  icon={LogOut}
+                  title="Sign out"
+                  action={async () => await auth.logout}
+                />
+              </DropdownMenuGroup>
             </>
           ) : nav.secondary.map((item, index) => (
             <DropdownMenuGroup
