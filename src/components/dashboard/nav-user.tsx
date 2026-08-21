@@ -53,15 +53,15 @@ export function NavUserX({ user }: { user: UserProps }) {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             />}
           >
-              <Avatar className="">
-                <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-md">CN</AvatarFallback>
-              </Avatar>
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.name}</span>
-                <span className="truncate text-xs">{user.email}</span>
-              </div>
-              <ChevronsUpDown className="ml-auto size-4" />
+            <Avatar className="">
+              <AvatarImage src={user.avatar} alt={user.name} />
+              <AvatarFallback className="rounded-md">CN</AvatarFallback>
+            </Avatar>
+            <div className="grid flex-1 text-left text-sm leading-tight">
+              <span className="truncate font-medium">{user.name}</span>
+              <span className="truncate text-xs">{user.email}</span>
+            </div>
+            <ChevronsUpDown className="ml-auto size-4" />
           </DropdownMenuTrigger>
           <DropdownMenuContent
             className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
@@ -157,8 +157,8 @@ export function NavUserDropdown({
               <DropdownMenuSeparator />
               <NavDropdownItem
                 icon={LogOut}
-                title="Đăng xuất"
-                action={() => auth.logout}
+                title="Sign out"
+                action={async () => await auth.logout}
               />
             </>
           ) : nav.secondary.map((item, index) => (
@@ -173,9 +173,9 @@ export function NavUserDropdown({
                     () => auth.login
                   ) : item.url === "/sign-up" ? (
                     () => auth.register
-                  ) : () => {}
+                  ) : () => { }
                 )}
-                // link={item.url}
+              // link={item.url}
               />
             </DropdownMenuGroup>
           ))}
@@ -280,7 +280,7 @@ export function NavUser({
                 ) : (
                   <DropdownMenuTrigger
                     render={
-                      <SidebarMenuButton size="default"/>
+                      <SidebarMenuButton size="default" />
                     }
                   >
 

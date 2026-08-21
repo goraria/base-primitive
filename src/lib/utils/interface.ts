@@ -1,4 +1,20 @@
-import React, { ComponentProps, ElementType, ReactNode } from "react";
+import React, {
+  ComponentProps,
+  ComponentType,
+  ElementType,
+  ReactNode,
+} from "react";
+import {
+  Column,
+  ColumnDef,
+  ReactTable,
+  RowData,
+  RowModel,
+  Table,
+  TableFeature,
+  TableFeatures,
+  TableOptions,
+} from "@tanstack/react-table";
 import { Sidebar } from "@/components/ui/sidebar";
 import { LucideIcon } from "lucide-react";
 import { SidebarGroup } from "@/components/custom/sidebar";
@@ -167,6 +183,104 @@ export interface StatsBoxProps {
 export interface BadgeIconProps {
   color?: string;
   icon: LucideIcon;
+}
+
+// ============================================================================
+// DATATABLES INTERFACES
+// ============================================================================
+
+export interface DataTableFeatures {
+  columnFilteringFeature: TableFeature;
+  rowSortingFeature: TableFeature;
+  rowPaginationFeature: TableFeature;
+  rowSelectionFeature: TableFeature;
+  columnVisibilityFeature: TableFeature;
+  columnSizingFeature: TableFeature;
+  columnResizingFeature: TableFeature;
+  columnFacetingFeature: TableFeature;
+  filteredRowModel: (table: Table<any, any>) => () => RowModel<any, any>;
+  sortedRowModel: (table: Table<any, any>) => () => RowModel<any, any>;
+  paginatedRowModel: (table: Table<any, any>) => () => RowModel<any, any>;
+  facetedRowModel: (
+    table: Table<any, any>,
+    columnId: string,
+  ) => () => RowModel<any, any>;
+  facetedUniqueValues: (
+    table: Table<TableFeatures, any>,
+    columnId: string,
+  ) => () => Map<any, number>;
+}
+
+export interface DataTableFilterOption {
+  label: string;
+  value: string | number | boolean;
+  icon?: ComponentType<{ className?: string }>;
+}
+
+export interface DataTableFilter {
+  column: string;
+  title?: string;
+  options: DataTableFilterOption[];
+}
+
+export interface DataTableSearch {
+  column: string;
+  placeholder: string;
+}
+
+export interface DataTableProps<TData extends RowData> {
+  columns: ColumnDef<DataTableFeatures, TData, any>[];
+  data: TData[];
+  search?: DataTableSearch;
+  filters?: DataTableFilter[];
+  /** @deprecated Use `filters` instead. */
+  filter?: DataTableFilter[];
+  fluidColumn?: string;
+  /** @deprecated Use `fluidColumn` instead. */
+  max?: string;
+  initialPageSize?: number;
+  pageSizeOptions?: number[];
+  getRowId?: TableOptions<DataTableFeatures, TData>["getRowId"];
+  enableRowSelection?: TableOptions<
+    DataTableFeatures,
+    TData
+  >["enableRowSelection"];
+  emptyMessage?: ReactNode;
+  onRowClick?: (row: TData) => void;
+  onReload?: () => void;
+  onDownload?: () => void;
+  onCreate?: () => void;
+  render?: ReactNode;
+}
+
+export interface DataTableColumnHeaderProps<
+  TData extends RowData,
+  TValue = unknown,
+> extends React.HTMLAttributes<HTMLDivElement> {
+  column: Column<DataTableFeatures, TData, TValue>;
+  title: string;
+}
+
+export interface DataTableSortButtonProps<
+  TData extends RowData,
+  TValue = unknown,
+> extends DataTableColumnHeaderProps<TData, TValue> {}
+
+export interface DataTablePaginationProps<TData extends RowData> {
+  table: ReactTable<DataTableFeatures, TData>;
+}
+
+export interface DataTableViewOptionsProps<TData extends RowData> {
+  table: ReactTable<DataTableFeatures, TData>;
+}
+
+export interface DataTableFacetedFilterProps<
+  TData extends RowData,
+  TValue = unknown,
+> {
+  column?: Column<DataTableFeatures, TData, TValue>;
+  title?: string;
+  options: DataTableFilterOption[];
 }
 
 // ============================================================================
