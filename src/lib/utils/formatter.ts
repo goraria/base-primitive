@@ -1,5 +1,5 @@
-export function formatUserInitials(name?: string | null) {
-  if (!name?.trim()) {
+export function formatUserInitials(name: string) {
+  if (!name.trim()) {
     return "VA";
   }
 

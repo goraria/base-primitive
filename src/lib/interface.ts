@@ -93,7 +93,7 @@ export interface MessSidebarProps extends ComponentProps<typeof Sidebar> {
 }
 
 export interface AppSidebarUserProps {
-  user?: UserProps | null;
+  user: UserProps;
   nav: NavDropdown;
   auth: AuthSidebarProps;
   type?: "sidebar" | "navbar";

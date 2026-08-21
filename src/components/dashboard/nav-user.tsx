@@ -134,107 +134,62 @@ export function NavUserDropdown({
   nav,
   auth,
 }: {
-  user?: UserProps | null;
+  user: UserProps;
   nav: NavDropdown;
   auth: AuthSidebarProps;
 }): JSX.Element {
-  const currentUser = user ?? null;
-
   return (
     <>
-      {currentUser ? (
+      <DropdownMenuGroup>
+        <DropdownMenuLabel className="p-0 font-normal">
+          <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+            <NavAvatar user={user} />
+            <NavName user={user} />
+          </div>
+        </DropdownMenuLabel>
+      </DropdownMenuGroup>
+      <DropdownMenuSeparator />
+
+      {auth.authenticated ? (
         <>
           <DropdownMenuGroup>
-            <DropdownMenuLabel className="p-0 font-normal">
-              <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <NavAvatar user={currentUser} />
-                <NavName user={currentUser} />
-              </div>
-            </DropdownMenuLabel>
+            {nav.main.map((item) => (
+              <NavDropdownItem
+                key={item.url}
+                icon={item.icon}
+                title={item.title}
+                link={item.url}
+              />
+            ))}
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          {auth.authenticated ? (
-            <>
-              {nav.main.map((item, index) => (
-                <DropdownMenuGroup key={index}>
-                  <NavDropdownItem
-                    icon={item.icon}
-                    title={item.title}
-                    link={item.url}
-                  />
-                </DropdownMenuGroup>
-              ))}
-              <DropdownMenuSeparator />
-              <DropdownMenuGroup>
-                <NavDropdownItem
-                  icon={LogOut}
-                  title="Sign out"
-                  action={auth.logout}
-                />
-              </DropdownMenuGroup>
-            </>
-          ) : (
-            nav.secondary.map((item, index) => (
-              <DropdownMenuGroup key={index}>
-                <NavDropdownItem
-                  icon={item.icon}
-                  title={item.title}
-                  action={
-                    item.url === "/sign-in"
-                      ? auth.login
-                      : item.url === "/sign-up"
-                        ? auth.register
-                        : () => {}
-                  }
-                  // link={item.url}
-                />
-              </DropdownMenuGroup>
-            ))
-          )}
+          <DropdownMenuGroup>
+            <NavDropdownItem
+              icon={LogOut}
+              title="Sign out"
+              action={auth.logout}
+            />
+          </DropdownMenuGroup>
         </>
       ) : (
-        <>
-          {/*<DropdownMenuLabel className="p-0 font-normal">*/}
-          {/*  <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">*/}
-          {/*    <NavAvatar user={user} />*/}
-          {/*    <NavName user={user} />*/}
-          {/*  </div>*/}
-          {/*</DropdownMenuLabel>*/}
-          {/*<DropdownMenuSeparator />*/}
-          {auth.authenticated ? (
-            <>
-              <DropdownMenuGroup>
-                {nav.main.map((item) => (
-                  <NavDropdownItem
-                    key={item.url}
-                    icon={item.icon}
-                    title={item.title}
-                    link={item.url}
-                  />
-                ))}
-              </DropdownMenuGroup>
-              <DropdownMenuSeparator />
-              <DropdownMenuGroup>
-                <NavDropdownItem
-                  icon={LogOut}
-                  title="Sign out"
-                  action={auth.logout}
-                />
-              </DropdownMenuGroup>
-            </>
-          ) : (
-            <DropdownMenuGroup>
-              {nav.secondary.map((item) => (
-                <NavDropdownItem
-                  key={item.url}
-                  icon={item.icon}
-                  title={item.title}
-                  link={item.url}
-                />
-              ))}
-            </DropdownMenuGroup>
-          )}
-        </>
+        <DropdownMenuGroup>
+          {nav.secondary.map((item) => {
+            const isSignIn = item.url.endsWith("/sign-in");
+            const isSignUp = item.url.endsWith("/sign-up");
+
+            return (
+              <NavDropdownItem
+                key={item.url}
+                icon={item.icon}
+                title={item.title}
+                action={
+                  isSignIn ? auth.login : isSignUp ? auth.register : undefined
+                }
+                link={!isSignIn && !isSignUp ? item.url : undefined}
+              />
+            );
+          })}
+        </DropdownMenuGroup>
       )}
     </>
   );
@@ -250,7 +205,6 @@ export function NavUser({
   align = "end",
 }: AppSidebarUserProps) {
   const { isMobile } = useSidebar();
-  const currentUser = user ?? null;
 
   return (
     <>
@@ -266,7 +220,7 @@ export function NavUser({
                 />
               }
             >
-              <NavAvatar user={currentUser} />
+              <NavAvatar user={user} />
             </DropdownMenuTrigger>
             <DropdownMenuContent
               className="min-w-56 rounded-lg"
@@ -274,7 +228,7 @@ export function NavUser({
               align="end"
               sideOffset={4}
             >
-              <NavUserDropdown user={currentUser} nav={nav} auth={auth} />
+              <NavUserDropdown user={user} nav={nav} auth={auth} />
             </DropdownMenuContent>
           </DropdownMenu>
         </>
@@ -295,8 +249,8 @@ export function NavUser({
                       />
                     }
                   >
-                    <NavAvatar user={currentUser} />
-                    <NavName user={currentUser} />
+                    <NavAvatar user={user} />
+                    <NavName user={user} />
                     <ChevronsUpDown className="ml-auto size-4" />
                   </DropdownMenuTrigger>
                 ) : size === "icon" ? (
@@ -311,8 +265,8 @@ export function NavUser({
                       />
                     }
                   >
-                    <NavAvatar user={currentUser} />
-                    <NavName user={currentUser} />
+                    <NavAvatar user={user} />
+                    <NavName user={user} />
                     <ChevronsUpDown className="ml-auto size-4" />
                   </DropdownMenuTrigger>
                 ) : (
@@ -327,7 +281,7 @@ export function NavUser({
                   align={align}
                   sideOffset={4}
                 >
-                  <NavUserDropdown user={currentUser} nav={nav} auth={auth} />
+                  <NavUserDropdown user={user} nav={nav} auth={auth} />
                 </DropdownMenuContent>
               </DropdownMenu>
             </SidebarMenuItem>
@@ -340,14 +294,12 @@ export function NavUser({
   );
 }
 
-export function NavAvatar({ user }: { user?: UserProps | null }) {
-  const initials = formatUserInitials(user?.name);
+export function NavAvatar({ user }: { user: UserProps }) {
+  const initials = formatUserInitials(user.name);
 
   return (
     <Avatar>
-      {user ? (
-        <AvatarImage src={user.avatar || undefined} alt={user.name} />
-      ) : null}
+      <AvatarImage src={user.avatar || undefined} alt={user.name} />
       <AvatarFallback
         className="bg-muted-foreground text-primary-foreground"
         suppressHydrationWarning
@@ -358,15 +310,15 @@ export function NavAvatar({ user }: { user?: UserProps | null }) {
   );
 }
 
-export function NavName({ user }: { user?: UserProps | null }) {
+export function NavName({ user }: { user: UserProps }) {
   return (
     <>
       <div className="grid flex-1 text-left text-sm leading-tight">
         <span className="truncate font-medium" suppressHydrationWarning>
-          {user?.name ?? "User"}
+          {user.name}
         </span>
         <span className="truncate text-xs" suppressHydrationWarning>
-          {user?.email ?? "user@gorth.org"}
+          {user.email}
         </span>
       </div>
     </>

@@ -62,7 +62,7 @@ export interface UserProps {
 }
 
 export interface AppSidebarUserProps {
-  user?: UserProps | null;
+  user: UserProps;
   nav: NavDropdown;
   auth: AuthSidebarProps;
   type?: "sidebar" | "navbar";
@@ -130,7 +130,7 @@ export interface AppSidebarPropsX extends ComponentProps<typeof Sidebar> {
     name: string;
     description: string;
   };
-  user?: UserProps | null;
+  user: UserProps;
   // user: AppSidebarUser;
 }
 
@@ -161,7 +161,7 @@ export interface HeaderProps {
   bottom?: ReactNode;
   left?: ReactNode;
   right?: ReactNode;
-  user?: UserProps | null;
+  user: UserProps;
   auth: AuthSidebarProps;
   nav: NavDropdown;
 }
