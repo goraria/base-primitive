@@ -18,7 +18,6 @@ import {
 import { Sidebar } from "@/components/ui/sidebar";
 import { LucideIcon } from "lucide-react";
 import { SidebarGroup } from "@/components/custom/sidebar";
-import { navigation } from "@/layouts/navbar";
 
 // ============================================================================
 // SIDEBAR INTERFACES
@@ -56,7 +55,14 @@ export interface NavMessage {
 export interface UserProps {
   name: string;
   email: string;
-  avatar: string;
+  avatar?: string | null;
+  image?: string | null;
+  imageUrl?: string | null;
+  avatarUrl?: string | null;
+  fullName?: string | null;
+  firstName?: string | null;
+  lastName?: string | null;
+  user_metadata?: Record<string, unknown>;
   // name?: string | null;
   // email?: string | null;
   // avatar?: string | null;
@@ -112,7 +118,7 @@ export interface NavCoreProps extends React.ComponentPropsWithoutRef<
 }
 
 export interface AuthSidebarProps {
-  // account: AuthUser | null
+  account?: Partial<UserProps> | null;
   loading: boolean;
   authenticated: boolean;
   // refresh: () => Promise<AuthUser | null>

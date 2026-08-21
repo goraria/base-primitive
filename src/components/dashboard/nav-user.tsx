@@ -1,14 +1,13 @@
-"use client"
+"use client";
 
 import React, { JSX } from "react";
-import Link from "next/link"
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@/components/custom/avatar"
+} from "@/components/custom/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,13 +16,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/custom/dropdown"
+} from "@/components/custom/dropdown";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/custom/sidebar"
+} from "@/components/custom/sidebar";
 import { Button } from "@/components/ui/button";
 import {
   BadgeCheck,
@@ -36,25 +35,33 @@ import {
   LogIn,
   KeySquare,
   LucideIcon,
-} from "lucide-react"
+} from "lucide-react";
 
-import type { AppSidebarUserProps, AuthSidebarProps, NavDropdown, NavMainItem, UserProps } from "@/lib/interface";
+import type {
+  AppSidebarUserProps,
+  AuthSidebarProps,
+  NavDropdown,
+  NavMainItem,
+  UserProps,
+} from "@/lib/interface";
 
 export function NavUserX({ user }: { user: UserProps }) {
-  const { isMobile } = useSidebar()
+  const { isMobile } = useSidebar();
 
   return (
     <SidebarMenu>
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger
-            render={<SidebarMenuButton
-              size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-            />}
+            render={
+              <SidebarMenuButton
+                size="lg"
+                className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              />
+            }
           >
             <Avatar className="">
-              <AvatarImage src={user.avatar} alt={user.name} />
+              <AvatarImage src={user.avatar ?? undefined} alt={user.name} />
               <AvatarFallback className="rounded-md">CN</AvatarFallback>
             </Avatar>
             <div className="grid flex-1 text-left text-sm leading-tight">
@@ -73,7 +80,10 @@ export function NavUserX({ user }: { user: UserProps }) {
               <DropdownMenuLabel className="p-0 font-normal">
                 <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                   <Avatar className="">
-                    <AvatarImage src={user.avatar} alt={user.name} />
+                    <AvatarImage
+                      src={user.avatar ?? undefined}
+                      alt={user.name}
+                    />
                     <AvatarFallback className="">CN</AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
@@ -114,29 +124,29 @@ export function NavUserX({ user }: { user: UserProps }) {
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
-  )
+  );
 }
 
 export function NavUserDropdown({
   user,
   nav,
-  auth
+  auth,
 }: {
   user?: any | null;
   nav: NavDropdown;
-  auth: AuthSidebarProps
+  auth: AuthSidebarProps;
 }): JSX.Element {
-  const router = useRouter();
+  const currentUser = user ?? auth.account ?? null;
 
   return (
     <>
-      {user ? (
+      {currentUser ? (
         <>
           <DropdownMenuGroup>
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <NavAvatar user={user} />
-                <NavName user={user} />
+                <NavAvatar user={currentUser} />
+                <NavName user={currentUser} />
               </div>
             </DropdownMenuLabel>
           </DropdownMenuGroup>
@@ -144,9 +154,7 @@ export function NavUserDropdown({
           {auth.authenticated ? (
             <>
               {nav.main.map((item, index) => (
-                <DropdownMenuGroup
-                  key={index}
-                >
+                <DropdownMenuGroup key={index}>
                   <NavDropdownItem
                     icon={item.icon}
                     title={item.title}
@@ -163,24 +171,24 @@ export function NavUserDropdown({
                 />
               </DropdownMenuGroup>
             </>
-          ) : nav.secondary.map((item, index) => (
-            <DropdownMenuGroup
-              key={index}
-            >
-              <NavDropdownItem
-                icon={item.icon}
-                title={item.title}
-                action={(
-                  item.url === "/sign-in" ? (
-                    auth.login
-                  ) : item.url === "/sign-up" ? (
-                    auth.register
-                  ) : () => { }
-                )}
-              // link={item.url}
-              />
-            </DropdownMenuGroup>
-          ))}
+          ) : (
+            nav.secondary.map((item, index) => (
+              <DropdownMenuGroup key={index}>
+                <NavDropdownItem
+                  icon={item.icon}
+                  title={item.title}
+                  action={
+                    item.url === "/sign-in"
+                      ? auth.login
+                      : item.url === "/sign-up"
+                        ? auth.register
+                        : () => {}
+                  }
+                  // link={item.url}
+                />
+              </DropdownMenuGroup>
+            ))
+          )}
         </>
       ) : (
         <>
@@ -191,16 +199,39 @@ export function NavUserDropdown({
           {/*  </div>*/}
           {/*</DropdownMenuLabel>*/}
           {/*<DropdownMenuSeparator />*/}
-          <DropdownMenuGroup>
-            {nav && nav.secondary.map((item, index) => (
-              <NavDropdownItem
-                key={index}
-                icon={item.icon}
-                title={item.title}
-                link={item.url}
-              />
-            ))}
-          </DropdownMenuGroup>
+          {auth.authenticated ? (
+            <>
+              <DropdownMenuGroup>
+                {nav.main.map((item) => (
+                  <NavDropdownItem
+                    key={item.url}
+                    icon={item.icon}
+                    title={item.title}
+                    link={item.url}
+                  />
+                ))}
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuGroup>
+                <NavDropdownItem
+                  icon={LogOut}
+                  title="Sign out"
+                  action={auth.logout}
+                />
+              </DropdownMenuGroup>
+            </>
+          ) : (
+            <DropdownMenuGroup>
+              {nav.secondary.map((item) => (
+                <NavDropdownItem
+                  key={item.url}
+                  icon={item.icon}
+                  title={item.title}
+                  link={item.url}
+                />
+              ))}
+            </DropdownMenuGroup>
+          )}
         </>
       )}
     </>
@@ -214,23 +245,26 @@ export function NavUser({
   type,
   size = "icon",
   side = "bottom",
-  align = "end"
+  align = "end",
 }: AppSidebarUserProps) {
   const { isMobile } = useSidebar();
+  const currentUser = user ?? auth.account ?? null;
 
   return (
     <>
       {type === "navbar" ? (
         <>
           <DropdownMenu>
-            <DropdownMenuTrigger render={
-              <Button
-                variant="ghost"
-                size="icon"
-                className="p-0 cursor-pointer"
-              />
-            }>
-              <NavAvatar user={user} />
+            <DropdownMenuTrigger
+              render={
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="p-0 cursor-pointer"
+                />
+              }
+            >
+              <NavAvatar user={currentUser} />
             </DropdownMenuTrigger>
             <DropdownMenuContent
               className="min-w-56 rounded-lg"
@@ -238,7 +272,7 @@ export function NavUser({
               align="end"
               sideOffset={4}
             >
-              <NavUserDropdown user={user} nav={nav} auth={auth} />
+              <NavUserDropdown user={currentUser} nav={nav} auth={auth} />
             </DropdownMenuContent>
           </DropdownMenu>
         </>
@@ -254,13 +288,13 @@ export function NavUser({
                         size="lg"
                         className={cn(
                           "data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground",
-                          "h-14" // "data-[active=true]:bg-professional-main/24"
+                          "h-14", // "data-[active=true]:bg-professional-main/24"
                         )}
                       />
                     }
                   >
-                    <NavAvatar user={user} />
-                    <NavName user={user} />
+                    <NavAvatar user={currentUser} />
+                    <NavName user={currentUser} />
                     <ChevronsUpDown className="ml-auto size-4" />
                   </DropdownMenuTrigger>
                 ) : size === "icon" ? (
@@ -270,23 +304,19 @@ export function NavUser({
                         size="default"
                         className={cn(
                           "data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground",
-                          "md:p-0 group-data-[collapsible=icon]:p-0!"
+                          "md:p-0 group-data-[collapsible=icon]:p-0!",
                         )}
                       />
                     }
                   >
-                    <NavAvatar user={user} />
-                    <NavName user={user} />
+                    <NavAvatar user={currentUser} />
+                    <NavName user={currentUser} />
                     <ChevronsUpDown className="ml-auto size-4" />
                   </DropdownMenuTrigger>
                 ) : (
                   <DropdownMenuTrigger
-                    render={
-                      <SidebarMenuButton size="default" />
-                    }
-                  >
-
-                  </DropdownMenuTrigger>
+                    render={<SidebarMenuButton size="default" />}
+                  ></DropdownMenuTrigger>
                 )}
                 <DropdownMenuContent
                   className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
@@ -295,7 +325,7 @@ export function NavUser({
                   align={align}
                   sideOffset={4}
                 >
-                  <NavUserDropdown user={user} nav={nav} auth={auth} />
+                  <NavUserDropdown user={currentUser} nav={nav} auth={auth} />
                 </DropdownMenuContent>
               </DropdownMenu>
             </SidebarMenuItem>
@@ -305,22 +335,47 @@ export function NavUser({
         <></>
       )}
     </>
-  )
+  );
 }
 
 export function NavAvatar({ user }: { user?: any | null }) {
+  const metadata = user?.user_metadata ?? {};
+  const name = String(
+    user?.fullName ??
+      user?.name ??
+      metadata.full_name ??
+      metadata.name ??
+      user?.email ??
+      "User",
+  );
+  const image =
+    user?.imageUrl ??
+    user?.avatarUrl ??
+    user?.image ??
+    user?.avatar ??
+    metadata.avatar_url ??
+    metadata.picture ??
+    undefined;
+  const initials =
+    name
+      .trim()
+      .split(/\s+/)
+      .slice(0, 2)
+      .map((part: string) => part.charAt(0))
+      .join("")
+      .toUpperCase() || "U";
+
   return (
     <>
       <Avatar className="">
         {user ? (
           <>
-            <AvatarImage
-              src={user?.imageUrl ?? user?.avatarUrl ?? undefined}
-              alt={user?.fullName ?? `${user?.firstName ?? ''} ${user?.lastName ?? ''}`}
-            />
-            <AvatarFallback className="bg-professional-main/24" suppressHydrationWarning>
-              {(user?.firstName?.charAt(0) ?? 'U').toUpperCase()}
-              {(user?.lastName?.charAt(0) ?? 'A').toUpperCase()}
+            <AvatarImage src={image} alt={name} />
+            <AvatarFallback
+              className="bg-foreground/24 text-primary-foreground"
+              suppressHydrationWarning
+            >
+              {initials}
             </AvatarFallback>
             {/* <AvatarImage src={user?.imageUrl} alt={`${user?.fullName}`} /> */}
             {/* <AvatarFallback className="rounded-md">JG</AvatarFallback> */}
@@ -330,16 +385,25 @@ export function NavAvatar({ user }: { user?: any | null }) {
         ) : (
           <>
             {/* <AvatarImage src={user?.user_metadata?.avatar_url ?? user?.user_metadata?.picture ?? undefined} alt={`${user?.user_metadata?.name}`} /> */}
-            <AvatarFallback className="">VA</AvatarFallback>
+            <AvatarFallback className="bg-foreground/24 text-primary-foreground">
+              VA
+            </AvatarFallback>
           </>
         )}
       </Avatar>
     </>
-  )
+  );
 }
 
 export function NavName({ user }: { user?: any | null }) {
-  const name = user.name
+  const metadata = user?.user_metadata ?? {};
+  const name =
+    user?.fullName ??
+    user?.name ??
+    metadata.full_name ??
+    metadata.name ??
+    user?.email ??
+    "User";
 
   return (
     <>
@@ -348,18 +412,18 @@ export function NavName({ user }: { user?: any | null }) {
           {name}
         </span>
         <span className="truncate text-xs" suppressHydrationWarning>
-          {user ? user.email : "user@gorth.org"}
+          {user?.email ?? "user@gorth.org"}
         </span>
       </div>
     </>
-  )
+  );
 }
 
 export function NavDropdownItem({
   icon: Icon,
   title,
   link,
-  action
+  action,
 }: {
   icon: LucideIcon;
   title: string;
@@ -368,13 +432,10 @@ export function NavDropdownItem({
 }) {
   return (
     <>
-      <DropdownMenuItem
-        className="cursor-pointer"
-        onClick={action}
-      >
+      <DropdownMenuItem className="cursor-pointer" onClick={action}>
         <Icon className="size-4" />
         {link ? <Link href={link}>{title}</Link> : <span>{title}</span>}
       </DropdownMenuItem>
     </>
-  )
+  );
 }
