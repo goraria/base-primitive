@@ -1,10 +1,234 @@
 "use client"
 
-import Link from 'next/link'
-import { Button } from '@/components/custom/button'
-import { HeaderProps } from "@/lib/utils/interface";
+import { useState } from "react"
+import Link from "next/link"
+import { Menu } from "lucide-react"
 
-export function Header({ top, bottom, left, right, user, auth, nav }: HeaderProps) {
+import { NavUser } from "@/components/dashboard/nav-user"
+import { Button } from "@/components/custom/button"
+import { Customizer } from "@/components/element/customizer"
+import { ModeSwitcher } from "@/components/element/mode-toggle"
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu"
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
+import { cn } from "@/lib/utils"
+import type { HeaderProps, NavMainItem } from "@/lib/utils/interface"
+import { useLayout } from "@/providers/layout"
+
+export interface UnifiedHeaderProps extends HeaderProps {
+  mode?: "navbar" | "dashboard"
+}
+
+function HeaderNavigation({ items }: { items: NavMainItem[] }) {
+  return (
+    <NavigationMenu className="hidden lg:flex">
+      <NavigationMenuList>
+        {items.map((item) => (
+          <NavigationMenuItem key={item.url}>
+            {item.items?.length ? (
+              <>
+                <NavigationMenuTrigger className="bg-transparent text-sm">
+                  {item.title}
+                </NavigationMenuTrigger>
+                <NavigationMenuContent className="w-80 p-1 md:w-[500px]">
+                  <ul className="grid gap-1 rounded-md md:grid-cols-2">
+                    {item.items.map((child) => (
+                      <li key={child.url}>
+                        <Button
+                          nativeButton={false}
+                          render={<Link href={child.url} />}
+                          variant="ghost"
+                          className="h-auto w-full select-none flex-col items-start gap-1 whitespace-normal rounded-md p-3 text-left"
+                        >
+                          <span className="text-sm font-medium leading-none">
+                            {child.title}
+                          </span>
+                          {child.description ? (
+                            <span className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              {child.description}
+                            </span>
+                          ) : null}
+                        </Button>
+                      </li>
+                    ))}
+                  </ul>
+                </NavigationMenuContent>
+              </>
+            ) : (
+              <Button
+                nativeButton={false}
+                render={<Link href={item.url} />}
+                variant="ghost"
+                className="w-max bg-transparent px-4"
+              >
+                {item.title}
+              </Button>
+            )}
+          </NavigationMenuItem>
+        ))}
+      </NavigationMenuList>
+    </NavigationMenu>
+  )
+}
+
+function MobileNavigation({ items }: { items: NavMainItem[] }) {
+  const [open, setOpen] = useState(false)
+
+  if (!items.length) return null
+
+  return (
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetTrigger
+        className="lg:hidden"
+        render={<Button variant="ghost" size="icon" />}
+      >
+        <Menu className="size-4" />
+        <span className="sr-only">Toggle navigation</span>
+      </SheetTrigger>
+      <SheetContent side="left" className="gap-4 p-4">
+        <SheetHeader className="p-0">
+          <SheetTitle>Navigation</SheetTitle>
+        </SheetHeader>
+        <nav className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto">
+          {items.map((item) => (
+            <div key={item.url} className="flex flex-col gap-1">
+              <Button
+                nativeButton={false}
+                render={<Link href={item.url} />}
+                variant="ghost"
+                className="w-full justify-start"
+                onClick={() => setOpen(false)}
+              >
+                <item.icon className="size-4" />
+                {item.title}
+              </Button>
+              {item.items?.map((child) => (
+                <Button
+                  key={child.url}
+                  nativeButton={false}
+                  render={<Link href={child.url} />}
+                  variant="ghost"
+                  className="w-full justify-start pl-10 text-muted-foreground"
+                  onClick={() => setOpen(false)}
+                >
+                  {child.title}
+                </Button>
+              ))}
+            </div>
+          ))}
+        </nav>
+      </SheetContent>
+    </Sheet>
+  )
+}
+
+export function Header({
+  top,
+  bottom,
+  left,
+  right,
+  user,
+  auth,
+  nav,
+  mode = "navbar",
+}: UnifiedHeaderProps) {
+  const { variant } = useLayout()
+  const navigation = nav.navigation ?? []
+  const dashboard = mode === "dashboard"
+  const floating = variant === "floating"
+  const inset = variant === "inset"
+
+  return (
+    <header
+      data-layout={variant}
+      data-mode={mode}
+      className={cn(
+        "sticky top-0 z-50 w-full shrink-0",
+        !floating &&
+          "border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80",
+        inset && "rounded-t-xl",
+      )}
+    >
+      {top}
+      <div
+        className={cn(
+          "w-full",
+          floating && "h-[4.5rem] py-2",
+          floating && !dashboard && "container mx-auto px-6",
+          floating && dashboard && "px-2",
+        )}
+      >
+        <div
+          className={cn(
+            "h-14 w-full",
+            floating &&
+              "rounded-lg bg-background/95 shadow-sm ring-1 ring-sidebar-border backdrop-blur supports-[backdrop-filter]:bg-background/80",
+            inset && "rounded-t-xl",
+          )}
+        >
+          <div
+            className={cn(
+              "mx-auto flex h-full items-center gap-2 px-6",
+              !dashboard && !floating && "container",
+            )}
+          >
+            {dashboard ? (
+              left
+            ) : (
+              <>
+                <MobileNavigation items={navigation} />
+                <div className="mr-2 flex shrink-0 items-center">
+                  {bottom ?? (
+                    <Button
+                      nativeButton={false}
+                      render={<Link href="/" />}
+                      variant="ghost"
+                      className="px-2 text-lg font-bold"
+                    >
+                      Gorth
+                    </Button>
+                  )}
+                </div>
+                {left ?? <HeaderNavigation items={navigation} />}
+              </>
+            )}
+
+            <div className="ml-auto flex shrink-0 items-center gap-2">
+              {right ?? (
+                <>
+                  <ModeSwitcher />
+                  <Customizer />
+                  <NavUser
+                    user={user}
+                    type="navbar"
+                    side="bottom"
+                    align="end"
+                    size="icon"
+                    auth={auth}
+                    nav={{ main: nav.main, secondary: nav.secondary }}
+                  />
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+  )
+}
+
+export function HeaderOld({ top, bottom, left, right, user, auth, nav }: HeaderProps) {
 
   return (
     <header className="flex h-16 items-center justify-between gap-4 border-b px-4">
