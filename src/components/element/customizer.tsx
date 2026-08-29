@@ -15,7 +15,7 @@ import {
   type CustomizerState,
   useCustomizer,
 } from '@/hooks/use-customizer'
-import { CircleCheck, RotateCcw, Settings } from 'lucide-react'
+import { Check, CircleCheck, RotateCcw, Settings } from 'lucide-react'
 import { IconDir } from '@/components/icons/icon-dir'
 import { IconLayoutCompact } from '@/components/icons/icon-layout-compact'
 import { IconLayoutDefault } from '@/components/icons/icon-layout-default'
@@ -141,21 +141,15 @@ function ColorGroup({
             aria-label={`${label}: ${option.label}`}
             title={option.label}
             className={cn(
-              'group relative flex size-9 cursor-pointer items-center justify-center rounded-md border border-border bg-transparent p-0 shadow-none outline-none',
-              'transition-shadow focus-visible:ring-2 focus-visible:ring-ring',
-              'data-checked:ring-2 data-checked:ring-offset-2 data-checked:ring-offset-background'
+              'group relative grid size-9 shrink-0 cursor-pointer place-items-center rounded-md border-0 p-0 shadow-none outline-none ring-1 ring-transparent',
+              'transition focus-visible:ring-2 focus-visible:ring-ring',
+              'data-checked:ring-foreground'
             )}
-            style={
-              {
-                '--tw-ring-color': option.value,
-                '--drawer-ring-color': option.value,
-              } as CSSProperties
-            }
+            style={{ backgroundColor: option.value } as CSSProperties}
           >
-            <span
-              className='size-4 rounded-sm'
-              style={{ backgroundColor: option.value }}
-            />
+            <RadioPrimitive.Indicator>
+              <Check className='size-4 stroke-[3] text-white drop-shadow-sm' />
+            </RadioPrimitive.Indicator>
           </RadioPrimitive.Root>
         ))}
       </RadioGroupPrimitive>

@@ -27,7 +27,11 @@ export const BASE_COLOR_OPTIONS: ColorOption[] = [
 ]
 
 export const THEME_COLOR_OPTIONS: ColorOption[] = [
-  { key: "neutral", label: "Neutral", value: "#737373" },
+  {
+    key: "primary",
+    label: "Primary",
+    value: "var(--theme-current-primary)",
+  },
   { key: "amber", label: "Amber", value: "#f59e0b" },
   { key: "blue", label: "Blue", value: "#3b82f6" },
   { key: "cyan", label: "Cyan", value: "#06b6d4" },
@@ -115,6 +119,10 @@ function applyCustomizerState(state: CustomizerState) {
   const base = BASE_COLOR_OPTIONS.find((option) => option.key === state.base)!
   const paint = THEME_COLOR_OPTIONS.find((option) => option.key === state.paint)!
   const chart = CHART_COLOR_OPTIONS.find((option) => option.key === state.chart)!
+  const paintForeground =
+    paint.key === "primary"
+      ? "var(--theme-current-primary-foreground)"
+      : "#ffffff"
 
   let style = document.getElementById(CUSTOMIZER_STYLE_ID) as
     | HTMLStyleElement
@@ -126,11 +134,12 @@ function applyCustomizerState(state: CustomizerState) {
     document.head.appendChild(style)
   }
 
-  const variables = `--base: ${base.value}; --paint: ${paint.value}; --chart: ${chart.value};`
+  const variables = `--base: ${base.value}; --paint: ${paint.value}; --paint-foreground: ${paintForeground}; --chart: ${chart.value};`
   style.textContent = `:root { ${variables} } .dark { ${variables} }`
 
   root.style.setProperty("--base", base.value)
   root.style.setProperty("--paint", paint.value)
+  root.style.setProperty("--paint-foreground", paintForeground)
   root.style.setProperty("--chart", chart.value)
 }
 
@@ -179,6 +188,7 @@ export function useCustomizer() {
     const root = document.documentElement
     root.style.removeProperty("--base")
     root.style.removeProperty("--paint")
+    root.style.removeProperty("--paint-foreground")
     root.style.removeProperty("--chart")
   }, [baseCookie.resetValue, chartCookie.resetValue, paintCookie.resetValue])
 

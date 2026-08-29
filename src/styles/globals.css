@@ -93,6 +93,8 @@
 }
 
 :root {
+  --theme-current-primary: oklch(0.205 0 0);
+  --theme-current-primary-foreground: oklch(0.985 0 0);
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -177,11 +179,14 @@
   --professional-gray-dark: #4e5965;
 
   --base: oklch(0.556 0 0);
-  --paint: #737373;
+  --paint: var(--theme-current-primary);
+  --paint-foreground: var(--theme-current-primary-foreground);
   --chart: oklch(0.556 0 0);
 }
 
 .dark {
+  --theme-current-primary: oklch(0.922 0 0);
+  --theme-current-primary-foreground: oklch(0.205 0 0);
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -265,7 +270,8 @@
   --professional-gray-dark: #4e5965;
 
   --base: oklch(0.556 0 0);
-  --paint: #737373;
+  --paint: var(--theme-current-primary);
+  --paint-foreground: var(--theme-current-primary-foreground);
   --chart: oklch(0.556 0 0);
 }
 
@@ -278,8 +284,10 @@
   --input: color-mix(in oklch, var(--background) 70%, var(--base));
 
   --primary: var(--paint);
+  --primary-foreground: var(--paint-foreground);
   --ring: var(--paint);
   --sidebar-primary: var(--paint);
+  --sidebar-primary-foreground: var(--paint-foreground);
   --sidebar-ring: var(--paint);
 
   --chart-1: var(--chart);
