@@ -133,7 +133,7 @@
     "src/assets"
   ],
   "scripts": {
-    "build": "tsdown && node ./copy-fonts.mjs && pnpm exec tailwindcss -i ./src/styles/globals.css -o ./dist/globals.css --minify",
+    "build": "tsdown && pnpm exec tailwindcss -i ./src/styles/globals.css -o ./dist/globals.css --minify",
     "buildprepack": "pnpm build",
     "prepack": "pnpm build",
     "update": "pnpm update",
