@@ -6,7 +6,7 @@ import {
 } from 'react'
 import type { VariantProps } from 'class-variance-authority'
 import { RadioPrimitive, RadioGroupPrimitive } from '@/components/custom/radio'
-import { useTheme } from 'next-themes'
+import { useTheme } from '@/providers/theme'
 import {
   BASE_COLOR_OPTIONS,
   CHART_COLOR_OPTIONS,

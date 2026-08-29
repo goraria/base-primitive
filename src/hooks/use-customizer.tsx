@@ -1,6 +1,8 @@
 "use client"
 
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo } from "react"
+
+import { useCookie } from "@/hooks/use-cookie"
 
 export type ColorOption = {
   key: string
@@ -85,9 +87,9 @@ export const DEFAULT_CUSTOMIZER_STATE: CustomizerState = {
 }
 
 const STORAGE_KEYS: Record<keyof CustomizerState, string> = {
-  base: "base",
-  paint: "paint",
-  chart: "chart",
+  base: "color-base",
+  paint: "color-paint",
+  chart: "color-chart",
 }
 
 const OPTION_GROUPS: Record<keyof CustomizerState, ColorOption[]> = {
@@ -133,51 +135,52 @@ function applyCustomizerState(state: CustomizerState) {
 }
 
 export function useCustomizer() {
-  const [customizer, setCustomizer] = useState(DEFAULT_CUSTOMIZER_STATE)
+  const baseCookie = useCookie(
+    STORAGE_KEYS.base,
+    DEFAULT_CUSTOMIZER_STATE.base
+  )
+  const paintCookie = useCookie(
+    STORAGE_KEYS.paint,
+    DEFAULT_CUSTOMIZER_STATE.paint
+  )
+  const chartCookie = useCookie(
+    STORAGE_KEYS.chart,
+    DEFAULT_CUSTOMIZER_STATE.chart
+  )
+  const customizer = useMemo<CustomizerState>(
+    () => ({
+      base: validateKey("base", baseCookie.value),
+      paint: validateKey("paint", paintCookie.value),
+      chart: validateKey("chart", chartCookie.value),
+    }),
+    [baseCookie.value, chartCookie.value, paintCookie.value]
+  )
 
   useEffect(() => {
-    const stored = Object.fromEntries(
-      (Object.keys(STORAGE_KEYS) as (keyof CustomizerState)[]).map((key) => [
-        key,
-        validateKey(key, window.localStorage.getItem(STORAGE_KEYS[key])),
-      ])
-    ) as unknown as CustomizerState
-
-    window.localStorage.removeItem("customizer_state")
-    window.localStorage.removeItem("color")
-    Object.entries(stored).forEach(([key, value]) =>
-      window.localStorage.setItem(STORAGE_KEYS[key as keyof CustomizerState], value)
-    )
-    applyCustomizerState(stored)
-    queueMicrotask(() => setCustomizer(stored))
-  }, [])
+    applyCustomizerState(customizer)
+  }, [customizer])
 
   const setColor = useCallback(
     (key: keyof CustomizerState, value: string) => {
       const validatedValue = validateKey(key, value)
-      setCustomizer((current) => {
-        const next = { ...current, [key]: validatedValue }
-        window.localStorage.setItem(STORAGE_KEYS[key], validatedValue)
-        applyCustomizerState(next)
-        return next
-      })
+
+      if (key === "base") baseCookie.setValue(validatedValue)
+      if (key === "paint") paintCookie.setValue(validatedValue)
+      if (key === "chart") chartCookie.setValue(validatedValue)
     },
-    []
+    [baseCookie.setValue, chartCookie.setValue, paintCookie.setValue]
   )
 
   const resetCustomizer = useCallback(() => {
-    Object.values(STORAGE_KEYS).forEach((key) =>
-      window.localStorage.removeItem(key)
-    )
-    window.localStorage.removeItem("customizer_state")
-    window.localStorage.removeItem("color")
+    baseCookie.resetValue()
+    paintCookie.resetValue()
+    chartCookie.resetValue()
     document.getElementById(CUSTOMIZER_STYLE_ID)?.remove()
     const root = document.documentElement
     root.style.removeProperty("--base")
     root.style.removeProperty("--paint")
     root.style.removeProperty("--chart")
-    setCustomizer(DEFAULT_CUSTOMIZER_STATE)
-  }, [])
+  }, [baseCookie.resetValue, chartCookie.resetValue, paintCookie.resetValue])
 
   return { customizer, resetCustomizer, setColor }
 }

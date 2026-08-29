@@ -269,6 +269,26 @@
   --chart: oklch(0.556 0 0);
 }
 
+:root,
+.dark {
+  --muted: color-mix(in oklch, var(--background) 90%, var(--base));
+  --muted-foreground: var(--base);
+  --accent: color-mix(in oklch, var(--background) 90%, var(--base));
+  --border: color-mix(in oklch, var(--background) 70%, var(--base));
+  --input: color-mix(in oklch, var(--background) 70%, var(--base));
+
+  --primary: var(--paint);
+  --ring: var(--paint);
+  --sidebar-primary: var(--paint);
+  --sidebar-ring: var(--paint);
+
+  --chart-1: var(--chart);
+  --chart-2: color-mix(in oklch, var(--chart) 82%, var(--foreground));
+  --chart-3: color-mix(in oklch, var(--chart) 68%, var(--foreground));
+  --chart-4: color-mix(in oklch, var(--chart) 54%, var(--foreground));
+  --chart-5: color-mix(in oklch, var(--chart) 40%, var(--foreground));
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

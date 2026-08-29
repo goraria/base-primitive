@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
-import { useTheme } from "next-themes"
+import { useTheme } from "@/providers/theme"
 import { Button } from "@/components/custom/button"
 import { Switch } from "@/components/ui/switch"
 import {
