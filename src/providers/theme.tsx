@@ -43,14 +43,14 @@ function withoutTransitions() {
 
   style.appendChild(
     document.createTextNode(
-      "*,*::before,*::after{transition:none!important;animation:none!important}"
+      "*,*::before,*::after{-webkit-transition:none!important;-moz-transition:none!important;-o-transition:none!important;-ms-transition:none!important;transition:none!important}"
     )
   )
   document.head.appendChild(style)
 
   return () => {
     window.getComputedStyle(document.body)
-    requestAnimationFrame(() => requestAnimationFrame(() => style.remove()))
+    window.setTimeout(() => style.remove(), 1)
   }
 }
 

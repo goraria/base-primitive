@@ -75,7 +75,7 @@ export function ApplicationProvider({
 }>) {
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
+      <ThemeProvider disableTransitionOnChange>
         <FontProvider>
           <DirectionProvider initialDirection={initialDirection}>
             <LayoutProvider
