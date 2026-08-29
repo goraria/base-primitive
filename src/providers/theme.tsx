@@ -1,9 +1,11 @@
 "use client"
 
 import {
+  useCallback,
   createContext,
   useContext,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useState,
   type SetStateAction,
@@ -16,6 +18,8 @@ const THEME_COOKIE_NAME = "color-theme"
 const DEFAULT_THEMES = ["light", "dark"]
 
 const ThemeContext = createContext<UseThemeProps | null>(null)
+const useIsomorphicLayoutEffect =
+  typeof window === "undefined" ? useEffect : useLayoutEffect
 
 function getSystemTheme() {
   return typeof window !== "undefined" &&
@@ -34,12 +38,29 @@ function getAllowedTheme(
   return themes.includes(value ?? "") ? value! : fallback
 }
 
+function withoutTransitions() {
+  const style = document.createElement("style")
+
+  style.appendChild(
+    document.createTextNode(
+      "*,*::before,*::after{transition:none!important;animation:none!important}"
+    )
+  )
+  document.head.appendChild(style)
+
+  return () => {
+    window.getComputedStyle(document.body)
+    requestAnimationFrame(() => requestAnimationFrame(() => style.remove()))
+  }
+}
+
 export function ThemeProvider({
   children,
   themes = DEFAULT_THEMES,
   forcedTheme,
   enableSystem = true,
   enableColorScheme = true,
+  disableTransitionOnChange = false,
   defaultTheme = enableSystem ? "system" : "light",
   attribute = "class",
   value,
@@ -72,6 +93,42 @@ export function ThemeProvider({
   )
   const resolvedTheme = activeTheme === "system" ? systemTheme : activeTheme
 
+  const applyTheme = useCallback(
+    (nextTheme: string) => {
+      const root = document.documentElement
+      const attributes = Array.isArray(attribute) ? attribute : [attribute]
+      const attributeValue = value?.[nextTheme] ?? nextTheme
+      const restoreTransitions = disableTransitionOnChange
+        ? withoutTransitions()
+        : undefined
+
+      for (const name of attributes) {
+        if (name === "class") {
+          root.classList.remove(
+            ...availableThemes.map((item) => value?.[item] ?? item)
+          )
+          root.classList.add(attributeValue)
+        } else {
+          root.setAttribute(name, attributeValue)
+        }
+      }
+
+      if (enableColorScheme) root.style.colorScheme = nextTheme
+      restoreTransitions?.()
+    },
+    [
+      attribute,
+      availableThemes,
+      disableTransitionOnChange,
+      enableColorScheme,
+      value,
+    ]
+  )
+
+  useIsomorphicLayoutEffect(() => {
+    applyTheme(resolvedTheme)
+  }, [applyTheme, resolvedTheme])
+
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)")
     const handleChange = (event: MediaQueryListEvent) =>
@@ -81,25 +138,6 @@ export function ThemeProvider({
     mediaQuery.addEventListener("change", handleChange)
     return () => mediaQuery.removeEventListener("change", handleChange)
   }, [])
-
-  useEffect(() => {
-    const root = document.documentElement
-    const attributes = Array.isArray(attribute) ? attribute : [attribute]
-    const attributeValue = value?.[resolvedTheme] ?? resolvedTheme
-
-    for (const name of attributes) {
-      if (name === "class") {
-        root.classList.remove(
-          ...availableThemes.map((item) => value?.[item] ?? item)
-        )
-        root.classList.add(attributeValue)
-      } else {
-        root.setAttribute(name, attributeValue)
-      }
-    }
-
-    if (enableColorScheme) root.style.colorScheme = resolvedTheme
-  }, [attribute, availableThemes, enableColorScheme, resolvedTheme, value])
 
   const setTheme = (nextTheme: SetStateAction<string>) => {
     const requestedTheme =
@@ -111,6 +149,10 @@ export function ThemeProvider({
       fallbackTheme
     )
 
+    const nextResolvedTheme =
+      validTheme === "system" ? getSystemTheme() : validTheme
+
+    applyTheme(nextResolvedTheme)
     themeCookie.setValue(validTheme)
   }
 

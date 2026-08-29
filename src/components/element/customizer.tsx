@@ -7,7 +7,6 @@ import {
 import type { VariantProps } from 'class-variance-authority'
 import { RadioPrimitive, RadioGroupPrimitive } from '@/components/custom/radio'
 import { useTheme } from '@/providers/theme'
-import { FONT_OPTIONS, useFont } from '@/providers/font'
 import {
   BASE_COLOR_OPTIONS,
   CHART_COLOR_OPTIONS,
@@ -60,14 +59,12 @@ export function Customizer({
   const { customizer, resetCustomizer, setColor } = useCustomizer()
   const { resetDir } = useDirection()
   const { setTheme } = useTheme()
-  const { resetFont } = useFont()
   const { resetLayout } = useLayout()
 
   const handleReset = () => {
     setOpen(true)
     resetDir()
     setTheme('system')
-    resetFont()
     resetLayout()
     resetCustomizer()
   }
@@ -95,7 +92,6 @@ export function Customizer({
         </SheetHeader>
         <div className='no-scrollbar min-h-0 flex-1 space-y-6 overflow-y-auto px-4'>
           <ThemeConfig />
-          <FontConfig />
           <SidebarConfig />
           <LayoutConfig />
           <DirConfig />
@@ -348,43 +344,6 @@ function ThemeConfig() {
       <div id='theme-description' className='sr-only'>
         Choose between system preference, light mode, or dark mode
       </div>
-    </div>
-  )
-}
-
-function FontConfig() {
-  const { defaultFont, font, setFont } = useFont()
-
-  return (
-    <div>
-      <SectionTitle
-        title='Font'
-        showReset={font !== defaultFont}
-        onReset={() => setFont(defaultFont)}
-        resetAriaLabel='Reset font preference to default'
-      />
-      <RadioGroupPrimitive
-        value={font}
-        onValueChange={(value) => setFont(value as typeof font)}
-        className='grid grid-cols-3 gap-3'
-        aria-label='Select application font'
-      >
-        {FONT_OPTIONS.map((option) => (
-          <RadioPrimitive.Root
-            key={option}
-            value={option}
-            nativeButton
-            render={<button type='button' />}
-            className={cn(
-              'h-9 rounded-md border border-border px-2 text-center text-xs capitalize outline-none transition',
-              'hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
-              'data-checked:border-primary data-checked:bg-primary data-checked:text-primary-foreground'
-            )}
-          >
-            {option}
-          </RadioPrimitive.Root>
-        ))}
-      </RadioGroupPrimitive>
     </div>
   )
 }
