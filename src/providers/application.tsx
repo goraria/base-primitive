@@ -17,6 +17,7 @@ import {
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToasterProvider } from "@/providers/toaster";
 import { ThemeProvider } from "@/providers/theme";
+import { FontProvider } from "@/providers/font";
 import {
   LayoutProvider,
   type Collapsible,
@@ -75,29 +76,31 @@ export function ApplicationProvider({
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        <DirectionProvider initialDirection={initialDirection}>
-          <LayoutProvider
-            initialCollapsible={initialCollapsible}
-            initialVariant={initialVariant}
-          >
-            <ProgressProvider
-              height="2px"
-              options={{ showSpinner: false, template: null }}
-              shallowRouting
+        <FontProvider>
+          <DirectionProvider initialDirection={initialDirection}>
+            <LayoutProvider
+              initialCollapsible={initialCollapsible}
+              initialVariant={initialVariant}
             >
-              <Progress>
-                <Bar className="bg-primary!" />
-              </Progress>
-              <Suspense fallback={null}>
-                <SuspenseProgress />
-              </Suspense>
-              <TooltipProvider>
-                {children}
-                <ToasterProvider />
-              </TooltipProvider>
-            </ProgressProvider>
-          </LayoutProvider>
-        </DirectionProvider>
+              <ProgressProvider
+                height="2px"
+                options={{ showSpinner: false, template: null }}
+                shallowRouting
+              >
+                <Progress>
+                  <Bar className="bg-primary!" />
+                </Progress>
+                <Suspense fallback={null}>
+                  <SuspenseProgress />
+                </Suspense>
+                <TooltipProvider>
+                  {children}
+                  <ToasterProvider />
+                </TooltipProvider>
+              </ProgressProvider>
+            </LayoutProvider>
+          </DirectionProvider>
+        </FontProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );

@@ -133,7 +133,7 @@
     "src/assets"
   ],
   "scripts": {
-    "build": "tsdown && pnpm exec tailwindcss -i ./src/styles/globals.css -o ./dist/globals.css --minify",
+    "build": "tsdown && node ./copy-fonts.mjs && pnpm exec tailwindcss -i ./src/styles/globals.css -o ./dist/globals.css --minify",
     "buildprepack": "pnpm build",
     "prepack": "pnpm build",
     "update": "pnpm update",
@@ -156,6 +156,8 @@
     "@bprogress/core": "^1.3.4",
     "@bprogress/next": "^3.2.12",
     "@bprogress/react": "^1.2.7",
+    "@fontsource-variable/geist": "^5.3.0",
+    "@fontsource-variable/inter": "^5.3.0",
     "@shadcn/helpers": "^0.2.0",
     "@shadcn/react": "^0.3.0",
     "@tanstack/ai": "^0.52.0",

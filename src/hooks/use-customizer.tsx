@@ -123,6 +123,31 @@ function applyCustomizerState(state: CustomizerState) {
     paint.key === "primary"
       ? "var(--theme-current-primary-foreground)"
       : "#ffffff"
+  const defaultBase = base.key === DEFAULT_CUSTOMIZER_STATE.base
+  const customProperties: Record<string, string> = {
+    "--base": base.value,
+    "--base-muted": defaultBase
+      ? "var(--theme-current-muted)"
+      : `color-mix(in oklch, var(--background) 90%, ${base.value})`,
+    "--base-muted-foreground": defaultBase
+      ? "var(--theme-current-muted-foreground)"
+      : base.value,
+    "--base-accent": defaultBase
+      ? "var(--theme-current-accent)"
+      : `color-mix(in oklch, var(--background) 90%, ${base.value})`,
+    "--base-accent-foreground": defaultBase
+      ? "var(--theme-current-accent-foreground)"
+      : "var(--foreground)",
+    "--base-border": defaultBase
+      ? "var(--theme-current-border)"
+      : `color-mix(in oklch, var(--background) 70%, ${base.value})`,
+    "--base-input": defaultBase
+      ? "var(--theme-current-input)"
+      : `color-mix(in oklch, var(--background) 70%, ${base.value})`,
+    "--paint": paint.value,
+    "--paint-foreground": paintForeground,
+    "--chart": chart.value,
+  }
 
   let style = document.getElementById(CUSTOMIZER_STYLE_ID) as
     | HTMLStyleElement
@@ -134,13 +159,14 @@ function applyCustomizerState(state: CustomizerState) {
     document.head.appendChild(style)
   }
 
-  const variables = `--base: ${base.value}; --paint: ${paint.value}; --paint-foreground: ${paintForeground}; --chart: ${chart.value};`
+  const variables = Object.entries(customProperties)
+    .map(([property, value]) => `${property}: ${value};`)
+    .join(" ")
   style.textContent = `:root { ${variables} } .dark { ${variables} }`
 
-  root.style.setProperty("--base", base.value)
-  root.style.setProperty("--paint", paint.value)
-  root.style.setProperty("--paint-foreground", paintForeground)
-  root.style.setProperty("--chart", chart.value)
+  Object.entries(customProperties).forEach(([property, value]) => {
+    root.style.setProperty(property, value)
+  })
 }
 
 export function useCustomizer() {
@@ -186,10 +212,18 @@ export function useCustomizer() {
     chartCookie.resetValue()
     document.getElementById(CUSTOMIZER_STYLE_ID)?.remove()
     const root = document.documentElement
-    root.style.removeProperty("--base")
-    root.style.removeProperty("--paint")
-    root.style.removeProperty("--paint-foreground")
-    root.style.removeProperty("--chart")
+    ;[
+      "--base",
+      "--base-muted",
+      "--base-muted-foreground",
+      "--base-accent",
+      "--base-accent-foreground",
+      "--base-border",
+      "--base-input",
+      "--paint",
+      "--paint-foreground",
+      "--chart",
+    ].forEach((property) => root.style.removeProperty(property))
   }, [baseCookie.resetValue, chartCookie.resetValue, paintCookie.resetValue])
 
   return { customizer, resetCustomizer, setColor }
