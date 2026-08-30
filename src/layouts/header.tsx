@@ -8,6 +8,7 @@ import { NavUser } from "@/components/dashboard/nav-user"
 import { Button } from "@/components/custom/button"
 import { Customizer } from "@/components/element/customizer"
 import { ModeSwitcher } from "@/components/element/mode-toggle"
+import { Shortcut } from "@/components/element/shortcut"
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -23,7 +24,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { cn } from "@/lib/utils"
-import type { HeaderProps, NavMainItem } from "@/lib/utils/interface"
+import { HeaderProps, NavMainItem } from "@/lib/utils/interface"
 import { useLayout } from "@/providers/layout"
 
 function HeaderNavigation({ items }: { items: NavMainItem[] }) {
@@ -207,6 +208,7 @@ export function Header({
                 <>
                   <ModeSwitcher />
                   <Customizer />
+                  <Shortcut />
                   <NavUser
                     user={user}
                     type="navbar"

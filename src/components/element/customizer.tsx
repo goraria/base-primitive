@@ -77,27 +77,36 @@ export function Customizer({
             size={size}
             variant={variant}
             className={className}
-            aria-label='Open theme settings'
+            aria-label='Open customizer'
           />
         }
       >
         <Settings aria-hidden='true' />
       </SheetTrigger>
       <SheetContent className='flex flex-col'>
-        <SheetHeader className='pb-0 text-start'>
-          <SheetTitle>Theme Settings</SheetTitle>
+        <SheetHeader className='text-start border-b'>
+          <SheetTitle>Customizer</SheetTitle>
           <SheetDescription>
-            Adjust the appearance and layout to suit your preferences.
+            Customize and preview in real time.
+            {/* Adjust the appearance and layout to suit your preferences. */}
           </SheetDescription>
         </SheetHeader>
+        {/* <div className='space-y-1'>
+          <Badge>Theming</Badge>
+          <h3 className='text-sm font-semibold'>Theme Customizer</h3>
+          <p className='text-xs text-muted-foreground'>
+            Customize &amp; Preview in Real Time
+          </p>
+        </div> */}
         <div className='no-scrollbar min-h-0 flex-1 space-y-6 overflow-y-auto px-4'>
           <ThemeConfig />
           <SidebarConfig />
           <LayoutConfig />
           <DirConfig />
+          <Separator />
           <CustomizerConfig customizer={customizer} setColor={setColor} />
         </div>
-        <SheetFooter className='gap-2'>
+        <SheetFooter className='border-t'>
           <Button
             variant='destructive'
             onClick={handleReset}
@@ -173,15 +182,8 @@ function CustomizerConfig({
   setColor: (key: keyof CustomizerState, value: string) => void
 }) {
   return (
-    <section className='space-y-4 pb-4'>
-      <Separator />
-      <div className='space-y-1'>
-        <Badge>Theming</Badge>
-        <h3 className='text-sm font-semibold'>Theme Customizer</h3>
-        <p className='text-xs text-muted-foreground'>
-          Customize &amp; Preview in Real Time
-        </p>
-      </div>
+    <section className='flex flex-col gap-4 pb-4'>
+      <Badge>Theming</Badge>
       <ColorGroup
         label='Base Color'
         options={BASE_COLOR_OPTIONS}
@@ -308,6 +310,7 @@ function ThemeConfig() {
   const theme = currentTheme ?? defaultTheme
   return (
     <div>
+      <Badge>Layout</Badge>
       <SectionTitle
         title='Theme'
         showReset={theme !== defaultTheme}
