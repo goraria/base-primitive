@@ -30,7 +30,7 @@ export const THEME_COLOR_OPTIONS: ColorOption[] = [
   {
     key: "primary",
     label: "Primary",
-    value: "var(--theme-current-primary)",
+    value: "var(--primary)",
   },
   { key: "amber", label: "Amber", value: "#f59e0b" },
   { key: "blue", label: "Blue", value: "#3b82f6" },
@@ -102,8 +102,6 @@ const OPTION_GROUPS: Record<keyof CustomizerState, ColorOption[]> = {
   chart: CHART_COLOR_OPTIONS,
 }
 
-const CUSTOMIZER_STYLE_ID = "gorth-customizer-variables"
-
 function validateKey(key: keyof CustomizerState, value: string | null) {
   return OPTION_GROUPS[key].some(
     (option) => option.key === value || option.value === value
@@ -116,56 +114,9 @@ function validateKey(key: keyof CustomizerState, value: string | null) {
 
 function applyCustomizerState(state: CustomizerState) {
   const root = document.documentElement
-  const base = BASE_COLOR_OPTIONS.find((option) => option.key === state.base)!
-  const paint = THEME_COLOR_OPTIONS.find((option) => option.key === state.paint)!
-  const chart = CHART_COLOR_OPTIONS.find((option) => option.key === state.chart)!
-  const paintForeground =
-    paint.key === "primary"
-      ? "var(--theme-current-primary-foreground)"
-      : "#ffffff"
-  const defaultBase = base.key === DEFAULT_CUSTOMIZER_STATE.base
-  const customProperties: Record<string, string> = {
-    "--base": base.value,
-    "--base-muted": defaultBase
-      ? "var(--theme-current-muted)"
-      : `color-mix(in oklch, var(--background) 90%, ${base.value})`,
-    "--base-muted-foreground": defaultBase
-      ? "var(--theme-current-muted-foreground)"
-      : base.value,
-    "--base-accent": defaultBase
-      ? "var(--theme-current-accent)"
-      : `color-mix(in oklch, var(--background) 90%, ${base.value})`,
-    "--base-accent-foreground": defaultBase
-      ? "var(--theme-current-accent-foreground)"
-      : "var(--foreground)",
-    "--base-border": defaultBase
-      ? "var(--theme-current-border)"
-      : `color-mix(in oklch, var(--background) 70%, ${base.value})`,
-    "--base-input": defaultBase
-      ? "var(--theme-current-input)"
-      : `color-mix(in oklch, var(--background) 70%, ${base.value})`,
-    "--paint": paint.value,
-    "--paint-foreground": paintForeground,
-    "--chart": chart.value,
-  }
 
-  let style = document.getElementById(CUSTOMIZER_STYLE_ID) as
-    | HTMLStyleElement
-    | null
-
-  if (!style) {
-    style = document.createElement("style")
-    style.id = CUSTOMIZER_STYLE_ID
-    document.head.appendChild(style)
-  }
-
-  const variables = Object.entries(customProperties)
-    .map(([property, value]) => `${property}: ${value};`)
-    .join(" ")
-  style.textContent = `:root { ${variables} } .dark { ${variables} }`
-
-  Object.entries(customProperties).forEach(([property, value]) => {
-    root.style.setProperty(property, value)
+  Object.entries(state).forEach(([key, value]) => {
+    root.setAttribute(STORAGE_KEYS[key as keyof CustomizerState], value)
   })
 }
 
@@ -210,20 +161,7 @@ export function useCustomizer() {
     baseCookie.resetValue()
     paintCookie.resetValue()
     chartCookie.resetValue()
-    document.getElementById(CUSTOMIZER_STYLE_ID)?.remove()
-    const root = document.documentElement
-    ;[
-      "--base",
-      "--base-muted",
-      "--base-muted-foreground",
-      "--base-accent",
-      "--base-accent-foreground",
-      "--base-border",
-      "--base-input",
-      "--paint",
-      "--paint-foreground",
-      "--chart",
-    ].forEach((property) => root.style.removeProperty(property))
+    applyCustomizerState(DEFAULT_CUSTOMIZER_STATE)
   }, [baseCookie.resetValue, chartCookie.resetValue, paintCookie.resetValue])
 
   return { customizer, resetCustomizer, setColor }

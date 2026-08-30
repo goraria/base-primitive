@@ -1,0 +1,49 @@
+/* shadcn chart presets use the 300/500/600/700/800 color scale. */
+
+:root[color-chart="neutral"] { --chart-300: var(--color-neutral-300); --chart-500: var(--color-neutral-500); --chart-600: var(--color-neutral-600); --chart-700: var(--color-neutral-700); --chart-800: var(--color-neutral-800); }
+:root[color-chart="amber"] { --chart-300: var(--color-amber-300); --chart-500: var(--color-amber-500); --chart-600: var(--color-amber-600); --chart-700: var(--color-amber-700); --chart-800: var(--color-amber-800); }
+:root[color-chart="blue"] { --chart-300: var(--color-blue-300); --chart-500: var(--color-blue-500); --chart-600: var(--color-blue-600); --chart-700: var(--color-blue-700); --chart-800: var(--color-blue-800); }
+:root[color-chart="cyan"] { --chart-300: var(--color-cyan-300); --chart-500: var(--color-cyan-500); --chart-600: var(--color-cyan-600); --chart-700: var(--color-cyan-700); --chart-800: var(--color-cyan-800); }
+:root[color-chart="emerald"] { --chart-300: var(--color-emerald-300); --chart-500: var(--color-emerald-500); --chart-600: var(--color-emerald-600); --chart-700: var(--color-emerald-700); --chart-800: var(--color-emerald-800); }
+:root[color-chart="fuchsia"] { --chart-300: var(--color-fuchsia-300); --chart-500: var(--color-fuchsia-500); --chart-600: var(--color-fuchsia-600); --chart-700: var(--color-fuchsia-700); --chart-800: var(--color-fuchsia-800); }
+:root[color-chart="green"] { --chart-300: var(--color-green-300); --chart-500: var(--color-green-500); --chart-600: var(--color-green-600); --chart-700: var(--color-green-700); --chart-800: var(--color-green-800); }
+:root[color-chart="indigo"] { --chart-300: var(--color-indigo-300); --chart-500: var(--color-indigo-500); --chart-600: var(--color-indigo-600); --chart-700: var(--color-indigo-700); --chart-800: var(--color-indigo-800); }
+:root[color-chart="lime"] { --chart-300: var(--color-lime-300); --chart-500: var(--color-lime-500); --chart-600: var(--color-lime-600); --chart-700: var(--color-lime-700); --chart-800: var(--color-lime-800); }
+:root[color-chart="orange"] { --chart-300: var(--color-orange-300); --chart-500: var(--color-orange-500); --chart-600: var(--color-orange-600); --chart-700: var(--color-orange-700); --chart-800: var(--color-orange-800); }
+:root[color-chart="pink"] { --chart-300: var(--color-pink-300); --chart-500: var(--color-pink-500); --chart-600: var(--color-pink-600); --chart-700: var(--color-pink-700); --chart-800: var(--color-pink-800); }
+:root[color-chart="purple"] { --chart-300: var(--color-purple-300); --chart-500: var(--color-purple-500); --chart-600: var(--color-purple-600); --chart-700: var(--color-purple-700); --chart-800: var(--color-purple-800); }
+:root[color-chart="red"] { --chart-300: var(--color-red-300); --chart-500: var(--color-red-500); --chart-600: var(--color-red-600); --chart-700: var(--color-red-700); --chart-800: var(--color-red-800); }
+:root[color-chart="rose"] { --chart-300: var(--color-rose-300); --chart-500: var(--color-rose-500); --chart-600: var(--color-rose-600); --chart-700: var(--color-rose-700); --chart-800: var(--color-rose-800); }
+:root[color-chart="sky"] { --chart-300: var(--color-sky-300); --chart-500: var(--color-sky-500); --chart-600: var(--color-sky-600); --chart-700: var(--color-sky-700); --chart-800: var(--color-sky-800); }
+:root[color-chart="teal"] { --chart-300: var(--color-teal-300); --chart-500: var(--color-teal-500); --chart-600: var(--color-teal-600); --chart-700: var(--color-teal-700); --chart-800: var(--color-teal-800); }
+:root[color-chart="violet"] { --chart-300: var(--color-violet-300); --chart-500: var(--color-violet-500); --chart-600: var(--color-violet-600); --chart-700: var(--color-violet-700); --chart-800: var(--color-violet-800); }
+:root[color-chart="yellow"] { --chart-300: var(--color-yellow-300); --chart-500: var(--color-yellow-500); --chart-600: var(--color-yellow-600); --chart-700: var(--color-yellow-700); --chart-800: var(--color-yellow-800); }
+
+:root[color-chart="zero"] { --chart-seed: var(--professional-main); }
+:root[color-chart="first"] { --chart-seed: var(--professional-primary-1); }
+:root[color-chart="second"] { --chart-seed: var(--professional-primary-2); }
+:root[color-chart="third"] { --chart-seed: var(--professional-primary-3); }
+:root[color-chart="fourth"] { --chart-seed: var(--professional-primary-4); }
+:root[color-chart="fifth"] { --chart-seed: var(--professional-primary-5); }
+
+:root[color-chart="zero"],
+:root[color-chart="first"],
+:root[color-chart="second"],
+:root[color-chart="third"],
+:root[color-chart="fourth"],
+:root[color-chart="fifth"] {
+  --chart-300: color-mix(in oklch, white 40%, var(--chart-seed));
+  --chart-500: var(--chart-seed);
+  --chart-600: color-mix(in oklch, var(--chart-seed) 90%, black);
+  --chart-700: color-mix(in oklch, var(--chart-seed) 80%, black);
+  --chart-800: color-mix(in oklch, var(--chart-seed) 70%, black);
+}
+
+:root[color-chart] {
+  --chart-1: var(--chart-300);
+  --chart-2: var(--chart-500);
+  --chart-3: var(--chart-600);
+  --chart-4: var(--chart-700);
+  --chart-5: var(--chart-800);
+  --chart: var(--chart-500);
+}

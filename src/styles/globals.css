@@ -1,6 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "./base.css";
+@import "./paint.css";
+@import "./chart.css";
 
 @custom-variant dark (&:is(.dark *));
 @source "../**/*.{ts,tsx}";

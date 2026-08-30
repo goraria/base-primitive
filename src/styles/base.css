@@ -1,0 +1,135 @@
+/*
+ * shadcn base presets.
+ *
+ * Base colors own the neutral surfaces and supporting semantic tokens. Paint
+ * and chart colors are intentionally defined in their own files so changing
+ * one group cannot unexpectedly overwrite another group.
+ */
+
+:root[color-base="neutral"] {
+  --base-50: var(--color-neutral-50);
+  --base-100: var(--color-neutral-100);
+  --base-200: var(--color-neutral-200);
+  --base-400: var(--color-neutral-400);
+  --base-500: var(--color-neutral-500);
+  --base-800: var(--color-neutral-800);
+  --base-900: var(--color-neutral-900);
+  --base-950: var(--color-neutral-950);
+}
+
+:root[color-base="stone"] {
+  --base-50: var(--color-stone-50);
+  --base-100: var(--color-stone-100);
+  --base-200: var(--color-stone-200);
+  --base-400: var(--color-stone-400);
+  --base-500: var(--color-stone-500);
+  --base-800: var(--color-stone-800);
+  --base-900: var(--color-stone-900);
+  --base-950: var(--color-stone-950);
+}
+
+:root[color-base="zinc"] {
+  --base-50: var(--color-zinc-50);
+  --base-100: var(--color-zinc-100);
+  --base-200: var(--color-zinc-200);
+  --base-400: var(--color-zinc-400);
+  --base-500: var(--color-zinc-500);
+  --base-800: var(--color-zinc-800);
+  --base-900: var(--color-zinc-900);
+  --base-950: var(--color-zinc-950);
+}
+
+:root[color-base="mauve"] {
+  --base-50: var(--color-mauve-50);
+  --base-100: var(--color-mauve-100);
+  --base-200: var(--color-mauve-200);
+  --base-400: var(--color-mauve-400);
+  --base-500: var(--color-mauve-500);
+  --base-800: var(--color-mauve-800);
+  --base-900: var(--color-mauve-900);
+  --base-950: var(--color-mauve-950);
+}
+
+:root[color-base="olive"] {
+  --base-50: var(--color-olive-50);
+  --base-100: var(--color-olive-100);
+  --base-200: var(--color-olive-200);
+  --base-400: var(--color-olive-400);
+  --base-500: var(--color-olive-500);
+  --base-800: var(--color-olive-800);
+  --base-900: var(--color-olive-900);
+  --base-950: var(--color-olive-950);
+}
+
+:root[color-base="mist"] {
+  --base-50: var(--color-mist-50);
+  --base-100: var(--color-mist-100);
+  --base-200: var(--color-mist-200);
+  --base-400: var(--color-mist-400);
+  --base-500: var(--color-mist-500);
+  --base-800: var(--color-mist-800);
+  --base-900: var(--color-mist-900);
+  --base-950: var(--color-mist-950);
+}
+
+:root[color-base="taupe"] {
+  --base-50: var(--color-taupe-50);
+  --base-100: var(--color-taupe-100);
+  --base-200: var(--color-taupe-200);
+  --base-400: var(--color-taupe-400);
+  --base-500: var(--color-taupe-500);
+  --base-800: var(--color-taupe-800);
+  --base-900: var(--color-taupe-900);
+  --base-950: var(--color-taupe-950);
+}
+
+:root[color-base] {
+  --background: oklch(1 0 0);
+  --foreground: var(--base-950);
+  --card: oklch(1 0 0);
+  --card-foreground: var(--base-950);
+  --popover: oklch(1 0 0);
+  --popover-foreground: var(--base-950);
+  --secondary: var(--color-zinc-100);
+  --secondary-foreground: var(--color-zinc-900);
+  --muted: var(--base-100);
+  --muted-foreground: var(--base-500);
+  --accent: var(--base-100);
+  --accent-foreground: var(--base-900);
+  --destructive: var(--color-red-600);
+  --border: var(--base-200);
+  --input: var(--base-200);
+  --ring: var(--base-400);
+  --sidebar: var(--base-50);
+  --sidebar-foreground: var(--base-950);
+  --sidebar-accent: var(--base-100);
+  --sidebar-accent-foreground: var(--base-900);
+  --sidebar-border: var(--base-200);
+  --sidebar-ring: var(--base-400);
+  --base: var(--base-500);
+}
+
+:root.dark[color-base] {
+  --background: var(--base-950);
+  --foreground: var(--color-neutral-50);
+  --card: var(--base-900);
+  --card-foreground: var(--color-neutral-50);
+  --popover: var(--base-900);
+  --popover-foreground: var(--color-neutral-50);
+  --secondary: var(--color-zinc-800);
+  --secondary-foreground: var(--color-neutral-50);
+  --muted: var(--base-800);
+  --muted-foreground: var(--base-400);
+  --accent: var(--base-800);
+  --accent-foreground: var(--color-neutral-50);
+  --destructive: var(--color-red-400);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: var(--base-500);
+  --sidebar: var(--base-900);
+  --sidebar-foreground: var(--color-neutral-50);
+  --sidebar-accent: var(--base-800);
+  --sidebar-accent-foreground: var(--color-neutral-50);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: var(--base-500);
+}

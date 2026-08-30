@@ -150,7 +150,7 @@ function ColorGroup({
                 backgroundColor: option.value,
                 color:
                   option.key === 'primary'
-                    ? 'var(--theme-current-primary-foreground)'
+                    ? 'var(--primary-foreground)'
                     : '#ffffff',
               } as CSSProperties
             }
@@ -189,7 +189,7 @@ function CustomizerConfig({
         onValueChange={(value) => setColor('base', value)}
       />
       <ColorGroup
-        label='Theme Color'
+        label='Paint Color'
         options={THEME_COLOR_OPTIONS}
         value={customizer.paint}
         onValueChange={(value) => setColor('paint', value)}
