@@ -83,27 +83,19 @@ export function Customizer({
       >
         <Settings aria-hidden='true' />
       </SheetTrigger>
-      <SheetContent className='flex flex-col'>
-        <SheetHeader className='text-start border-b'>
+      <SheetContent className='flex flex-col gap-0'>
+        <SheetHeader className='border-b text-start'>
           <SheetTitle>Customizer</SheetTitle>
           <SheetDescription>
             Customize and preview in real time.
-            {/* Adjust the appearance and layout to suit your preferences. */}
           </SheetDescription>
         </SheetHeader>
-        {/* <div className='space-y-1'>
-          <Badge>Theming</Badge>
-          <h3 className='text-sm font-semibold'>Theme Customizer</h3>
-          <p className='text-xs text-muted-foreground'>
-            Customize &amp; Preview in Real Time
-          </p>
-        </div> */}
-        <div className='no-scrollbar min-h-0 flex-1 space-y-6 overflow-y-auto px-4'>
+        <div className='no-scrollbar flex min-h-0 flex-1 flex-col gap-2 overflow-x-hidden overflow-y-auto px-4'>
           <ThemeConfig />
           <SidebarConfig />
           <LayoutConfig />
           <DirConfig />
-          <Separator />
+          <Separator className='-mx-4 my-2 w-[calc(100%+2rem)] shrink-0' />
           <CustomizerConfig customizer={customizer} setColor={setColor} />
         </div>
         <SheetFooter className='border-t'>
@@ -132,12 +124,12 @@ function ColorGroup({
   onValueChange: (value: string) => void
 }) {
   return (
-    <div className='flex flex-col gap-3'>
+    <div className='flex flex-col gap-2'>
       <Label>{label}</Label>
       <RadioGroupPrimitive
         value={value}
         onValueChange={onValueChange}
-        className='grid grid-cols-6 gap-3'
+        className='grid grid-cols-6 gap-2'
         aria-label={label}
       >
         {options.map((option) => (
@@ -182,8 +174,8 @@ function CustomizerConfig({
   setColor: (key: keyof CustomizerState, value: string) => void
 }) {
   return (
-    <section className='flex flex-col gap-4 pb-4'>
-      <Badge>Theming</Badge>
+    <section className='flex flex-col gap-2'>
+      <Badge className='self-start'>Theming</Badge>
       <ColorGroup
         label='Base Color'
         options={BASE_COLOR_OPTIONS}
@@ -223,7 +215,7 @@ function SectionTitle({
   return (
     <div
       className={cn(
-        'mb-2 flex items-center gap-2 text-sm font-semibold text-muted-foreground',
+        'flex items-center gap-2 text-sm font-semibold text-muted-foreground',
         className
       )}
     >
@@ -309,8 +301,8 @@ function ThemeConfig() {
   const defaultTheme = 'system'
   const theme = currentTheme ?? defaultTheme
   return (
-    <div>
-      <Badge>Layout</Badge>
+    <div className='flex flex-col gap-2'>
+      <Badge className='self-start'>Layout</Badge>
       <SectionTitle
         title='Theme'
         showReset={theme !== defaultTheme}
@@ -320,7 +312,7 @@ function ThemeConfig() {
       <RadioGroupPrimitive
         value={theme}
         onValueChange={setTheme}
-        className='grid w-full max-w-md grid-cols-3 gap-4'
+        className='grid w-full max-w-md grid-cols-3 gap-2'
         aria-label='Select theme preference'
         aria-describedby='theme-description'
       >
@@ -354,7 +346,7 @@ function ThemeConfig() {
 function SidebarConfig() {
   const { defaultVariant, variant, setVariant } = useLayout()
   return (
-    <div className='max-md:hidden'>
+    <div className='flex flex-col gap-2 max-md:hidden'>
       <SectionTitle
         title='Sidebar'
         showReset={defaultVariant !== variant}
@@ -364,7 +356,7 @@ function SidebarConfig() {
       <RadioGroupPrimitive
         value={variant}
         onValueChange={setVariant}
-        className='grid w-full max-w-md grid-cols-3 gap-4'
+        className='grid w-full max-w-md grid-cols-3 gap-2'
         aria-label='Select sidebar style'
         aria-describedby='sidebar-description'
       >
@@ -402,7 +394,7 @@ function LayoutConfig() {
   const radioState = open ? 'default' : collapsible
 
   return (
-    <div className='max-md:hidden'>
+    <div className='flex flex-col gap-2 max-md:hidden'>
       <SectionTitle
         title='Layout'
         showReset={radioState !== 'default'}
@@ -422,7 +414,7 @@ function LayoutConfig() {
           setOpen(false)
           setCollapsible(v as Collapsible)
         }}
-        className='grid w-full max-w-md grid-cols-3 gap-4'
+        className='grid w-full max-w-md grid-cols-3 gap-2'
         aria-label='Select layout style'
         aria-describedby='layout-description'
       >
@@ -456,7 +448,7 @@ function LayoutConfig() {
 function DirConfig() {
   const { defaultDir, dir, setDir } = useDirection()
   return (
-    <div>
+    <div className='flex flex-col gap-2'>
       <SectionTitle
         title='Direction'
         showReset={defaultDir !== dir}
@@ -466,7 +458,7 @@ function DirConfig() {
       <RadioGroupPrimitive
         value={dir}
         onValueChange={setDir}
-        className='grid w-full max-w-md grid-cols-3 gap-4'
+        className='grid w-full max-w-md grid-cols-3 gap-2'
         aria-label='Select site direction'
         aria-describedby='direction-description'
       >
