@@ -30,7 +30,7 @@ export const THEME_COLOR_OPTIONS: ColorOption[] = [
   {
     key: "primary",
     label: "Primary",
-    value: "var(--primary)",
+    value: "var(--foreground)",
   },
   { key: "amber", label: "Amber", value: "#f59e0b" },
   { key: "blue", label: "Blue", value: "#3b82f6" },
@@ -58,7 +58,7 @@ export const THEME_COLOR_OPTIONS: ColorOption[] = [
 ]
 
 export const CHART_COLOR_OPTIONS: ColorOption[] = [
-  { key: "neutral", label: "Neutral", value: "oklch(0.556 0 0)" },
+  { key: "neutral", label: "Neutral", value: "var(--foreground)" },
   { key: "amber", label: "Amber", value: "oklch(0.769 0.188 70.08)" },
   { key: "blue", label: "Blue", value: "oklch(0.623 0.214 259.815)" },
   { key: "cyan", label: "Cyan", value: "oklch(0.715 0.143 215.221)" },

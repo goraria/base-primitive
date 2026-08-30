@@ -149,8 +149,8 @@ function ColorGroup({
               {
                 backgroundColor: option.value,
                 color:
-                  option.key === 'primary'
-                    ? 'var(--primary-foreground)'
+                  option.value === 'var(--foreground)'
+                    ? 'var(--background)'
                     : '#ffffff',
               } as CSSProperties
             }
