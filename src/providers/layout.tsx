@@ -1,10 +1,21 @@
 "use client"
 
 import { createContext, useContext, useState } from 'react'
-import { setCookie } from '@/lib/cookies'
+import { getCookie, setCookie } from '@/lib/cookies'
 
 export type Collapsible = 'offcanvas' | 'icon' | 'none'
 export type LayoutVariant = 'inset' | 'sidebar' | 'floating'
+
+export const sidebarCollapsibles: Collapsible[] = [
+  'offcanvas',
+  'icon',
+  'none',
+]
+export const sidebarVariants: LayoutVariant[] = [
+  'sidebar',
+  'floating',
+  'inset',
+]
 
 // Cookie constants following the pattern from sidebar.tsx
 const LAYOUT_COLLAPSIBLE_COOKIE_NAME = 'layout_collapsible'
@@ -29,6 +40,16 @@ type LayoutContextType = {
 
 const LayoutContext = createContext<LayoutContextType | null>(null)
 
+function getSavedValue<T extends string>(
+  name: string,
+  values: readonly T[],
+  fallback: T
+) {
+  const value = getCookie(name)
+
+  return value && values.includes(value as T) ? (value as T) : fallback
+}
+
 type LayoutProviderProps = {
   children: React.ReactNode
   initialCollapsible?: Collapsible
@@ -37,29 +58,47 @@ type LayoutProviderProps = {
 
 export function LayoutProvider({
   children,
-  initialCollapsible = DEFAULT_COLLAPSIBLE,
-  initialVariant = DEFAULT_VARIANT,
+  initialCollapsible,
+  initialVariant,
 }: LayoutProviderProps) {
-  const [collapsible, _setCollapsible] = useState<Collapsible>(() => {
-    return initialCollapsible
-  })
+  const [collapsible, _setCollapsible] = useState<Collapsible>(() =>
+    initialCollapsible ??
+    getSavedValue(
+      LAYOUT_COLLAPSIBLE_COOKIE_NAME,
+      sidebarCollapsibles,
+      DEFAULT_COLLAPSIBLE
+    )
+  )
 
-  const [variant, _setVariant] = useState<LayoutVariant>(() => {
-    return initialVariant
-  })
+  const [variant, _setVariant] = useState<LayoutVariant>(() =>
+    initialVariant ??
+    getSavedValue(
+      LAYOUT_VARIANT_COOKIE_NAME,
+      sidebarVariants,
+      DEFAULT_VARIANT
+    )
+  )
 
   const setCollapsible = (newCollapsible: Collapsible) => {
-    _setCollapsible(newCollapsible)
+    const value = sidebarCollapsibles.includes(newCollapsible)
+      ? newCollapsible
+      : DEFAULT_COLLAPSIBLE
+
+    _setCollapsible(value)
     setCookie(
       LAYOUT_COLLAPSIBLE_COOKIE_NAME,
-      newCollapsible,
+      value,
       LAYOUT_COOKIE_MAX_AGE
     )
   }
 
   const setVariant = (newVariant: LayoutVariant) => {
-    _setVariant(newVariant)
-    setCookie(LAYOUT_VARIANT_COOKIE_NAME, newVariant, LAYOUT_COOKIE_MAX_AGE)
+    const value = sidebarVariants.includes(newVariant)
+      ? newVariant
+      : DEFAULT_VARIANT
+
+    _setVariant(value)
+    setCookie(LAYOUT_VARIANT_COOKIE_NAME, value, LAYOUT_COOKIE_MAX_AGE)
   }
 
   const resetLayout = () => {
@@ -88,4 +127,3 @@ export function useLayout() {
   }
   return context
 }
-
