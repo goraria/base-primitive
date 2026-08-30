@@ -50,67 +50,75 @@ export function Footer({
         >
           <div
             className={cn(
-              "mx-auto w-full px-6 py-10",
+              "mx-auto w-full px-6",
+              !dashboard && "pt-10",
               !dashboard && !floating && "container",
             )}
           >
-            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-[minmax(12rem,1.25fr)_repeat(4,minmax(0,1fr))]">
-              <div className="flex min-w-0 flex-col items-start">
-                <div className="flex min-h-9 items-center">
-                  {top ?? (
-                    <Button
-                      nativeButton={false}
-                      render={<Link href="/" />}
-                      variant="ghost"
-                      className="px-2 text-lg font-bold"
-                    >
-                      Gorth
-                    </Button>
-                  )}
+            {!dashboard ? (
+              <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-6">
+                <div className="flex min-w-0 flex-col items-start lg:col-span-2">
+                  <div className="flex min-h-9 items-center">
+                    {top ?? (
+                      <Button
+                        nativeButton={false}
+                        render={<Link href="/" />}
+                        variant="ghost"
+                        className="px-2 text-lg font-bold"
+                      >
+                        Gorth
+                      </Button>
+                    )}
+                  </div>
+
+                  {middle ? (
+                    <div className="mt-4 w-full text-sm text-muted-foreground">
+                      {middle}
+                    </div>
+                  ) : null}
                 </div>
 
-                {middle ? (
-                  <div className="mt-4 w-full text-sm text-muted-foreground">
-                    {middle}
-                  </div>
-                ) : null}
-              </div>
-
-              {nav.main.slice(0, 4).map((group) => (
-                <nav
-                  key={`${group.title}-${group.url}`}
-                  aria-label={group.title}
-                  className="flex min-w-0 flex-col items-start gap-3"
-                >
-                  {group.url && group.url !== "#" ? (
-                    <Link
-                      href={group.url}
-                      className="text-sm font-medium text-muted-foreground hover:text-foreground"
-                    >
-                      {group.title}
-                    </Link>
-                  ) : (
-                    <p className="text-sm font-medium text-muted-foreground">
-                      {group.title}
-                    </p>
-                  )}
-
-                  <div className="flex flex-col items-start gap-2.5">
-                    {group.items?.map((item) => (
+                {nav.main.slice(0, 4).map((group) => (
+                  <nav
+                    key={`${group.title}-${group.url}`}
+                    aria-label={group.title}
+                    className="flex min-w-0 flex-col items-start gap-3"
+                  >
+                    {group.url && group.url !== "#" ? (
                       <Link
-                        key={`${item.title}-${item.url}`}
-                        href={item.url}
-                        className="text-sm font-medium text-foreground hover:text-primary"
+                        href={group.url}
+                        className="text-sm font-medium text-muted-foreground hover:text-foreground"
                       >
-                        {item.title}
+                        {group.title}
                       </Link>
-                    ))}
-                  </div>
-                </nav>
-              ))}
-            </div>
+                    ) : (
+                      <p className="text-sm font-medium text-muted-foreground">
+                        {group.title}
+                      </p>
+                    )}
 
-            <div className="mt-10 flex min-h-9 items-center border-t pt-6 text-sm text-muted-foreground">
+                    <div className="flex flex-col items-start gap-2.5">
+                      {group.items?.map((item) => (
+                        <Link
+                          key={`${item.title}-${item.url}`}
+                          href={item.url}
+                          className="text-sm font-medium text-foreground hover:text-primary"
+                        >
+                          {item.title}
+                        </Link>
+                      ))}
+                    </div>
+                  </nav>
+                ))}
+              </div>
+            ) : null}
+
+            <div
+              className={cn(
+                "flex h-14 items-center text-sm text-muted-foreground",
+                !dashboard && "mt-10 border-t",
+              )}
+            >
               {bottom ?? (
                 <span>
                   © {new Date().getFullYear()} Gorth, Inc. All rights reserved.
