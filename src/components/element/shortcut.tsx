@@ -20,6 +20,7 @@ import {
   PopoverTitle,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { NavSubItem } from "@/lib/utils/interface";
 
 const shortcuts = [
   {
@@ -72,7 +73,7 @@ const shortcuts = [
   },
 ];
 
-export function Shortcut() {
+export function Shortcut({ shortcuts }: { shortcuts: NavSubItem[] }) {
   return (
     <Popover>
       <PopoverTrigger
@@ -93,9 +94,9 @@ export function Shortcut() {
         sideOffset={10}
       >
         <div className="flex h-14 items-center justify-between gap-2.5 border-b ps-5 pe-2.5">
-          <PopoverTitle className="font-semibold">Lối tắt</PopoverTitle>
+          <PopoverTitle className="font-semibold">Shortcuts</PopoverTitle>
           <Button
-            aria-label="Thêm lối tắt"
+            aria-label="Add shortcut"
             className="size-9"
             size="icon"
             variant="ghost"
@@ -103,7 +104,7 @@ export function Shortcut() {
             <PlusCircle className="size-4" />
           </Button>
           <PopoverDescription className="sr-only">
-            Truy cập nhanh các khu vực thường dùng
+            Shortcuts
           </PopoverDescription>
         </div>
         <div className="grid max-h-[calc(27rem-1px)] grid-cols-2 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -113,8 +114,12 @@ export function Shortcut() {
               className="flex min-h-36 flex-col items-center justify-center gap-3 border-b border-r p-4 text-center transition-colors hover:bg-muted"
               href={shortcut.url}
             >
-              <span className="grid size-12 place-items-center rounded-full bg-muted">
-                <shortcut.icon className="size-5" />
+              <span className="grid size-12 place-items-center rounded-lg bg-muted">
+                {shortcut.icon ? (
+                  <shortcut.icon className="size-5" />
+                ) : (
+                  <LayoutGrid className="size-5" />
+                )}
               </span>
               <span className="flex flex-col gap-1">
                 <span className="font-medium">{shortcut.title}</span>

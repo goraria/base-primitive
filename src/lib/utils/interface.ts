@@ -33,6 +33,7 @@ export interface NavMainItem {
 export interface NavSubItem {
   title: string;
   url: string;
+  icon?: LucideIcon;
   description?: string;
 }
 

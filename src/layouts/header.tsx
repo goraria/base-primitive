@@ -208,7 +208,7 @@ export function Header({
                 <>
                   <ModeSwitcher />
                   <Customizer />
-                  <Shortcut />
+                  <Shortcut shortcuts={nav.secondary} />
                   <NavUser
                     user={user}
                     type="navbar"
