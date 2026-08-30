@@ -15,9 +15,8 @@ import {
   TableFeatures,
   TableOptions,
 } from "@tanstack/react-table";
-import { Sidebar } from "@/components/ui/sidebar";
 import { LucideIcon } from "lucide-react";
-import { SidebarGroup } from "@/components/custom/sidebar";
+import { Sidebar, SidebarGroup } from "@/components/custom/sidebar";
 
 // ============================================================================
 // SIDEBAR INTERFACES
@@ -35,6 +34,8 @@ export interface NavSubItem {
   title: string;
   url: string;
   description?: string;
+  icon?: LucideIcon;
+  isActive?: boolean;
 }
 
 export interface NavDropdown {
@@ -104,9 +105,8 @@ export interface MessSidebarProps extends React.ComponentProps<typeof Sidebar> {
   auth: AuthSidebarProps;
 }
 
-export interface NavCoreProps extends React.ComponentPropsWithoutRef<
-  typeof SidebarGroup
-> {
+// export interface NavCoreProps extends React.ComponentPropsWithoutRef<typeof SidebarGroup>
+export interface NavCoreProps extends ComponentProps<typeof SidebarGroup> {
   items: NavMainItem[];
 }
 
@@ -142,13 +142,13 @@ export interface ProjectProps {
 
 export interface TeamProps {
   name: string;
-  logo: React.ElementType;
+  logo: ElementType;
   plan: string;
 }
 
 export interface BrandProps {
   name: string;
-  logo: string | undefined;
+  logo: string | undefined; // ?
   plan?: string | undefined;
 }
 
@@ -164,6 +164,15 @@ export interface HeaderProps {
   user: UserProps;
   auth: AuthSidebarProps;
   nav: NavDropdown;
+  mode?: "navbar" | "dashboard"
+}
+
+export interface FooterProps {
+  top?: ReactNode
+  middle?: ReactNode
+  bottom?: ReactNode
+  nav: NavMainItem[]
+  mode?: "navbar" | "dashboard"
 }
 
 // ============================================================================
@@ -262,7 +271,7 @@ export interface DataTableColumnHeaderProps<
 export interface DataTableSortButtonProps<
   TData extends RowData,
   TValue = unknown,
-> extends DataTableColumnHeaderProps<TData, TValue> {}
+> extends DataTableColumnHeaderProps<TData, TValue> { }
 
 export interface DataTablePaginationProps<TData extends RowData> {
   table: ReactTable<DataTableFeatures, TData>;

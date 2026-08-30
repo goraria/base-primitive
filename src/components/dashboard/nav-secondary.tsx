@@ -1,6 +1,6 @@
 import * as React from "react"
 import Link from "next/link"
-import { type LucideIcon } from "lucide-react"
+import { LucideIcon } from "lucide-react"
 
 import {
   SidebarGroup,
@@ -9,7 +9,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/custom/sidebar"
-import type { NavMainItem } from "@/lib/interface";
+import { NavMainItem } from "@/lib/utils/interface";
 
 interface NavCoreProps extends React.ComponentPropsWithoutRef<typeof SidebarGroup> {
   items: NavMainItem[];

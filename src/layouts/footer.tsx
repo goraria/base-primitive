@@ -1,14 +1,130 @@
-import React, { ReactNode } from "react";
+"use client"
+
+import type { ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/custom/button";
+import { useLayout } from "@/providers/layout"
+import { cn } from "@/lib/utils"
+import { FooterProps } from "@/lib/utils/interface"
 
 export function Footer({
-  children,
-}: {
-  children: ReactNode;
-}) {
+  top,
+  middle,
+  bottom,
+  nav,
+  mode = "navbar",
+}: FooterProps) {
+  const { variant } = useLayout()
+  const dashboard = mode === "dashboard"
+  const floating = variant === "floating"
+  const inset = variant === "inset"
+
+  return (
+    <footer
+      data-layout={variant}
+      data-mode={mode}
+      className={cn(
+        "w-full shrink-0",
+        !floating &&
+        "border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80",
+        inset && "rounded-b-xl",
+      )}
+    >
+      <div
+        className={cn(
+          "w-full",
+          floating && "py-2",
+          floating && !dashboard && "container mx-auto px-6",
+          floating && dashboard && "px-2",
+        )}
+      >
+        <div
+          className={cn(
+            "w-full",
+            floating &&
+            "rounded-lg bg-background/95 shadow-sm ring-1 ring-sidebar-border backdrop-blur supports-[backdrop-filter]:bg-background/80",
+            inset && "rounded-b-xl",
+          )}
+        >
+          <div
+            className={cn(
+              "mx-auto w-full px-6 py-10",
+              !dashboard && !floating && "container",
+            )}
+          >
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-[minmax(12rem,1.25fr)_repeat(4,minmax(0,1fr))]">
+              <div className="flex min-w-0 flex-col items-start">
+                <div className="flex min-h-9 items-center">
+                  {top ?? (
+                    <Button
+                      nativeButton={false}
+                      render={<Link href="/" />}
+                      variant="ghost"
+                      className="px-2 text-lg font-bold"
+                    >
+                      Gorth
+                    </Button>
+                  )}
+                </div>
+
+                {middle ? (
+                  <div className="mt-4 w-full text-sm text-muted-foreground">
+                    {middle}
+                  </div>
+                ) : null}
+              </div>
+
+              {nav.slice(0, 4).map((group) => (
+                <nav
+                  key={`${group.title}-${group.url}`}
+                  aria-label={group.title}
+                  className="flex min-w-0 flex-col items-start gap-3"
+                >
+                  {group.url && group.url !== "#" ? (
+                    <Link
+                      href={group.url}
+                      className="text-sm font-medium text-muted-foreground hover:text-foreground"
+                    >
+                      {group.title}
+                    </Link>
+                  ) : (
+                    <p className="text-sm font-medium text-muted-foreground">
+                      {group.title}
+                    </p>
+                  )}
+
+                  <div className="flex flex-col items-start gap-2.5">
+                    {group.items?.map((item) => (
+                      <Link
+                        key={`${item.title}-${item.url}`}
+                        href={item.url}
+                        className="text-sm font-medium text-foreground hover:text-primary"
+                      >
+                        {item.title}
+                      </Link>
+                    ))}
+                  </div>
+                </nav>
+              ))}
+            </div>
+
+            <div className="mt-10 flex min-h-9 items-center border-t pt-6 text-sm text-muted-foreground">
+              {bottom ?? (
+                <span>
+                  © {new Date().getFullYear()} Gorth, Inc. All rights reserved.
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  )
+}
+
+export function FooterOld({ children }: { children: ReactNode }) {
 
   return (
     <footer className="bottom-0 w-full border-t bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">

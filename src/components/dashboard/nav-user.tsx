@@ -44,7 +44,7 @@ import type {
   NavDropdown,
   NavMainItem,
   UserProps,
-} from "@/lib/interface";
+} from "@/lib/utils/interface";
 
 export function NavUserX({ user }: { user: UserProps }) {
   const { isMobile } = useSidebar();

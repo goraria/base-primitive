@@ -21,7 +21,7 @@ import {
 } from "@/components/custom/sidebar"
 
 import { TeamSwitcher } from "@/components/dashboard/team-switcher"
-import type { AppSidebarProps } from "@/lib/interface";
+import { AppSidebarProps } from "@/lib/utils/interface";
 import { useLayout } from "@/providers/layout"
 
 export function AppSidebar({ data, auth, ...props }: AppSidebarProps) {

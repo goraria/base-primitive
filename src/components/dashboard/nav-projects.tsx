@@ -26,7 +26,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/custom/sidebar"
-import type { NavMainItem, ProjectProps } from "@/lib/interface";
+import { NavMainItem, ProjectProps } from "@/lib/utils/interface";
 
 interface NavCoreProps extends React.ComponentPropsWithoutRef<typeof SidebarGroup> {
   projects: ProjectProps[];

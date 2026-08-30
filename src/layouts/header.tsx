@@ -26,10 +26,6 @@ import { cn } from "@/lib/utils"
 import type { HeaderProps, NavMainItem } from "@/lib/utils/interface"
 import { useLayout } from "@/providers/layout"
 
-export interface UnifiedHeaderProps extends HeaderProps {
-  mode?: "navbar" | "dashboard"
-}
-
 function HeaderNavigation({ items }: { items: NavMainItem[] }) {
   return (
     <NavigationMenu className="hidden lg:flex">
@@ -142,7 +138,7 @@ export function Header({
   auth,
   nav,
   mode = "navbar",
-}: UnifiedHeaderProps) {
+}: HeaderProps) {
   const { variant } = useLayout()
   const navigation = nav.navigation ?? []
   const dashboard = mode === "dashboard"
@@ -156,7 +152,7 @@ export function Header({
       className={cn(
         "sticky top-0 z-50 w-full shrink-0",
         !floating &&
-          "border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80",
+        "border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80",
         inset && "rounded-t-xl",
       )}
     >
@@ -173,7 +169,7 @@ export function Header({
           className={cn(
             "h-14 w-full",
             floating &&
-              "rounded-lg bg-background/95 shadow-sm ring-1 ring-sidebar-border backdrop-blur supports-[backdrop-filter]:bg-background/80",
+            "rounded-lg bg-background/95 shadow-sm ring-1 ring-sidebar-border backdrop-blur supports-[backdrop-filter]:bg-background/80",
             inset && "rounded-t-xl",
           )}
         >
@@ -189,7 +185,9 @@ export function Header({
               <>
                 <MobileNavigation items={navigation} />
                 <div className="mr-2 flex shrink-0 items-center">
-                  {bottom ?? (
+                  {bottom ? (
+                    bottom
+                  ) : (
                     <Button
                       nativeButton={false}
                       render={<Link href="/" />}
