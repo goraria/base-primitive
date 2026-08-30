@@ -48,15 +48,14 @@ export function Footer({
             inset && "rounded-b-xl",
           )}
         >
-          <div
-            className={cn(
-              "mx-auto w-full px-6",
-              !dashboard && "py-6 border-b",
-              !dashboard && !floating && "container",
-            )}
-          >
-            {!dashboard ? (
-              <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-6">
+          {!dashboard ? (
+            <div data-slot="footer-top" className="border-b p-6">
+              <div
+                className={cn(
+                  "mx-auto grid w-full grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-6",
+                  !floating && "container",
+                )}
+              >
                 <div className="flex min-w-0 flex-col items-start lg:col-span-2">
                   <div className="flex min-h-9 items-center">
                     {top ?? (
@@ -78,7 +77,7 @@ export function Footer({
                   ) : null}
                 </div>
 
-                {nav.main.slice(0, 4).map((group) => (
+                {(nav?.main ?? []).slice(0, 4).map((group) => (
                   <nav
                     key={`${group.title}-${group.url}`}
                     aria-label={group.title}
@@ -111,19 +110,20 @@ export function Footer({
                   </nav>
                 ))}
               </div>
-            ) : null}
+            </div>
+          ) : null}
 
+          <div
+            data-slot="footer-copyright"
+            className="flex h-14 w-full items-center px-6 text-muted-foreground"
+          >
             <div
               className={cn(
-                "flex h-14 items-center text-muted-foreground",
-                // !dashboard && "mt-6 border-t",
+                "mx-auto flex size-full items-center",
+                !floating && !dashboard && "container",
               )}
             >
-              {bottom ?? (
-                <span>
-                  © {new Date().getFullYear()} Gorth, Inc. All rights reserved.
-                </span>
-              )}
+              {bottom}
             </div>
           </div>
         </div>
