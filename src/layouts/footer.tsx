@@ -76,7 +76,7 @@ export function Footer({
                 ) : null}
               </div>
 
-              {nav.slice(0, 4).map((group) => (
+              {nav.main.slice(0, 4).map((group) => (
                 <nav
                   key={`${group.title}-${group.url}`}
                   aria-label={group.title}
