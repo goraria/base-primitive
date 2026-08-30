@@ -90,12 +90,12 @@ export function Customizer({
             Customize and preview in real time.
           </SheetDescription>
         </SheetHeader>
-        <div className='no-scrollbar flex min-h-0 flex-1 flex-col gap-2 overflow-x-hidden overflow-y-auto px-4'>
+        <div className='no-scrollbar flex min-h-0 flex-1 flex-col gap-2 overflow-x-hidden overflow-y-auto p-4'>
           <ThemeConfig />
           <SidebarConfig />
           <LayoutConfig />
           <DirConfig />
-          <Separator className='-mx-4 my-2 w-[calc(100%+2rem)] shrink-0' />
+          <Separator className='-mx-4 my-2 shrink-0' />
           <CustomizerConfig customizer={customizer} setColor={setColor} />
         </div>
         <SheetFooter className='border-t'>

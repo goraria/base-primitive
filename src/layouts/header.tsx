@@ -208,7 +208,9 @@ export function Header({
                 <>
                   <ModeSwitcher />
                   <Customizer />
-                  <Shortcut shortcuts={nav.secondary} />
+                  {nav.navigation?.length ? (
+                    <Shortcut shortcuts={nav.navigation} />
+                  ) : null}
                   <NavUser
                     user={user}
                     type="navbar"

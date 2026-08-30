@@ -51,7 +51,7 @@ export function Footer({
           <div
             className={cn(
               "mx-auto w-full px-6",
-              !dashboard && "pt-10",
+              !dashboard && "py-6 border-b",
               !dashboard && !floating && "container",
             )}
           >
@@ -115,8 +115,8 @@ export function Footer({
 
             <div
               className={cn(
-                "flex h-14 items-center text-sm text-muted-foreground",
-                !dashboard && "mt-10 border-t",
+                "flex h-14 items-center text-muted-foreground",
+                // !dashboard && "mt-6 border-t",
               )}
             >
               {bottom ?? (
