@@ -34,8 +34,6 @@ export interface NavSubItem {
   title: string;
   url: string;
   description?: string;
-  icon?: LucideIcon;
-  isActive?: boolean;
 }
 
 export interface NavDropdown {
@@ -171,7 +169,7 @@ export interface FooterProps {
   top?: ReactNode
   middle?: ReactNode
   bottom?: ReactNode
-  nav: NavMainItem[]
+  nav: NavDropdown
   mode?: "navbar" | "dashboard"
 }
 
