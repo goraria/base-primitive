@@ -43,14 +43,14 @@ import { Badge } from '@/components/custom/badge'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet'
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@/components/custom/drawer'
 import { useSidebar } from '@/components/custom/sidebar'
 
 export interface CustomizerProps {
@@ -79,8 +79,8 @@ export function Customizer({
   }
 
   return (
-    <Sheet modal='trap-focus'>
-      <SheetTrigger
+    <Drawer modal swipeDirection='right'>
+      <DrawerTrigger
         render={
           <Button
             size={size}
@@ -91,14 +91,14 @@ export function Customizer({
         }
       >
         <Settings aria-hidden='true' />
-      </SheetTrigger>
-      <SheetContent className='flex flex-col gap-0'>
-        <SheetHeader className='border-b text-start'>
-          <SheetTitle>Customizer</SheetTitle>
-          <SheetDescription>
+      </DrawerTrigger>
+      <DrawerContent className='flex flex-col gap-0'>
+        <DrawerHeader className='border-b p-4 text-start'>
+          <DrawerTitle>Customizer</DrawerTitle>
+          <DrawerDescription>
             Customize and preview in real time.
-          </SheetDescription>
-        </SheetHeader>
+          </DrawerDescription>
+        </DrawerHeader>
         <div className='no-scrollbar flex min-h-0 flex-1 flex-col gap-2 overflow-x-hidden overflow-y-auto p-4'>
           <ThemeConfig />
           <SidebarConfig />
@@ -109,7 +109,7 @@ export function Customizer({
           <Separator className='-mx-4 my-2 shrink-0' />
           <CustomizerConfig customizer={customizer} setColor={setColor} />
         </div>
-        <SheetFooter className='border-t'>
+        <DrawerFooter className='border-t p-4'>
           <Button
             variant='destructive'
             onClick={handleReset}
@@ -117,9 +117,9 @@ export function Customizer({
           >
             Reset
           </Button>
-        </SheetFooter>
-      </SheetContent>
-    </Sheet>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
   )
 }
 

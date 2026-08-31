@@ -4,6 +4,7 @@ export * from "@/components/custom/button";
 export * from "@/components/custom/collapsible";
 export * from "@/components/custom/data-table";
 export * from "@/components/custom/dropdown";
+export * from "@/components/custom/drawer";
 // export * from "@/components/custom/form";
 export * from "@/components/custom/radio";
 export * from "@/components/custom/sidebar";

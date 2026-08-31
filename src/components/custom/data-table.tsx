@@ -54,7 +54,7 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from "@/components/ui/command";
+} from "@/components/custom/command";
 import {
   Popover,
   PopoverContent,
@@ -124,13 +124,13 @@ export function DataTableSortButton<TData extends RowData, TValue>({
     const currentSort = column.getIsSorted();
 
     if (currentSort === false) {
-      // Lần 1: No sort → Asc
+      // First click: no sort → ascending
       column.toggleSorting(false);
     } else if (currentSort === "asc") {
-      // Lần 2: Asc → Desc
+      // Second click: ascending → descending
       column.toggleSorting(true);
     } else {
-      // Lần 3: Desc → Clear sort
+      // Third click: descending → clear sorting
       column.clearSorting();
     }
   };
@@ -181,20 +181,20 @@ export function DataTableColumnHeader<TData extends RowData, TValue>({
       <DropdownMenuContent align="start">
         <DropdownMenuItem onClick={() => column.clearSorting()}>
           <ChevronsUpDown />
-          Mặc định
+          Default
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
           <ArrowUp />
-          Tăng dần
+          Ascending
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
           <ArrowDown />
-          Giảm dần
+          Descending
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => column.toggleVisibility(false)}>
           <EyeOff />
-          Ẩn
+          Hide
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
@@ -205,17 +205,20 @@ export function DataTableColumnHeader<TData extends RowData, TValue>({
 export function DataTablePaginationOld<TData extends RowData>({
   table,
 }: DataTablePaginationProps<TData>) {
+  const selectedRows = table.getFilteredSelectedRowModel().rows.length;
+  const totalRows = table.getFilteredRowModel().rows.length;
+
   return (
     <div className="flex items-center justify-between">
       {" "}
       {/** px-2 */}
       <div className="text-muted-foreground flex-1 text-sm">
-        {table.getFilteredSelectedRowModel().rows.length} trong{" "}
-        {table.getFilteredRowModel().rows.length} hàng được chọn.
+        <span className="font-bold text-primary">{selectedRows}</span> of{" "}
+        <span className="font-bold text-primary">{totalRows}</span> rows selected.
       </div>
       <div className="flex items-center space-x-6 lg:space-x-8">
         <div className="flex items-center space-x-2">
-          <p className="text-sm font-medium">Số hàng mỗi trang</p>
+          <p className="text-sm font-medium">Rows per page</p>
           <Select
             value={`${table.state.pagination.pageSize}`}
             onValueChange={(value) => {
@@ -235,7 +238,7 @@ export function DataTablePaginationOld<TData extends RowData>({
           </Select>
         </div>
         <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-          Trang {table.state.pagination.pageIndex + 1} trong{" "}
+          Page {table.state.pagination.pageIndex + 1} of{" "}
           {table.getPageCount()}
         </div>
         <div className="flex items-center space-x-2">
@@ -246,7 +249,7 @@ export function DataTablePaginationOld<TData extends RowData>({
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage()}
           >
-            <span className="sr-only">Đi đến trang đầu</span>
+            <span className="sr-only">Go to first page</span>
             <ChevronsLeft />
           </Button>
           <Button
@@ -256,7 +259,7 @@ export function DataTablePaginationOld<TData extends RowData>({
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            <span className="sr-only">Đi đến trang trước</span>
+            <span className="sr-only">Go to previous page</span>
             <ChevronLeft />
           </Button>
           <Button
@@ -266,7 +269,7 @@ export function DataTablePaginationOld<TData extends RowData>({
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            <span className="sr-only">Đi đến trang tiếp theo</span>
+            <span className="sr-only">Go to next page</span>
             <ChevronRight />
           </Button>
           <Button
@@ -276,7 +279,7 @@ export function DataTablePaginationOld<TData extends RowData>({
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
             disabled={!table.getCanNextPage()}
           >
-            <span className="sr-only">Đi đến trang cuối</span>
+            <span className="sr-only">Go to last page</span>
             <ChevronsRight />
           </Button>
         </div>
@@ -290,34 +293,39 @@ export function DataTablePagination<TData extends RowData>({
 }: DataTablePaginationProps<TData>) {
   const currentPage = table.state.pagination.pageIndex + 1;
   const totalPages = table.getPageCount();
+  const pageSize = table.state.pagination.pageSize;
+  const totalRows = table.getFilteredRowModel().rows.length;
+  const selectedRows = table.getFilteredSelectedRowModel().rows.length;
+  const firstVisibleRow = totalRows === 0 ? 0 : (currentPage - 1) * pageSize + 1;
+  const lastVisibleRow = Math.min(currentPage * pageSize, totalRows);
 
-  // Logic để tạo các page numbers hiển thị
+  // Build the list of visible page numbers.
   const getPageNumbers = () => {
     const pages: (number | string)[] = [];
 
     if (totalPages <= 7) {
-      // Nếu tổng số trang <= 7, hiển thị tất cả
+      // Show every page when the total is small.
       for (let i = 1; i <= totalPages; i++) {
         pages.push(i);
       }
     } else {
-      // Logic phức tạp hơn cho nhiều trang
+      // Collapse larger ranges with ellipses.
       if (currentPage <= 4) {
-        // Hiển thị: 1 2 3 4 5 ... 10
+        // Display: 1 2 3 4 5 ... 10
         for (let i = 1; i <= 5; i++) {
           pages.push(i);
         }
         pages.push("...");
         pages.push(totalPages);
       } else if (currentPage >= totalPages - 3) {
-        // Hiển thị: 1 ... 6 7 8 9 10
+        // Display: 1 ... 6 7 8 9 10
         pages.push(1);
         pages.push("...");
         for (let i = totalPages - 4; i <= totalPages; i++) {
           pages.push(i);
         }
       } else {
-        // Hiển thị: 1 ... 4 5 6 ... 10
+        // Display: 1 ... 4 5 6 ... 10
         pages.push(1);
         pages.push("...");
         for (let i = currentPage - 1; i <= currentPage + 1; i++) {
@@ -335,23 +343,16 @@ export function DataTablePagination<TData extends RowData>({
 
   return (
     <div className="flex items-center justify-between">
-      <div className="flex text-muted-foreground text-sm space-x-2">
+      <div className="flex gap-2 text-sm text-muted-foreground">
         {/** flex-1 */}
         <div>
-          Hiển thị{" "}
-          {currentPage === 1
-            ? 1
-            : (currentPage - 1) * table.state.pagination.pageSize + 1}{" "}
-          đến{" "}
-          {Math.min(
-            currentPage * table.state.pagination.pageSize,
-            table.getFilteredRowModel().rows.length,
-          )}{" "}
-          trong {table.getFilteredRowModel().rows.length} mục
+          Showing <span className="font-bold text-primary">{firstVisibleRow}</span> to{" "}
+          <span className="font-bold text-primary">{lastVisibleRow}</span> of{" "}
+          <span className="font-bold text-primary">{totalRows}</span> items.
         </div>
         <div>
-          {table.getFilteredSelectedRowModel().rows.length} trong{" "}
-          {table.getFilteredRowModel().rows.length} hàng được chọn.
+          <span className="font-bold text-primary">{selectedRows}</span> of{" "}
+          <span className="font-bold text-primary">{totalRows}</span> rows selected.
         </div>
       </div>
       <div className="flex items-center space-x-6 lg:space-x-8">
@@ -418,16 +419,18 @@ export function DataTableViewOptions<TData extends RowData>({
           <Button
             variant="outline"
             size="icon"
-            className="ml-auto hidden lg:flex" // h-8
+            className="mr-2 hidden lg:flex"
+            aria-label="Toggle columns"
+            title="Toggle columns"
           />
         }
       >
         <Settings2 />
-        {/*Cài đặt hiển thị*/}
+        <span className="sr-only">Toggle columns</span>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[150px]">
         <DropdownMenuGroup>
-          <DropdownMenuLabel>Ẩn/Hiện cột</DropdownMenuLabel>
+          <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         {table
@@ -470,26 +473,26 @@ export function DataTableFacetedFilter<TData extends RowData, TValue>({
           <Button
             variant="outline"
             size="default"
-            className="h-9 border-dashed"
+            className="h-9 w-auto gap-1 rounded-md border-dashed p-1 whitespace-nowrap"
           />
         }
       >
-        <PlusCircle className="mr-2 h-4 w-4" />
+        <PlusCircle />
         {title}
         {selectedValues?.size > 0 && (
           <>
             <Separator orientation="vertical" className="mx-2 h-4" />
             <Badge
-              variant="secondary"
-              className="rounded-sm px-1 font-normal lg:hidden"
+              variant="default"
+              className="rounded-md px-1 font-normal lg:hidden"
             >
               {selectedValues.size}
             </Badge>
-            <div className="hidden space-x-1 lg:flex">
+            <div className="hidden gap-1 lg:flex">
               {selectedValues.size > 2 ? (
                 <Badge
-                  variant="secondary"
-                  className="rounded-sm px-1 font-normal"
+                  variant="default"
+                  className="rounded-md px-1 font-normal"
                 >
                   {selectedValues.size} selected
                 </Badge>
@@ -498,9 +501,9 @@ export function DataTableFacetedFilter<TData extends RowData, TValue>({
                   .filter((option) => selectedValues.has(option.value))
                   .map((option) => (
                     <Badge
-                      variant="secondary"
+                      variant="default"
                       key={String(option.value)}
-                      className="rounded-sm px-1 font-normal"
+                      className="rounded-md px-1 font-normal"
                     >
                       {option.label}
                     </Badge>
@@ -510,17 +513,18 @@ export function DataTableFacetedFilter<TData extends RowData, TValue>({
           </>
         )}
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0" align="start">
+      <PopoverContent className="w-auto min-w-52 p-0" align="start">
         <Command>
           <CommandInput placeholder={title} />
           <CommandList>
-            <CommandEmpty>Không tìm thấy kết quả.</CommandEmpty>
+            <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup>
               {options.map((option) => {
                 const isSelected = selectedValues.has(option.value);
                 return (
                   <CommandItem
                     key={String(option.value)}
+                    showCheck={false}
                     onSelect={() => {
                       if (isSelected) {
                         selectedValues.delete(option.value);
@@ -535,7 +539,7 @@ export function DataTableFacetedFilter<TData extends RowData, TValue>({
                   >
                     <div
                       className={cn(
-                        "mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
+                        "flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
                         isSelected
                           ? "bg-primary text-primary-foreground"
                           : "opacity-50 [&_svg]:invisible",
@@ -544,7 +548,7 @@ export function DataTableFacetedFilter<TData extends RowData, TValue>({
                       <Check className={cn("h-4 w-4")} />
                     </div>
                     {option.icon && (
-                      <option.icon className="mr-2 h-4 w-4 text-muted-foreground" />
+                      <option.icon className="h-4 w-4 text-muted-foreground" />
                     )}
                     <span>{option.label}</span>
                     {facets?.get(option.value) && (
@@ -563,8 +567,9 @@ export function DataTableFacetedFilter<TData extends RowData, TValue>({
                   <CommandItem
                     onSelect={() => column?.setFilterValue(undefined)}
                     className="justify-center text-center"
+                    showCheck={false}
                   >
-                    Xóa bộ lọc
+                    Clear filters
                   </CommandItem>
                 </CommandGroup>
               </>
@@ -619,7 +624,7 @@ export function DataTable<TData extends RowData>({
   return (
     <Card className="p-0">
       <CardHeader className="flex items-center justify-between pt-6">
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center gap-1">
           {search && (
             <Input
               placeholder={search.placeholder}
@@ -646,15 +651,17 @@ export function DataTable<TData extends RowData>({
           {isFiltered && (
             <Button
               variant="ghost"
+              size="icon"
               onClick={() => table.resetColumnFilters()}
-              className="h-9 w-9 px-2 lg:px-3"
+              aria-label="Reset filters"
+              title="Reset filters"
             >
-              Reset
               <X />
+              <span className="sr-only">Reset filters</span>
             </Button>
           )}
           {/*<Button variant="secondary" className="">*/}
-          {/*  Xoá lọc*/}
+          {/* Clear filters */}
           {/*</Button>*/}
         </div>
         {/* <div className="flex items-center space-x-2">
@@ -802,7 +809,7 @@ export function DataTable<TData extends RowData>({
 //           table.getIsAllPageRowsSelected() || table.getIsSomePageRowsSelected()
 //         }
 //         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-//         aria-label="Chọn tất cả"
+//         aria-label="Select all"
 //       />
 //     ),
 //     cell: ({ row }) => (
@@ -815,7 +822,7 @@ export function DataTable<TData extends RowData>({
 //     enableSorting: false,
 //     enableHiding: false,
 //     // enableResizing: false,
-//     size: 50, // Width cho checkbox column
+//     size: 50, // Checkbox column width
 //   },
 //   {
 //     accessorKey: "pro",
@@ -853,7 +860,7 @@ export function DataTable<TData extends RowData>({
 //         </div>
 //       );
 //     },
-//     size: 300, // Width cho Profile column
+//     size: 300, // Profile column width
 //   },
 //   {
 //     accessorKey: "user",
@@ -863,7 +870,7 @@ export function DataTable<TData extends RowData>({
 //     filterFn: (row, id, value) => {
 //       return value.includes(row.getValue(id));
 //     },
-//     size: 200, // Width cho User column
+//     size: 200, // User column width
 //   },
 //   {
 //     accessorKey: "email",
@@ -878,7 +885,7 @@ export function DataTable<TData extends RowData>({
 //     filterFn: (row, id, value) => {
 //       return value.includes(row.getValue(id));
 //     },
-//     size: 120, // Width cho Status column
+//     size: 120, // Status column width
 //   },
 //   // {
 //   //   accessorKey: "amount",
@@ -897,14 +904,14 @@ export function DataTable<TData extends RowData>({
 //   //
 //   //     return <div className="text-right font-medium">{formatted}</div>
 //   //   },
-//   //   size: 120, // Width cho Amount column
+//   //   size: 120, // Amount column width
 //   // },
 //   {
 //     id: "actions",
 //     // accessorKey: "actions",
 //     // header: () => <div className="text-right">Actions</div>,
 //     enableResizing: false,
-//     size: 50, // Width cho Actions column
+//     size: 50, // Actions column width
 //     cell: ({ row }) => {
 //       const payment = row.original;
 
@@ -919,7 +926,7 @@ export function DataTable<TData extends RowData>({
 //               />
 //             }
 //           >
-//             <span className="sr-only">Mở menu</span>
+//             <span className="sr-only">Open menu</span>
 //             <MoreHorizontal />
 //           </DropdownMenuTrigger>
 //           <DropdownMenuContent align="end">
@@ -927,18 +934,18 @@ export function DataTable<TData extends RowData>({
 //             <DropdownMenuItem
 //               onClick={() => navigator.clipboard.writeText(payment.id)}
 //             >
-//               Sao chép ID thanh toán
+//               Copy payment ID
 //             </DropdownMenuItem>
 //             <DropdownMenuSeparator />
-//             <DropdownMenuItem>Xem khách hàng</DropdownMenuItem>
-//             <DropdownMenuItem>Xem chi tiết thanh toán</DropdownMenuItem>
+//             <DropdownMenuItem>View customer</DropdownMenuItem>
+//             <DropdownMenuItem>View payment details</DropdownMenuItem>
 //             <DropdownMenuSeparator />
-//             <DropdownMenuItem>Sửa</DropdownMenuItem>
-//             <DropdownMenuItem>Tạo bản sao</DropdownMenuItem>
-//             <DropdownMenuItem>Yêu thích</DropdownMenuItem>
+//             <DropdownMenuItem>Edit</DropdownMenuItem>
+//             <DropdownMenuItem>Duplicate</DropdownMenuItem>
+//             <DropdownMenuItem>Favorite</DropdownMenuItem>
 //             <DropdownMenuSeparator />
 //             <DropdownMenuSub>
-//               <DropdownMenuSubTrigger>Trạng thái</DropdownMenuSubTrigger>
+//               <DropdownMenuSubTrigger>Status</DropdownMenuSubTrigger>
 //               <DropdownMenuPortal>
 //                 <DropdownMenuSubContent>
 //                   <DropdownMenuItem>Pending</DropdownMenuItem>
@@ -952,7 +959,7 @@ export function DataTable<TData extends RowData>({
 //               </DropdownMenuPortal>
 //             </DropdownMenuSub>
 //             <DropdownMenuSeparator />
-//             <DropdownMenuItem variant="destructive">Xóa</DropdownMenuItem>
+//             <DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
 //           </DropdownMenuContent>
 //         </DropdownMenu>
 //       );
