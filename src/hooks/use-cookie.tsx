@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 
 import { getCookie, removeCookie, setCookie } from "@/lib/cookies"
 
@@ -15,9 +15,11 @@ export function useCookie(
   defaultValue: string,
   { maxAge = DEFAULT_COOKIE_MAX_AGE }: UseCookieOptions = {}
 ) {
-  const [value, setValueState] = useState(
-    () => getCookie(name) ?? defaultValue
-  )
+  const [value, setValueState] = useState(defaultValue)
+
+  useEffect(() => {
+    setValueState(getCookie(name) ?? defaultValue)
+  }, [defaultValue, name])
 
   const setValue = useCallback(
     (nextValue: string) => {

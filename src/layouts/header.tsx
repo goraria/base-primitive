@@ -161,14 +161,13 @@ export function Header({
       <div
         className={cn(
           "w-full",
-          floating && "py-2",
-          floating && dashboard && "px-2",
+          floating && "container mx-auto px-6 py-2",
         )}
       >
         <div
           className={cn(
             "h-14 w-full",
-            !dashboard && "container mx-auto",
+            !dashboard && !floating && "container mx-auto",
             floating &&
             "rounded-lg bg-background/95 shadow-sm ring-1 ring-sidebar-border backdrop-blur supports-[backdrop-filter]:bg-background/80",
             inset && "rounded-t-xl",
@@ -177,7 +176,7 @@ export function Header({
           <div
             className={cn(
               "mx-auto flex h-full items-center gap-2 px-6",
-              dashboard && "container",
+              dashboard && !floating && "container",
             )}
           >
             {dashboard ? (

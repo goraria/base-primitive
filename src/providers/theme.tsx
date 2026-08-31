@@ -82,9 +82,7 @@ export function ThemeProvider({
     enableSystem,
     fallbackTheme
   )
-  const [systemTheme, setSystemTheme] = useState<"light" | "dark">(
-    getSystemTheme
-  )
+  const [systemTheme, setSystemTheme] = useState<"light" | "dark">("light")
   const activeTheme = getAllowedTheme(
     forcedTheme ?? theme,
     availableThemes,

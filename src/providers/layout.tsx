@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 import { getCookie, setCookie } from '@/lib/cookies'
 
 export type Collapsible = 'offcanvas' | 'icon' | 'none'
@@ -61,23 +61,35 @@ export function LayoutProvider({
   initialCollapsible,
   initialVariant,
 }: LayoutProviderProps) {
-  const [collapsible, _setCollapsible] = useState<Collapsible>(() =>
-    initialCollapsible ??
-    getSavedValue(
-      LAYOUT_COLLAPSIBLE_COOKIE_NAME,
-      sidebarCollapsibles,
-      DEFAULT_COLLAPSIBLE
-    )
+  const [collapsible, _setCollapsible] = useState<Collapsible>(
+    initialCollapsible ?? DEFAULT_COLLAPSIBLE
   )
 
-  const [variant, _setVariant] = useState<LayoutVariant>(() =>
-    initialVariant ??
-    getSavedValue(
-      LAYOUT_VARIANT_COOKIE_NAME,
-      sidebarVariants,
-      DEFAULT_VARIANT
-    )
+  const [variant, _setVariant] = useState<LayoutVariant>(
+    initialVariant ?? DEFAULT_VARIANT
   )
+
+  useEffect(() => {
+    if (!initialCollapsible) {
+      _setCollapsible(
+        getSavedValue(
+          LAYOUT_COLLAPSIBLE_COOKIE_NAME,
+          sidebarCollapsibles,
+          DEFAULT_COLLAPSIBLE
+        )
+      )
+    }
+
+    if (!initialVariant) {
+      _setVariant(
+        getSavedValue(
+          LAYOUT_VARIANT_COOKIE_NAME,
+          sidebarVariants,
+          DEFAULT_VARIANT
+        )
+      )
+    }
+  }, [initialCollapsible, initialVariant])
 
   const setCollapsible = (newCollapsible: Collapsible) => {
     const value = sidebarCollapsibles.includes(newCollapsible)

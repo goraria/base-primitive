@@ -35,14 +35,12 @@ export function Footer({
       <div
         className={cn(
           "w-full",
-          floating && "py-2",
-          floating && dashboard && "px-2",
+          floating && "container mx-auto px-6 py-2",
         )}
       >
         <div
           className={cn(
             "w-full",
-            floating && !dashboard && "container mx-auto",
             floating &&
             "rounded-lg bg-background/95 shadow-sm ring-1 ring-sidebar-border backdrop-blur supports-[backdrop-filter]:bg-background/80",
             inset && "rounded-b-xl",
@@ -120,7 +118,7 @@ export function Footer({
             <div
               className={cn(
                 "mx-auto flex size-full items-center px-6",
-                (!floating || dashboard) && "container",
+                !floating && "container",
               )}
             >
               {bottom}
