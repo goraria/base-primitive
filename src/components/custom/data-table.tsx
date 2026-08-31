@@ -522,7 +522,7 @@ export function DataTableViewOptions<TData extends RowData>({
           <Button
             variant="outline"
             size="icon"
-            className="mr-2 hidden lg:flex"
+            className="hidden lg:flex"
             aria-label="Toggle columns"
             title="Toggle columns"
           />
@@ -700,7 +700,7 @@ export function DataTableFacetedFilter({
           <Button
             variant="outline"
             size="default"
-            className="h-9 w-auto gap-1 rounded-md border-dashed p-1 whitespace-nowrap"
+            className="h-9 w-auto gap-2 rounded-md border-dashed p-1 whitespace-nowrap"
           />
         }
       >
