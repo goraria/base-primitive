@@ -36,23 +36,23 @@ export function Footer({
         className={cn(
           "w-full",
           floating && "py-2",
-          floating && !dashboard && "container mx-auto px-6",
           floating && dashboard && "px-2",
         )}
       >
         <div
           className={cn(
             "w-full",
+            floating && !dashboard && "container mx-auto",
             floating &&
             "rounded-lg bg-background/95 shadow-sm ring-1 ring-sidebar-border backdrop-blur supports-[backdrop-filter]:bg-background/80",
             inset && "rounded-b-xl",
           )}
         >
           {!dashboard ? (
-            <div data-slot="footer-top" className="border-b p-6">
+            <div data-slot="footer-top" className="border-b py-6">
               <div
                 className={cn(
-                  "mx-auto grid w-full grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-6",
+                  "mx-auto grid w-full grid-cols-1 gap-8 px-6 sm:grid-cols-2 lg:grid-cols-6",
                   !floating && "container",
                 )}
               >
@@ -63,7 +63,7 @@ export function Footer({
                         nativeButton={false}
                         render={<Link href="/" />}
                         variant="ghost"
-                        className="px-2 text-lg font-bold"
+                        className="px-0 text-lg font-bold hover:bg-transparent"
                       >
                         Gorth
                       </Button>
@@ -115,12 +115,12 @@ export function Footer({
 
           <div
             data-slot="footer-copyright"
-            className="flex h-14 w-full items-center px-6 text-muted-foreground"
+            className="flex h-14 w-full items-center text-muted-foreground"
           >
             <div
               className={cn(
-                "mx-auto flex size-full items-center",
-                !floating && !dashboard && "container",
+                "mx-auto flex size-full items-center px-6",
+                (!floating || dashboard) && "container",
               )}
             >
               {bottom}

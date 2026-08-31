@@ -161,14 +161,14 @@ export function Header({
       <div
         className={cn(
           "w-full",
-          floating && "h-[4.5rem] py-2",
-          floating && !dashboard && "container mx-auto px-6",
+          floating && "py-2",
           floating && dashboard && "px-2",
         )}
       >
         <div
           className={cn(
             "h-14 w-full",
+            !dashboard && "container mx-auto",
             floating &&
             "rounded-lg bg-background/95 shadow-sm ring-1 ring-sidebar-border backdrop-blur supports-[backdrop-filter]:bg-background/80",
             inset && "rounded-t-xl",
@@ -177,7 +177,7 @@ export function Header({
           <div
             className={cn(
               "mx-auto flex h-full items-center gap-2 px-6",
-              !dashboard && !floating && "container",
+              dashboard && "container",
             )}
           >
             {dashboard ? (
@@ -193,7 +193,7 @@ export function Header({
                       nativeButton={false}
                       render={<Link href="/" />}
                       variant="ghost"
-                      className="px-2 text-lg font-bold"
+                      className="px-0 text-lg font-bold hover:bg-transparent"
                     >
                       Gorth
                     </Button>
