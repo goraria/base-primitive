@@ -8,10 +8,24 @@ export function IconWidthFull(props: SVGProps<SVGSVGElement>) {
       viewBox='0 0 79.86 51.14'
       {...props}
     >
-      <rect x='2' y='3' width='75.86' height='45.14' rx='4' opacity='.12' />
-      <rect x='6' y='8' width='67.86' height='7' rx='2' opacity='.8' />
-      <rect x='6' y='19' width='67.86' height='24' rx='2' opacity='.35' />
-      <path d='m10 27-3-3-3 3m69 0 3-3 3 3' fill='none' strokeWidth='1.5' strokeLinecap='round' strokeLinejoin='round' />
+      <rect
+        x={5.84}
+        y={5.89}
+        width={68.26}
+        height={2.73}
+        rx={0.64}
+        ry={0.64}
+        opacity={0.9}
+      />
+      <rect
+        x={5.84}
+        y={14.51}
+        width={68.26}
+        height={29.66}
+        rx={2.11}
+        ry={2.11}
+        opacity={0.4}
+      />
     </svg>
   )
 }

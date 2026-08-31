@@ -513,7 +513,7 @@ function WidthConfig() {
       <RadioGroupPrimitive
         value={width}
         onValueChange={(value) => setWidth(value as LayoutWidth)}
-        className='grid w-full max-w-md grid-cols-2 gap-2'
+        className='grid w-full max-w-md grid-cols-3 gap-2'
         aria-label='Select page width'
         aria-describedby='width-description'
       >
@@ -559,7 +559,7 @@ function NavbarBehaviorConfig() {
         onValueChange={(value) =>
           setNavbarBehavior(value as NavbarBehavior)
         }
-        className='grid w-full max-w-md grid-cols-2 gap-2'
+        className='grid w-full max-w-md grid-cols-3 gap-2'
         aria-label='Select navbar behavior'
         aria-describedby='navbar-behavior-description'
       >
