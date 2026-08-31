@@ -1081,7 +1081,7 @@ export function DataTable<TData extends RowData>({
   columnFilters,
   onColumnFiltersChange,
   fluidColumn,
-  pageSizeOptions = [7, 10, 25, 50, 100],
+  pageSizeOptions = [8, 10, 25, 50, 100],
   getRowId,
   enableRowSelection = true,
   emptyMessage = "No data available.",
@@ -1148,7 +1148,7 @@ export function DataTable<TData extends RowData>({
   return (
     <Card className="p-0" aria-busy={loading}>
       <CardHeader className="flex items-center justify-between pt-6">
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-2">
           {search && (
             <Input
               placeholder={search.placeholder}
@@ -1303,7 +1303,7 @@ export function DataTable<TData extends RowData>({
                             : `${cell.column.getSize()}px`,
                           minWidth: isColumn ? "200px" : undefined,
                         }}
-                        className={cn("h-16", isColumn ? "w-auto" : "")}
+                        className={cn("h-14", isColumn ? "w-auto" : "")}
                       >
                         {flexRender(
                           cell.column.columnDef.cell,
