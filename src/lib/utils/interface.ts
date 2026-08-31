@@ -7,9 +7,13 @@ import React, {
 import {
   Column,
   ColumnDef,
+  ColumnFiltersState,
+  OnChangeFn,
+  PaginationState,
   ReactTable,
   RowData,
   RowModel,
+  SortingState,
   Table,
   TableFeature,
   TableFeatures,
@@ -223,28 +227,38 @@ export interface DataTableFilterOption {
   icon?: ComponentType<{ className?: string }>;
 }
 
-export interface DataTableFilter {
+export type DataTableFilterValue = string | number | boolean;
+
+export interface DataTableFilterAll {
   column: string;
   title?: string;
   options: DataTableFilterOption[];
 }
 
-export interface DataTableSearch {
+export interface DataTableSearchAll {
   column: string;
   placeholder: string;
 }
 
-export interface DataTableProps<TData extends RowData> {
+export interface DataTableFilter {
+  id: string;
+  title?: string;
+  options: DataTableFilterOption[];
+  value: DataTableFilterValue[];
+  onValueChange: (value: DataTableFilterValue[]) => void;
+  getCount?: (value: DataTableFilterValue) => number | undefined;
+}
+
+export interface DataTableSearch {
+  placeholder: string;
+  value: string;
+  onValueChange: (value: string) => void;
+}
+
+export interface DataTableBaseProps<TData extends RowData> {
   columns: ColumnDef<DataTableFeatures, TData, any>[];
   data: TData[];
-  search?: DataTableSearch;
-  filters?: DataTableFilter[];
-  /** @deprecated Use `filters` instead. */
-  filter?: DataTableFilter[];
   fluidColumn?: string;
-  /** @deprecated Use `fluidColumn` instead. */
-  max?: string;
-  initialPageSize?: number;
   pageSizeOptions?: number[];
   getRowId?: TableOptions<DataTableFeatures, TData>["getRowId"];
   enableRowSelection?: TableOptions<
@@ -257,6 +271,28 @@ export interface DataTableProps<TData extends RowData> {
   onDownload?: () => void;
   onCreate?: () => void;
   render?: ReactNode;
+}
+
+export interface DataTableAllProps<TData extends RowData>
+  extends DataTableBaseProps<TData> {
+  search?: DataTableSearchAll;
+  filters?: DataTableFilterAll[];
+  initialPageSize?: number;
+}
+
+export interface DataTableProps<TData extends RowData>
+  extends DataTableBaseProps<TData> {
+  rowCount: number;
+  pagination: PaginationState;
+  onPaginationChange: OnChangeFn<PaginationState>;
+  search?: DataTableSearch;
+  filters?: DataTableFilter[];
+  sorting?: SortingState;
+  onSortingChange?: OnChangeFn<SortingState>;
+  columnFilters?: ColumnFiltersState;
+  onColumnFiltersChange?: OnChangeFn<ColumnFiltersState>;
+  loading?: boolean;
+  loadingMessage?: ReactNode;
 }
 
 export interface DataTableColumnHeaderProps<
@@ -272,21 +308,32 @@ export interface DataTableSortButtonProps<
   TValue = unknown,
 > extends DataTableColumnHeaderProps<TData, TValue> { }
 
-export interface DataTablePaginationProps<TData extends RowData> {
+export interface DataTablePaginationAllProps<TData extends RowData> {
   table: ReactTable<DataTableFeatures, TData>;
 }
+
+export interface DataTablePaginationProps<TData extends RowData>
+  extends DataTablePaginationAllProps<TData> { }
 
 export interface DataTableViewOptionsProps<TData extends RowData> {
   table: ReactTable<DataTableFeatures, TData>;
 }
 
-export interface DataTableFacetedFilterProps<
+export interface DataTableFacetedFilterAllProps<
   TData extends RowData,
   TValue = unknown,
 > {
   column?: Column<DataTableFeatures, TData, TValue>;
   title?: string;
   options: DataTableFilterOption[];
+}
+
+export interface DataTableFacetedFilterProps {
+  title?: string;
+  options: DataTableFilterOption[];
+  value: DataTableFilterValue[];
+  onValueChange: (value: DataTableFilterValue[]) => void;
+  getCount?: (value: DataTableFilterValue) => number | undefined;
 }
 
 // ============================================================================

@@ -87,8 +87,11 @@ import {
 import { cn } from "@/lib/utils";
 import type {
   DataTableColumnHeaderProps,
+  DataTableAllProps,
+  DataTableFacetedFilterAllProps,
   DataTableFacetedFilterProps,
   DataTableFeatures,
+  DataTablePaginationAllProps,
   DataTablePaginationProps,
   DataTableProps,
   DataTableSortButtonProps,
@@ -202,9 +205,9 @@ export function DataTableColumnHeader<TData extends RowData, TValue>({
   );
 }
 
-export function DataTablePaginationOld<TData extends RowData>({
+export function DataTablePaginationOldAll<TData extends RowData>({
   table,
-}: DataTablePaginationProps<TData>) {
+}: DataTablePaginationAllProps<TData>) {
   const selectedRows = table.getFilteredSelectedRowModel().rows.length;
   const totalRows = table.getFilteredRowModel().rows.length;
 
@@ -288,9 +291,9 @@ export function DataTablePaginationOld<TData extends RowData>({
   );
 }
 
-export function DataTablePagination<TData extends RowData>({
+export function DataTablePaginationAll<TData extends RowData>({
   table,
-}: DataTablePaginationProps<TData>) {
+}: DataTablePaginationAllProps<TData>) {
   const currentPage = table.state.pagination.pageIndex + 1;
   const totalPages = table.getPageCount();
   const pageSize = table.state.pagination.pageSize;
@@ -375,8 +378,8 @@ export function DataTablePagination<TData extends RowData>({
                   variant="outline"
                   size="icon"
                   className=""
-                  // onClick={() => {}}
-                  // disabled
+                // onClick={() => {}}
+                // disabled
                 >
                   {/* <span className="px-2 text-sm text-muted-foreground">...</span> */}
                   <Ellipsis />
@@ -404,6 +407,106 @@ export function DataTablePagination<TData extends RowData>({
             <ChevronRight />
           </Button>
         </div>
+      </div>
+    </div>
+  );
+}
+
+export function DataTablePagination<TData extends RowData>({
+  table,
+}: DataTablePaginationProps<TData>) {
+  const currentPage = table.state.pagination.pageIndex + 1;
+  const totalPages = table.getPageCount();
+  const pageSize = table.state.pagination.pageSize;
+  const totalRows = table.getRowCount();
+  const selectedRows = Object.keys(table.state.rowSelection).length;
+  const firstVisibleRow = totalRows === 0 ? 0 : (currentPage - 1) * pageSize + 1;
+  const lastVisibleRow = Math.min(currentPage * pageSize, totalRows);
+  const pageNumbers: (number | "ellipsis-start" | "ellipsis-end")[] = [];
+
+  if (totalPages <= 7) {
+    for (let page = 1; page <= totalPages; page += 1) {
+      pageNumbers.push(page);
+    }
+  } else if (currentPage <= 4) {
+    pageNumbers.push(1, 2, 3, 4, 5, "ellipsis-end", totalPages);
+  } else if (currentPage >= totalPages - 3) {
+    pageNumbers.push(
+      1,
+      "ellipsis-start",
+      totalPages - 4,
+      totalPages - 3,
+      totalPages - 2,
+      totalPages - 1,
+      totalPages,
+    );
+  } else {
+    pageNumbers.push(
+      1,
+      "ellipsis-start",
+      currentPage - 1,
+      currentPage,
+      currentPage + 1,
+      "ellipsis-end",
+      totalPages,
+    );
+  }
+
+  return (
+    <div className="flex items-center justify-between">
+      <div className="flex gap-2 text-sm text-muted-foreground">
+        <div>
+          Showing <span className="font-bold text-primary">{firstVisibleRow}</span> to{" "}
+          <span className="font-bold text-primary">{lastVisibleRow}</span> of{" "}
+          <span className="font-bold text-primary">{totalRows}</span> items.
+        </div>
+        <div>
+          <span className="font-bold text-primary">{selectedRows}</span> rows selected.
+        </div>
+      </div>
+      <div className="flex items-center gap-2">
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+          aria-label="Go to previous page"
+          title="Go to previous page"
+        >
+          <ChevronLeft />
+        </Button>
+        {pageNumbers.map((page) =>
+          typeof page === "number" ? (
+            <Button
+              key={page}
+              variant={currentPage === page ? "default" : "outline"}
+              size="icon"
+              onClick={() => table.setPageIndex(page - 1)}
+              aria-label={`Go to page ${page}`}
+              aria-current={currentPage === page ? "page" : undefined}
+            >
+              {page}
+            </Button>
+          ) : (
+            <span
+              key={page}
+              className="flex size-9 items-center justify-center text-muted-foreground"
+              aria-hidden="true"
+            >
+              <Ellipsis />
+            </span>
+          ),
+        )}
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+          aria-label="Go to next page"
+          title="Go to next page"
+        >
+          <ChevronRight />
+        </Button>
       </div>
     </div>
   );
@@ -456,11 +559,11 @@ export function DataTableViewOptions<TData extends RowData>({
   );
 }
 
-export function DataTableFacetedFilter<TData extends RowData, TValue>({
+export function DataTableFacetedFilterAll<TData extends RowData, TValue>({
   column,
   title,
   options,
-}: DataTableFacetedFilterProps<TData, TValue>) {
+}: DataTableFacetedFilterAllProps<TData, TValue>) {
   const facets = column?.getFacetedUniqueValues();
   const selectedValues = new Set(
     column?.getFilterValue() as (string | number | boolean)[],
@@ -484,7 +587,7 @@ export function DataTableFacetedFilter<TData extends RowData, TValue>({
             <Separator orientation="vertical" className="mx-2 h-4" />
             <Badge
               variant="default"
-              className="rounded-md px-1 font-normal lg:hidden"
+              className="lg:hidden"
             >
               {selectedValues.size}
             </Badge>
@@ -492,7 +595,7 @@ export function DataTableFacetedFilter<TData extends RowData, TValue>({
               {selectedValues.size > 2 ? (
                 <Badge
                   variant="default"
-                  className="rounded-md px-1 font-normal"
+                  className="font-normal"
                 >
                   {selectedValues.size} selected
                 </Badge>
@@ -514,7 +617,7 @@ export function DataTableFacetedFilter<TData extends RowData, TValue>({
         )}
       </PopoverTrigger>
       <PopoverContent className="w-auto min-w-52 p-0" align="start">
-        <Command>
+        <Command className="p-0">
           <CommandInput placeholder={title} />
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
@@ -581,14 +684,132 @@ export function DataTableFacetedFilter<TData extends RowData, TValue>({
   );
 }
 
-export function DataTable<TData extends RowData>({
+export function DataTableFacetedFilter({
+  title,
+  options,
+  value,
+  onValueChange,
+  getCount,
+}: DataTableFacetedFilterProps) {
+  const selectedValues = new Set(value);
+
+  return (
+    <Popover>
+      <PopoverTrigger
+        render={
+          <Button
+            variant="outline"
+            size="default"
+            className="h-9 w-auto gap-1 rounded-md border-dashed p-1 whitespace-nowrap"
+          />
+        }
+      >
+        <PlusCircle />
+        {title}
+        {selectedValues.size > 0 && (
+          <>
+            <Separator orientation="vertical" className="mx-2 h-4" />
+            <Badge variant="default" className="lg:hidden">
+              {selectedValues.size}
+            </Badge>
+            <div className="hidden gap-1 lg:flex">
+              {selectedValues.size > 2 ? (
+                <Badge variant="default" className="font-normal">
+                  {selectedValues.size} selected
+                </Badge>
+              ) : (
+                options
+                  .filter((option) => selectedValues.has(option.value))
+                  .map((option) => (
+                    <Badge
+                      variant="default"
+                      key={String(option.value)}
+                      className="rounded-md px-1 font-normal"
+                    >
+                      {option.label}
+                    </Badge>
+                  ))
+              )}
+            </div>
+          </>
+        )}
+      </PopoverTrigger>
+      <PopoverContent className="w-auto min-w-52 p-0" align="start">
+        <Command className="p-0">
+          <CommandInput placeholder={title} />
+          <CommandList>
+            <CommandEmpty>No results found.</CommandEmpty>
+            <CommandGroup>
+              {options.map((option) => {
+                const isSelected = selectedValues.has(option.value);
+                const count = getCount?.(option.value);
+
+                return (
+                  <CommandItem
+                    key={String(option.value)}
+                    showCheck={false}
+                    onSelect={() => {
+                      const nextValues = new Set(selectedValues);
+
+                      if (isSelected) {
+                        nextValues.delete(option.value);
+                      } else {
+                        nextValues.add(option.value);
+                      }
+
+                      onValueChange(Array.from(nextValues));
+                    }}
+                  >
+                    <div
+                      className={cn(
+                        "flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
+                        isSelected
+                          ? "bg-primary text-primary-foreground"
+                          : "opacity-50 [&_svg]:invisible",
+                      )}
+                    >
+                      <Check />
+                    </div>
+                    {option.icon && (
+                      <option.icon className="text-muted-foreground" />
+                    )}
+                    <span>{option.label}</span>
+                    {count !== undefined && (
+                      <span className="ml-auto flex min-w-4 items-center justify-end font-mono text-xs">
+                        {count}
+                      </span>
+                    )}
+                  </CommandItem>
+                );
+              })}
+            </CommandGroup>
+            {selectedValues.size > 0 && (
+              <>
+                <CommandSeparator />
+                <CommandGroup>
+                  <CommandItem
+                    onSelect={() => onValueChange([])}
+                    className="justify-center text-center"
+                    showCheck={false}
+                  >
+                    Clear filters
+                  </CommandItem>
+                </CommandGroup>
+              </>
+            )}
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
+  );
+}
+
+export function DataTableAll<TData extends RowData>({
   columns,
   data,
   search,
   filters,
-  filter,
   fluidColumn,
-  max,
   initialPageSize = 10,
   pageSizeOptions = [7, 10, 25, 50, 100],
   getRowId,
@@ -599,10 +820,7 @@ export function DataTable<TData extends RowData>({
   onDownload,
   onCreate,
   render,
-}: DataTableProps<TData>) {
-  const activeFilters = filters ?? filter;
-  const flexibleColumn = fluidColumn ?? max;
-
+}: DataTableAllProps<TData>) {
   const table = useTable({
     features: dataTableFeatures,
     data,
@@ -624,7 +842,7 @@ export function DataTable<TData extends RowData>({
   return (
     <Card className="p-0">
       <CardHeader className="flex items-center justify-between pt-6">
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-2">
           {search && (
             <Input
               placeholder={search.placeholder}
@@ -640,8 +858,8 @@ export function DataTable<TData extends RowData>({
               className="max-w-sm"
             />
           )}
-          {activeFilters?.map((f) => (
-            <DataTableFacetedFilter
+          {filters?.map((f) => (
+            <DataTableFacetedFilterAll
               key={f.column}
               column={table.getColumn(f.column)}
               title={f.title}
@@ -725,7 +943,7 @@ export function DataTable<TData extends RowData>({
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header, index) => {
-                  const isColumn = header.column.id === flexibleColumn;
+                  const isColumn = header.column.id === fluidColumn;
 
                   return (
                     <TableHead
@@ -739,9 +957,9 @@ export function DataTable<TData extends RowData>({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
                     </TableHead>
                   );
                 })}
@@ -757,7 +975,260 @@ export function DataTable<TData extends RowData>({
                   onClick={() => onRowClick?.(row.original)}
                 >
                   {row.getVisibleCells().map((cell, index) => {
-                    const isColumn = cell.column.id === flexibleColumn;
+                    const isColumn = cell.column.id === fluidColumn;
+
+                    return (
+                      <TableCell
+                        key={`${cell.id}-${index}`}
+                        style={{
+                          width: isColumn
+                            ? "auto"
+                            : `${cell.column.getSize()}px`,
+                          minWidth: isColumn ? "200px" : undefined,
+                        }}
+                        className={cn("h-16", isColumn ? "w-auto" : "")}
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  {emptyMessage}
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+      <CardFooter className="block pb-6">
+        <DataTablePaginationAll table={table} />
+      </CardFooter>
+    </Card>
+  );
+}
+
+export function DataTable<TData extends RowData>({
+  columns,
+  data,
+  rowCount,
+  pagination,
+  onPaginationChange,
+  search,
+  filters,
+  sorting,
+  onSortingChange,
+  columnFilters,
+  onColumnFiltersChange,
+  fluidColumn,
+  pageSizeOptions = [7, 10, 25, 50, 100],
+  getRowId,
+  enableRowSelection = true,
+  emptyMessage = "No data available.",
+  loading = false,
+  loadingMessage = "Loading...",
+  onRowClick,
+  onReload,
+  onDownload,
+  onCreate,
+  render,
+}: DataTableProps<TData>) {
+  const table = useTable({
+    features: dataTableFeatures,
+    data,
+    columns,
+    getRowId,
+    enableRowSelection,
+    enableColumnResizing: true,
+    columnResizeMode: "onChange",
+    manualPagination: true,
+    manualFiltering: true,
+    manualSorting: true,
+    rowCount: Math.max(0, rowCount),
+    state: {
+      pagination,
+      ...(sorting ? { sorting } : {}),
+      ...(columnFilters ? { columnFilters } : {}),
+    },
+    onPaginationChange,
+    onSortingChange,
+    onColumnFiltersChange,
+  });
+
+  const isFiltered =
+    Boolean(search?.value.trim()) ||
+    Boolean(filters?.some((filter) => filter.value.length > 0)) ||
+    Boolean(columnFilters?.length);
+
+  const resetPage = () => {
+    if (pagination.pageIndex !== 0) {
+      onPaginationChange({ ...pagination, pageIndex: 0 });
+    }
+  };
+
+  const resetFilters = () => {
+    search?.onValueChange("");
+    filters?.forEach((filter) => filter.onValueChange([]));
+    onColumnFiltersChange?.([]);
+    resetPage();
+  };
+
+  return (
+    <Card className="p-0" aria-busy={loading}>
+      <CardHeader className="flex items-center justify-between pt-6">
+        <div className="flex items-center gap-1">
+          {search && (
+            <Input
+              placeholder={search.placeholder}
+              value={search.value}
+              onChange={(event) => {
+                search.onValueChange(event.target.value);
+                resetPage();
+              }}
+              className="max-w-sm"
+            />
+          )}
+          {filters?.map((filter) => (
+            <DataTableFacetedFilter
+              key={filter.id}
+              title={filter.title}
+              options={filter.options}
+              value={filter.value}
+              getCount={filter.getCount}
+              onValueChange={(value) => {
+                filter.onValueChange(value);
+                resetPage();
+              }}
+            />
+          ))}
+          {isFiltered && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={resetFilters}
+              aria-label="Reset filters"
+              title="Reset filters"
+            >
+              <X />
+              <span className="sr-only">Reset filters</span>
+            </Button>
+          )}
+        </div>
+        <div className="flex items-center gap-2">
+          <Select
+            value={`${pagination.pageSize}`}
+            onValueChange={(value) =>
+              onPaginationChange({ pageIndex: 0, pageSize: Number(value) })
+            }
+          >
+            <SelectTrigger className="w-20">
+              <SelectValue placeholder={pagination.pageSize} />
+            </SelectTrigger>
+            <SelectContent side="bottom">
+              {pageSizeOptions.map((pageSize) => (
+                <SelectItem key={pageSize} value={`${pageSize}`}>
+                  {pageSize}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <DataTableViewOptions table={table} />
+          {onDownload && (
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={onDownload}
+              aria-label="Export"
+              title="Export"
+            >
+              <Download />
+              <span className="sr-only">Export</span>
+            </Button>
+          )}
+          {onReload && (
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={onReload}
+              aria-label="Reload"
+              title="Reload"
+            >
+              <RotateCw />
+              <span className="sr-only">Reload</span>
+            </Button>
+          )}
+          {onCreate && (
+            <Button
+              variant="default"
+              size="icon"
+              onClick={onCreate}
+              aria-label="Create"
+              title="Create"
+            >
+              <PlusCircle />
+              <span className="sr-only">Create</span>
+            </Button>
+          )}
+          {render}
+        </div>
+      </CardHeader>
+      <div className="border-y">
+        <Table className="w-full table-fixed">
+          <TableHeader className="h-12">
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header, index) => {
+                  const isColumn = header.column.id === fluidColumn;
+
+                  return (
+                    <TableHead
+                      key={`${header.id}-${index}`}
+                      style={{
+                        width: isColumn ? "auto" : `${header.getSize()}px`,
+                        minWidth: isColumn ? "200px" : undefined,
+                      }}
+                      className={cn("h-14", isColumn ? "w-auto" : "")}
+                    >
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
+                    </TableHead>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {loading && data.length === 0 ? (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  {loadingMessage}
+                </TableCell>
+              </TableRow>
+            ) : table.getRowModel().rows.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                  onClick={() => onRowClick?.(row.original)}
+                >
+                  {row.getVisibleCells().map((cell, index) => {
+                    const isColumn = cell.column.id === fluidColumn;
 
                     return (
                       <TableCell
@@ -794,7 +1265,6 @@ export function DataTable<TData extends RowData>({
       </div>
       <CardFooter className="block pb-6">
         <DataTablePagination table={table} />
-        {/* <DataTablePagination table={table} /> */}
       </CardFooter>
     </Card>
   );
