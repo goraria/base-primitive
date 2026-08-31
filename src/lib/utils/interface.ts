@@ -310,6 +310,7 @@ export interface DataTableSortButtonProps<
 
 export interface DataTablePaginationAllProps<TData extends RowData> {
   table: ReactTable<DataTableFeatures, TData>;
+  onPageChangeStart?: () => void;
 }
 
 export interface DataTablePaginationProps<TData extends RowData>

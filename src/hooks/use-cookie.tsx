@@ -16,9 +16,11 @@ export function useCookie(
   { maxAge = DEFAULT_COOKIE_MAX_AGE }: UseCookieOptions = {}
 ) {
   const [value, setValueState] = useState(defaultValue)
+  const [ready, setReady] = useState(false)
 
   useEffect(() => {
     setValueState(getCookie(name) ?? defaultValue)
+    setReady(true)
   }, [defaultValue, name])
 
   const setValue = useCallback(
@@ -34,5 +36,5 @@ export function useCookie(
     setValueState(defaultValue)
   }, [defaultValue, name])
 
-  return { value, setValue, resetValue }
+  return { value, ready, setValue, resetValue }
 }

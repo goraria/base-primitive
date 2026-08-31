@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useProgress } from "@bprogress/next";
 import {
   type RowData,
   columnFacetingFeature,
@@ -207,6 +208,7 @@ export function DataTableColumnHeader<TData extends RowData, TValue>({
 
 export function DataTablePaginationOldAll<TData extends RowData>({
   table,
+  onPageChangeStart,
 }: DataTablePaginationAllProps<TData>) {
   const selectedRows = table.getFilteredSelectedRowModel().rows.length;
   const totalRows = table.getFilteredRowModel().rows.length;
@@ -225,6 +227,7 @@ export function DataTablePaginationOldAll<TData extends RowData>({
           <Select
             value={`${table.state.pagination.pageSize}`}
             onValueChange={(value) => {
+              onPageChangeStart?.();
               table.setPageSize(Number(value));
             }}
           >
@@ -249,7 +252,10 @@ export function DataTablePaginationOldAll<TData extends RowData>({
             variant="outline"
             size="icon"
             className="hidden size-8 lg:flex"
-            onClick={() => table.setPageIndex(0)}
+            onClick={() => {
+              onPageChangeStart?.();
+              table.setPageIndex(0);
+            }}
             disabled={!table.getCanPreviousPage()}
           >
             <span className="sr-only">Go to first page</span>
@@ -259,7 +265,10 @@ export function DataTablePaginationOldAll<TData extends RowData>({
             variant="outline"
             size="icon"
             className="size-8"
-            onClick={() => table.previousPage()}
+            onClick={() => {
+              onPageChangeStart?.();
+              table.previousPage();
+            }}
             disabled={!table.getCanPreviousPage()}
           >
             <span className="sr-only">Go to previous page</span>
@@ -269,7 +278,10 @@ export function DataTablePaginationOldAll<TData extends RowData>({
             variant="outline"
             size="icon"
             className="size-8"
-            onClick={() => table.nextPage()}
+            onClick={() => {
+              onPageChangeStart?.();
+              table.nextPage();
+            }}
             disabled={!table.getCanNextPage()}
           >
             <span className="sr-only">Go to next page</span>
@@ -279,7 +291,10 @@ export function DataTablePaginationOldAll<TData extends RowData>({
             variant="outline"
             size="icon"
             className="hidden size-8 lg:flex"
-            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+            onClick={() => {
+              onPageChangeStart?.();
+              table.setPageIndex(table.getPageCount() - 1);
+            }}
             disabled={!table.getCanNextPage()}
           >
             <span className="sr-only">Go to last page</span>
@@ -293,6 +308,7 @@ export function DataTablePaginationOldAll<TData extends RowData>({
 
 export function DataTablePaginationAll<TData extends RowData>({
   table,
+  onPageChangeStart,
 }: DataTablePaginationAllProps<TData>) {
   const currentPage = table.state.pagination.pageIndex + 1;
   const totalPages = table.getPageCount();
@@ -365,7 +381,10 @@ export function DataTablePaginationAll<TData extends RowData>({
             variant="outline"
             size="icon"
             className=""
-            onClick={() => table.previousPage()}
+            onClick={() => {
+              onPageChangeStart?.();
+              table.previousPage();
+            }}
             disabled={!table.getCanPreviousPage()}
           >
             <ChevronLeft />
@@ -389,7 +408,10 @@ export function DataTablePaginationAll<TData extends RowData>({
                   variant={currentPage === page ? "default" : "outline"}
                   size="icon"
                   className=""
-                  onClick={() => table.setPageIndex((page as number) - 1)}
+                  onClick={() => {
+                    onPageChangeStart?.();
+                    table.setPageIndex((page as number) - 1);
+                  }}
                 >
                   <span className="">{page}</span>
                 </Button>
@@ -401,7 +423,10 @@ export function DataTablePaginationAll<TData extends RowData>({
             variant="outline"
             size="icon"
             className=""
-            onClick={() => table.nextPage()}
+            onClick={() => {
+              onPageChangeStart?.();
+              table.nextPage();
+            }}
             disabled={!table.getCanNextPage()}
           >
             <ChevronRight />
@@ -414,6 +439,7 @@ export function DataTablePaginationAll<TData extends RowData>({
 
 export function DataTablePagination<TData extends RowData>({
   table,
+  onPageChangeStart,
 }: DataTablePaginationProps<TData>) {
   const currentPage = table.state.pagination.pageIndex + 1;
   const totalPages = table.getPageCount();
@@ -468,7 +494,10 @@ export function DataTablePagination<TData extends RowData>({
         <Button
           variant="outline"
           size="icon"
-          onClick={() => table.previousPage()}
+          onClick={() => {
+            onPageChangeStart?.();
+            table.previousPage();
+          }}
           disabled={!table.getCanPreviousPage()}
           aria-label="Go to previous page"
           title="Go to previous page"
@@ -481,7 +510,10 @@ export function DataTablePagination<TData extends RowData>({
               key={page}
               variant={currentPage === page ? "default" : "outline"}
               size="icon"
-              onClick={() => table.setPageIndex(page - 1)}
+              onClick={() => {
+                onPageChangeStart?.();
+                table.setPageIndex(page - 1);
+              }}
               aria-label={`Go to page ${page}`}
               aria-current={currentPage === page ? "page" : undefined}
             >
@@ -500,7 +532,10 @@ export function DataTablePagination<TData extends RowData>({
         <Button
           variant="outline"
           size="icon"
-          onClick={() => table.nextPage()}
+          onClick={() => {
+            onPageChangeStart?.();
+            table.nextPage();
+          }}
           disabled={!table.getCanNextPage()}
           aria-label="Go to next page"
           title="Go to next page"
@@ -821,6 +856,8 @@ export function DataTableAll<TData extends RowData>({
   onCreate,
   render,
 }: DataTableAllProps<TData>) {
+  const { start, stop } = useProgress();
+  const progressPending = React.useRef(false);
   const table = useTable({
     features: dataTableFeatures,
     data,
@@ -838,6 +875,16 @@ export function DataTableAll<TData extends RowData>({
   });
 
   const isFiltered = table.state.columnFilters.length > 0;
+  const startPaginationProgress = React.useCallback(() => {
+    progressPending.current = true;
+    start();
+  }, [start]);
+
+  React.useEffect(() => {
+    if (!progressPending.current) return;
+    progressPending.current = false;
+    stop();
+  }, [table.state.pagination.pageIndex, table.state.pagination.pageSize, stop]);
 
   return (
     <Card className="p-0">
@@ -889,6 +936,7 @@ export function DataTableAll<TData extends RowData>({
           <Select
             value={`${table.state.pagination.pageSize}`}
             onValueChange={(value) => {
+              startPaginationProgress();
               table.setPageSize(Number(value));
             }}
           >
@@ -1011,7 +1059,10 @@ export function DataTableAll<TData extends RowData>({
         </Table>
       </div>
       <CardFooter className="block pb-6">
-        <DataTablePaginationAll table={table} />
+        <DataTablePaginationAll
+          table={table}
+          onPageChangeStart={startPaginationProgress}
+        />
       </CardFooter>
     </Card>
   );
@@ -1042,6 +1093,8 @@ export function DataTable<TData extends RowData>({
   onCreate,
   render,
 }: DataTableProps<TData>) {
+  const { start, stop } = useProgress();
+  const progressPending = React.useRef(false);
   const table = useTable({
     features: dataTableFeatures,
     data,
@@ -1068,6 +1121,16 @@ export function DataTable<TData extends RowData>({
     Boolean(search?.value.trim()) ||
     Boolean(filters?.some((filter) => filter.value.length > 0)) ||
     Boolean(columnFilters?.length);
+  const startPaginationProgress = React.useCallback(() => {
+    progressPending.current = true;
+    start();
+  }, [start]);
+
+  React.useEffect(() => {
+    if (!progressPending.current || loading) return;
+    progressPending.current = false;
+    stop();
+  }, [loading, pagination.pageIndex, pagination.pageSize, stop]);
 
   const resetPage = () => {
     if (pagination.pageIndex !== 0) {
@@ -1126,9 +1189,10 @@ export function DataTable<TData extends RowData>({
         <div className="flex items-center gap-2">
           <Select
             value={`${pagination.pageSize}`}
-            onValueChange={(value) =>
+            onValueChange={(value) => {
+              startPaginationProgress();
               onPaginationChange({ pageIndex: 0, pageSize: Number(value) })
-            }
+            }}
           >
             <SelectTrigger className="w-20">
               <SelectValue placeholder={pagination.pageSize} />
@@ -1264,7 +1328,10 @@ export function DataTable<TData extends RowData>({
         </Table>
       </div>
       <CardFooter className="block pb-6">
-        <DataTablePagination table={table} />
+        <DataTablePagination
+          table={table}
+          onPageChangeStart={startPaginationProgress}
+        />
       </CardFooter>
     </Card>
   );

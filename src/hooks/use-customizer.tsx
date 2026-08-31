@@ -143,8 +143,9 @@ export function useCustomizer() {
   )
 
   useEffect(() => {
+    if (!baseCookie.ready || !paintCookie.ready || !chartCookie.ready) return
     applyCustomizerState(customizer)
-  }, [customizer])
+  }, [baseCookie.ready, chartCookie.ready, customizer, paintCookie.ready])
 
   const setColor = useCallback(
     (key: keyof CustomizerState, value: string) => {

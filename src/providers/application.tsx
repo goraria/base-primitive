@@ -6,11 +6,7 @@ import React, {
   useEffect,
   useRef,
 } from "react";
-import {
-  usePathname,
-  useSearchParams,
-  useServerInsertedHTML,
-} from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import {
   Bar,
@@ -30,76 +26,6 @@ import {
   type NavbarBehavior,
 } from "@/providers/layout";
 import { DirectionProvider, type Direction } from "@/providers/direction";
-import {
-  BASE_COLOR_OPTIONS,
-  CHART_COLOR_OPTIONS,
-  DEFAULT_CUSTOMIZER_STATE,
-  THEME_COLOR_OPTIONS,
-} from "@/hooks/use-customizer";
-// import { ThemeWrapper } from "./theme/theme-wrapper";
-
-const customizerInitializerScript = `(() => {
-  try {
-    const cookies = Object.fromEntries(
-      document.cookie.split(";").map((entry) => {
-        const separator = entry.indexOf("=");
-        const name = separator < 0 ? entry : entry.slice(0, separator);
-        const value = separator < 0 ? "" : entry.slice(separator + 1);
-        return [decodeURIComponent(name.trim()), decodeURIComponent(value)];
-      })
-    );
-    const root = document.documentElement;
-    const presets = ${JSON.stringify({
-      "color-base": {
-        allowed: BASE_COLOR_OPTIONS.map(({ key }) => key),
-        fallback: DEFAULT_CUSTOMIZER_STATE.base,
-      },
-      "color-paint": {
-        allowed: THEME_COLOR_OPTIONS.map(({ key }) => key),
-        fallback: DEFAULT_CUSTOMIZER_STATE.paint,
-      },
-      "color-chart": {
-        allowed: CHART_COLOR_OPTIONS.map(({ key }) => key),
-        fallback: DEFAULT_CUSTOMIZER_STATE.chart,
-      },
-    })};
-
-    Object.entries(presets).forEach(([name, preset]) => {
-      const value = preset.allowed.includes(cookies[name])
-        ? cookies[name]
-        : preset.fallback;
-      root.setAttribute(name, value);
-    });
-
-    const requestedTheme = ["light", "dark", "system"].includes(
-      cookies["color-theme"]
-    )
-      ? cookies["color-theme"]
-      : "system";
-    const resolvedTheme =
-      requestedTheme === "system"
-        ? window.matchMedia("(prefers-color-scheme: dark)").matches
-          ? "dark"
-          : "light"
-        : requestedTheme;
-
-    root.classList.remove("light", "dark");
-    root.classList.add(resolvedTheme);
-    root.style.colorScheme = resolvedTheme;
-
-    const layoutWidth = ["centered", "full-width"].includes(
-      cookies.layout_width
-    )
-      ? cookies.layout_width
-      : "centered";
-    root.removeAttribute("layout-width");
-    root.removeAttribute("navbar-behavior");
-    root.setAttribute(
-      "wide",
-      layoutWidth === "full-width" ? "wide" : "contained"
-    );
-  } catch {}
-})();`;
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -138,18 +64,6 @@ function SuspenseProgress() {
   return null;
 }
 
-function CustomizerInitializer() {
-  useServerInsertedHTML(() => (
-    <script
-      id="gorth-customizer-initializer"
-      suppressHydrationWarning
-      dangerouslySetInnerHTML={{ __html: customizerInitializerScript }}
-    />
-  ));
-
-  return null;
-}
-
 export function ApplicationProvider({
   children,
   initialCollapsible,
@@ -157,47 +71,49 @@ export function ApplicationProvider({
   initialVariant,
   initialWidth,
   initialNavbarBehavior,
+  initialTheme,
 }: PropsWithChildren<{
   initialCollapsible?: Collapsible;
   initialDirection?: Direction;
   initialVariant?: LayoutVariant;
   initialWidth?: LayoutWidth;
   initialNavbarBehavior?: NavbarBehavior;
+  initialTheme?: "light" | "dark" | "system";
 }>) {
   return (
-    <>
-      <CustomizerInitializer />
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider disableTransitionOnChange>
-          <FontProvider>
-            <DirectionProvider initialDirection={initialDirection}>
-              <LayoutProvider
-                initialCollapsible={initialCollapsible}
-                initialVariant={initialVariant}
-                initialWidth={initialWidth}
-                initialNavbarBehavior={initialNavbarBehavior}
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider
+        defaultTheme={initialTheme ?? "system"}
+        disableTransitionOnChange
+      >
+        <FontProvider>
+          <DirectionProvider initialDirection={initialDirection}>
+            <LayoutProvider
+              initialCollapsible={initialCollapsible}
+              initialVariant={initialVariant}
+              initialWidth={initialWidth}
+              initialNavbarBehavior={initialNavbarBehavior}
+            >
+              <ProgressProvider
+                height="2px"
+                options={{ showSpinner: false, template: null }}
+                shallowRouting
               >
-                <ProgressProvider
-                  height="2px"
-                  options={{ showSpinner: false, template: null }}
-                  shallowRouting
-                >
-                  <Progress>
-                    <Bar className="bg-primary!" />
-                  </Progress>
-                  <Suspense fallback={null}>
-                    <SuspenseProgress />
-                  </Suspense>
-                  <TooltipProvider>
-                    {children}
-                    <ToasterProvider />
-                  </TooltipProvider>
-                </ProgressProvider>
-              </LayoutProvider>
-            </DirectionProvider>
-          </FontProvider>
-        </ThemeProvider>
-      </QueryClientProvider>
-    </>
+                <Progress>
+                  <Bar className="bg-primary!" />
+                </Progress>
+                <Suspense fallback={null}>
+                  <SuspenseProgress />
+                </Suspense>
+                <TooltipProvider>
+                  {children}
+                  <ToasterProvider />
+                </TooltipProvider>
+              </ProgressProvider>
+            </LayoutProvider>
+          </DirectionProvider>
+        </FontProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
