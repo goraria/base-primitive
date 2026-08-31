@@ -236,11 +236,11 @@ function SectionTitle({
           type='button'
           size='icon'
           variant='default'
-          className='size-4 rounded-full'
+          className='size-5 rounded-sm'
           onClick={onReset}
           aria-label={resetAriaLabel}
         >
-          <RotateCcw className='size-3' />
+          <RotateCcw className='size-4' />
         </Button>
       )}
     </div>
@@ -284,7 +284,7 @@ function RadioGroupItem({
       >
         <RadioPrimitive.Indicator className='absolute top-0 right-0 z-10 translate-x-1/2 -translate-y-1/2'>
           <CircleCheck
-            className='size-6 fill-primary stroke-primary-foreground'
+            className='size-5 fill-primary stroke-primary-foreground'
             aria-hidden='true'
           />
         </RadioPrimitive.Indicator>

@@ -21,9 +21,14 @@ export function DrawSidebar({
     <SidebarProvider defaultOpen={false} className="contents min-h-0 w-auto">
       <Drawer modal swipeDirection="left">
         <DrawerTrigger
-          render={<SidebarTrigger aria-label="Open sidebar navigation" />}
+          render={
+            <SidebarTrigger
+              className="size-9 rounded-md"
+              aria-label="Open sidebar navigation"
+            />
+          }
         />
-        <DrawerContent className="gap-0">
+        <DrawerContent className="h-svh w-64 gap-0">
           <DrawerTitle className="sr-only">Navigation</DrawerTitle>
           <AppSidebar
             data={data}
