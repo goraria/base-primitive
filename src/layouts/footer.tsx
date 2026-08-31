@@ -21,6 +21,98 @@ export function Footer({
   const floating = variant === "floating"
   const inset = variant === "inset"
 
+  const footerTop = !dashboard ? (
+    <div
+      className={cn(
+        "w-full",
+        floating &&
+        "rounded-lg bg-background/95 shadow-sm ring-1 ring-sidebar-border backdrop-blur supports-[backdrop-filter]:bg-background/80",
+      )}
+    >
+      <div data-slot="footer-top" className="py-6">
+        <div
+          className={cn(
+            "mx-auto grid w-full grid-cols-1 gap-8 px-6 sm:grid-cols-2 lg:grid-cols-6",
+            !floating && "container",
+          )}
+        >
+          <div className="flex min-w-0 flex-col items-start lg:col-span-2">
+            <div className="flex min-h-9 items-center">
+              {top ?? (
+                <Button
+                  nativeButton={false}
+                  render={<Link href="/" />}
+                  variant="ghost"
+                  className="px-0 text-lg font-bold hover:bg-transparent"
+                >
+                  Gorth
+                </Button>
+              )}
+            </div>
+
+            {middle ? (
+              <div className="mt-4 w-full text-sm text-muted-foreground">
+                {middle}
+              </div>
+            ) : null}
+          </div>
+
+          {(nav?.main ?? []).slice(0, 4).map((group) => (
+            <nav
+              key={`${group.title}-${group.url}`}
+              aria-label={group.title}
+              className="flex min-w-0 flex-col items-start gap-3"
+            >
+              {group.url && group.url !== "#" ? (
+                <Link
+                  href={group.url}
+                  className="text-sm font-medium text-muted-foreground hover:text-foreground"
+                >
+                  {group.title}
+                </Link>
+              ) : (
+                <p className="text-sm font-medium text-muted-foreground">
+                  {group.title}
+                </p>
+              )}
+
+              <div className="flex flex-col items-start gap-2.5">
+                {group.items?.map((item) => (
+                  <Link
+                    key={`${item.title}-${item.url}`}
+                    href={item.url}
+                    className="text-sm font-medium text-foreground hover:text-primary"
+                  >
+                    {item.title}
+                  </Link>
+                ))}
+              </div>
+            </nav>
+          ))}
+        </div>
+      </div>
+    </div>
+  ) : null
+
+  const copyright = (
+    <div
+      data-slot="footer-copyright"
+      className={cn(
+        "h-14 w-full bg-background/95 text-muted-foreground backdrop-blur supports-[backdrop-filter]:bg-background/80",
+        floating &&
+        "rounded-lg shadow-sm ring-1 ring-sidebar-border",
+        !floating && (inset || dashboard) && "border-t",
+        inset && "rounded-b-xl",
+      )}
+    >
+      <div className="container mx-auto h-14 w-full">
+        <div className="mx-auto flex h-full items-center gap-2 px-6">
+          {bottom}
+        </div>
+      </div>
+    </div>
+  )
+
   return (
     <footer
       data-layout={variant}
@@ -32,97 +124,17 @@ export function Footer({
         inset && "rounded-b-xl",
       )}
     >
-      {!dashboard ? (
-        <div
-          className={cn(
-            "w-full",
-            floating && "container mx-auto px-6 py-2",
-          )}
-        >
-          <div
-            className={cn(
-              "w-full",
-              floating &&
-              "rounded-lg bg-background/95 shadow-sm ring-1 ring-sidebar-border backdrop-blur supports-[backdrop-filter]:bg-background/80",
-              inset && "rounded-b-xl",
-            )}
-          >
-            <div data-slot="footer-top" className="py-6">
-              <div
-                className={cn(
-                  "mx-auto grid w-full grid-cols-1 gap-8 px-6 sm:grid-cols-2 lg:grid-cols-6",
-                  !floating && "container",
-                )}
-              >
-                <div className="flex min-w-0 flex-col items-start lg:col-span-2">
-                  <div className="flex min-h-9 items-center">
-                    {top ?? (
-                      <Button
-                        nativeButton={false}
-                        render={<Link href="/" />}
-                        variant="ghost"
-                        className="px-0 text-lg font-bold hover:bg-transparent"
-                      >
-                        Gorth
-                      </Button>
-                    )}
-                  </div>
-
-                  {middle ? (
-                    <div className="mt-4 w-full text-sm text-muted-foreground">
-                      {middle}
-                    </div>
-                  ) : null}
-                </div>
-
-                {(nav?.main ?? []).slice(0, 4).map((group) => (
-                  <nav
-                    key={`${group.title}-${group.url}`}
-                    aria-label={group.title}
-                    className="flex min-w-0 flex-col items-start gap-3"
-                  >
-                    {group.url && group.url !== "#" ? (
-                      <Link
-                        href={group.url}
-                        className="text-sm font-medium text-muted-foreground hover:text-foreground"
-                      >
-                        {group.title}
-                      </Link>
-                    ) : (
-                      <p className="text-sm font-medium text-muted-foreground">
-                        {group.title}
-                      </p>
-                    )}
-
-                    <div className="flex flex-col items-start gap-2.5">
-                      {group.items?.map((item) => (
-                        <Link
-                          key={`${item.title}-${item.url}`}
-                          href={item.url}
-                          className="text-sm font-medium text-foreground hover:text-primary"
-                        >
-                          {item.title}
-                        </Link>
-                      ))}
-                    </div>
-                  </nav>
-                ))}
-              </div>
-            </div>
-          </div>
+      {floating ? (
+        <div className="container mx-auto flex w-full flex-col gap-2 px-6 py-2">
+          {footerTop}
+          {copyright}
         </div>
-      ) : null}
-
-      <div
-        data-slot="footer-copyright"
-        className="h-14 w-full border-t bg-background/95 text-muted-foreground backdrop-blur supports-[backdrop-filter]:bg-background/80"
-      >
-        <div className="container mx-auto h-14 w-full">
-          <div className="mx-auto flex h-full items-center gap-2 px-6">
-            {bottom}
-          </div>
-        </div>
-      </div>
+      ) : (
+        <>
+          {footerTop}
+          {copyright}
+        </>
+      )}
     </footer>
   )
 }
