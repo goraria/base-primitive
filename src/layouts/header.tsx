@@ -140,7 +140,7 @@ export function Header({
   nav,
   mode = "navbar",
 }: HeaderProps) {
-  const { variant } = useLayout()
+  const { navbarBehavior, variant } = useLayout()
   const navigation = nav.navigation ?? []
   const dashboard = mode === "dashboard"
   const floating = variant === "floating"
@@ -148,10 +148,12 @@ export function Header({
 
   return (
     <header
+      data-slot="layout-header"
       data-layout={variant}
+      data-behavior={navbarBehavior}
       data-mode={mode}
       className={cn(
-        "sticky top-0 z-50 w-full shrink-0",
+        "z-50 w-full shrink-0 data-[behavior=sticky]:sticky data-[behavior=sticky]:top-0",
         !floating &&
         "border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80",
         inset && "rounded-t-xl",

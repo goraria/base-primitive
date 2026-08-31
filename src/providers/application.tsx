@@ -25,7 +25,9 @@ import { FontProvider } from "@/providers/font";
 import {
   LayoutProvider,
   type Collapsible,
+  type LayoutWidth,
   type LayoutVariant,
+  type NavbarBehavior,
 } from "@/providers/layout";
 import { DirectionProvider, type Direction } from "@/providers/direction";
 import {
@@ -84,6 +86,18 @@ const customizerInitializerScript = `(() => {
     root.classList.remove("light", "dark");
     root.classList.add(resolvedTheme);
     root.style.colorScheme = resolvedTheme;
+
+    const layoutWidth = ["centered", "full-width"].includes(
+      cookies.layout_width
+    )
+      ? cookies.layout_width
+      : "centered";
+    root.removeAttribute("layout-width");
+    root.removeAttribute("navbar-behavior");
+    root.setAttribute(
+      "wide",
+      layoutWidth === "full-width" ? "wide" : "contained"
+    );
   } catch {}
 })();`;
 
@@ -141,10 +155,14 @@ export function ApplicationProvider({
   initialCollapsible,
   initialDirection,
   initialVariant,
+  initialWidth,
+  initialNavbarBehavior,
 }: PropsWithChildren<{
   initialCollapsible?: Collapsible;
   initialDirection?: Direction;
   initialVariant?: LayoutVariant;
+  initialWidth?: LayoutWidth;
+  initialNavbarBehavior?: NavbarBehavior;
 }>) {
   return (
     <>
@@ -156,6 +174,8 @@ export function ApplicationProvider({
               <LayoutProvider
                 initialCollapsible={initialCollapsible}
                 initialVariant={initialVariant}
+                initialWidth={initialWidth}
+                initialNavbarBehavior={initialNavbarBehavior}
               >
                 <ProgressProvider
                   height="2px"

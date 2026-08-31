@@ -26,9 +26,18 @@ import { IconSidebarSidebar } from '@/components/icons/icon-sidebar-sidebar'
 import { IconThemeDark } from '@/components/icons/icon-theme-dark'
 import { IconThemeLight } from '@/components/icons/icon-theme-light'
 import { IconThemeSystem } from '@/components/icons/icon-theme-system'
+import { IconNavbarScroll } from '@/components/icons/icon-navbar-scroll'
+import { IconNavbarSticky } from '@/components/icons/icon-navbar-sticky'
+import { IconWidthCentered } from '@/components/icons/icon-width-centered'
+import { IconWidthFull } from '@/components/icons/icon-width-full'
 import { cn } from '@/lib/utils'
 import { useDirection } from '@/providers/direction'
-import { type Collapsible, useLayout } from '@/providers/layout'
+import {
+  type Collapsible,
+  type LayoutWidth,
+  type NavbarBehavior,
+  useLayout,
+} from '@/providers/layout'
 import { Button, buttonVariants } from '@/components/custom/button'
 import { Badge } from '@/components/custom/badge'
 import { Label } from '@/components/ui/label'
@@ -95,6 +104,8 @@ export function Customizer({
           <SidebarConfig />
           <LayoutConfig />
           <DirConfig />
+          <WidthConfig />
+          <NavbarBehaviorConfig />
           <Separator className='-mx-4 my-2 shrink-0' />
           <CustomizerConfig customizer={customizer} setColor={setColor} />
         </div>
@@ -483,6 +494,92 @@ function DirConfig() {
       </RadioGroupPrimitive>
       <div id='direction-description' className='sr-only'>
         Choose between left-to-right or right-to-left site direction
+      </div>
+    </div>
+  )
+}
+
+function WidthConfig() {
+  const { defaultWidth, setWidth, width } = useLayout()
+
+  return (
+    <div className='flex flex-col gap-2'>
+      <SectionTitle
+        title='Width'
+        showReset={defaultWidth !== width}
+        onReset={() => setWidth(defaultWidth)}
+        resetAriaLabel='Reset page width to default'
+      />
+      <RadioGroupPrimitive
+        value={width}
+        onValueChange={(value) => setWidth(value as LayoutWidth)}
+        className='grid w-full max-w-md grid-cols-2 gap-2'
+        aria-label='Select page width'
+        aria-describedby='width-description'
+      >
+        {[
+          {
+            value: 'centered',
+            label: 'Centered',
+            icon: IconWidthCentered,
+          },
+          {
+            value: 'full-width',
+            label: 'Full width',
+            icon: IconWidthFull,
+          },
+        ].map((item) => (
+          <RadioGroupItem key={item.value} item={item} />
+        ))}
+      </RadioGroupPrimitive>
+      <div id='width-description' className='sr-only'>
+        Choose between a centered container or a full-width page
+      </div>
+    </div>
+  )
+}
+
+function NavbarBehaviorConfig() {
+  const {
+    defaultNavbarBehavior,
+    navbarBehavior,
+    setNavbarBehavior,
+  } = useLayout()
+
+  return (
+    <div className='flex flex-col gap-2'>
+      <SectionTitle
+        title='Navbar behavior'
+        showReset={defaultNavbarBehavior !== navbarBehavior}
+        onReset={() => setNavbarBehavior(defaultNavbarBehavior)}
+        resetAriaLabel='Reset navbar behavior to default'
+      />
+      <RadioGroupPrimitive
+        value={navbarBehavior}
+        onValueChange={(value) =>
+          setNavbarBehavior(value as NavbarBehavior)
+        }
+        className='grid w-full max-w-md grid-cols-2 gap-2'
+        aria-label='Select navbar behavior'
+        aria-describedby='navbar-behavior-description'
+      >
+        {[
+          {
+            value: 'sticky',
+            label: 'Sticky',
+            icon: IconNavbarSticky,
+          },
+          {
+            value: 'scroll',
+            label: 'Scroll',
+            icon: IconNavbarScroll,
+          },
+        ].map((item) => (
+          <RadioGroupItem key={item.value} item={item} />
+        ))}
+      </RadioGroupPrimitive>
+      <div id='navbar-behavior-description' className='sr-only'>
+        Choose whether the navbar stays visible or scrolls with the page
       </div>
     </div>
   )

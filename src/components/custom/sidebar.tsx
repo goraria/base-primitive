@@ -138,7 +138,7 @@ function SidebarProvider({
           } as React.CSSProperties
         }
         className={cn(
-          "group/sidebar-wrapper flex min-h-svh w-full has-data-[variant=inset]:bg-sidebar",
+          "group/sidebar-wrapper flex min-h-svh w-full has-data-[behavior=inset]:bg-sidebar",
           className
         )}
         {...props}
@@ -168,6 +168,7 @@ function Sidebar({
     return (
       <div
         data-slot="sidebar"
+        data-behavior={variant}
         className={cn(
           "flex h-full w-(--sidebar-width) flex-col bg-sidebar text-sidebar-foreground",
           className
@@ -186,6 +187,7 @@ function Sidebar({
           dir={dir}
           data-sidebar="sidebar"
           data-slot="sidebar"
+          data-behavior={variant}
           data-mobile="true"
           className="w-(--sidebar-width) bg-sidebar p-0 text-sidebar-foreground [&>button]:hidden"
           style={
@@ -210,7 +212,7 @@ function Sidebar({
       className="group peer hidden text-sidebar-foreground md:block"
       data-state={state}
       data-collapsible={state === "collapsed" ? collapsible : ""}
-      data-variant={variant}
+      data-behavior={variant}
       data-side={side}
       data-slot="sidebar"
     >
@@ -242,7 +244,7 @@ function Sidebar({
         <div
           data-sidebar="sidebar"
           data-slot="sidebar-inner"
-          className="flex size-full flex-col bg-sidebar group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:shadow-sm group-data-[variant=floating]:ring-1 group-data-[variant=floating]:ring-sidebar-border"
+          className="flex size-full flex-col bg-sidebar group-data-[behavior=floating]:rounded-lg group-data-[behavior=floating]:shadow-sm group-data-[behavior=floating]:ring-1 group-data-[behavior=floating]:ring-sidebar-border"
         >
           {children}
         </div>
@@ -307,7 +309,7 @@ function SidebarInset({ className, ...props }: React.ComponentProps<"main">) {
     <main
       data-slot="sidebar-inset"
       className={cn(
-        "relative flex w-full flex-1 flex-col bg-background md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow-sm md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-2",
+        "relative flex w-full flex-1 flex-col bg-background md:peer-data-[behavior=inset]:m-2 md:peer-data-[behavior=inset]:ml-0 md:peer-data-[behavior=inset]:rounded-xl md:peer-data-[behavior=inset]:shadow-sm md:peer-data-[behavior=inset]:peer-data-[state=collapsed]:ml-2",
         className
       )}
       {...props}

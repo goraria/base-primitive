@@ -27,27 +27,27 @@ export function Footer({
       data-mode={mode}
       className={cn(
         "w-full shrink-0",
-        !floating &&
+        !floating && !dashboard &&
         "border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80",
         inset && "rounded-b-xl",
       )}
     >
-      <div
-        className={cn(
-          "w-full",
-          floating && "container mx-auto px-6 py-2",
-        )}
-      >
+      {!dashboard ? (
         <div
           className={cn(
             "w-full",
-            floating &&
-            "rounded-lg bg-background/95 shadow-sm ring-1 ring-sidebar-border backdrop-blur supports-[backdrop-filter]:bg-background/80",
-            inset && "rounded-b-xl",
+            floating && "container mx-auto px-6 py-2",
           )}
         >
-          {!dashboard ? (
-            <div data-slot="footer-top" className="border-b py-6">
+          <div
+            className={cn(
+              "w-full",
+              floating &&
+              "rounded-lg bg-background/95 shadow-sm ring-1 ring-sidebar-border backdrop-blur supports-[backdrop-filter]:bg-background/80",
+              inset && "rounded-b-xl",
+            )}
+          >
+            <div data-slot="footer-top" className="py-6">
               <div
                 className={cn(
                   "mx-auto grid w-full grid-cols-1 gap-8 px-6 sm:grid-cols-2 lg:grid-cols-6",
@@ -109,20 +109,17 @@ export function Footer({
                 ))}
               </div>
             </div>
-          ) : null}
+          </div>
+        </div>
+      ) : null}
 
-          <div
-            data-slot="footer-copyright"
-            className="flex h-14 w-full items-center text-muted-foreground"
-          >
-            <div
-              className={cn(
-                "mx-auto flex size-full items-center px-6",
-                !floating && "container",
-              )}
-            >
-              {bottom}
-            </div>
+      <div
+        data-slot="footer-copyright"
+        className="h-14 w-full border-t bg-background/95 text-muted-foreground backdrop-blur supports-[backdrop-filter]:bg-background/80"
+      >
+        <div className="container mx-auto h-14 w-full">
+          <div className="mx-auto flex h-full items-center gap-2 px-6">
+            {bottom}
           </div>
         </div>
       </div>
