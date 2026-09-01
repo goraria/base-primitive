@@ -101,7 +101,7 @@ export function Footer({
         "h-14 w-full bg-background/95 text-muted-foreground backdrop-blur supports-[backdrop-filter]:bg-background/80",
         floating &&
         "rounded-lg shadow-sm ring-1 ring-sidebar-border",
-        !floating && (inset || dashboard) && "border-t",
+        !floating && "shadow-[inset_0_1px_0_var(--border)]",
         inset && "rounded-b-xl",
       )}
     >
@@ -120,7 +120,7 @@ export function Footer({
       className={cn(
         "w-full shrink-0",
         !floating && !dashboard &&
-        "border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80",
+        "bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80",
         inset && "rounded-b-xl",
       )}
     >

@@ -1,6 +1,6 @@
 {
   "name": "@gorth/primitive",
-  "version": "2.2.6",
+  "version": "2.2.7",
   "description": "Shared shadcn-based UI package",
   "type": "module",
   "author": "Gorthenburg",
@@ -157,9 +157,9 @@
     "@bprogress/next": "^3.2.12",
     "@bprogress/react": "^1.2.7",
     "@shadcn/helpers": "^0.2.0",
-    "@shadcn/react": "^0.3.0",
-    "@tanstack/ai": "^0.52.0",
-    "@tanstack/ai-react": "^0.22.4",
+    "@shadcn/react": "^0.3.1",
+    "@tanstack/ai": "^0.52.1",
+    "@tanstack/ai-react": "^0.23.0",
     "@tanstack/react-form": "^1.33.5",
     "@tanstack/react-query": "^5.102.8",
     "@tanstack/react-ranger": "^0.0.5",
@@ -175,7 +175,7 @@
     "framer-motion": "^13.1.1",
     "fs-extra": "^11.4.0",
     "input-otp": "^1.5.0",
-    "lucide-react": "^1.37.0",
+    "lucide-react": "^1.39.0",
     "media-chrome": "^4.19.2",
     "motion": "^13.1.1",
     "react-day-picker": "^10.0.1",
@@ -187,7 +187,7 @@
     "react-svg-credit-card-payment-icons": "^6.0.4",
     "react-use-measure": "^2.1.7",
     "recharts": "3.10.1",
-    "shadcn": "^4.19.0",
+    "shadcn": "^4.19.1",
     "shiki": "^4.4.3",
     "simplex-noise": "^4.0.3",
     "sonner": "^2.0.8",
@@ -198,7 +198,7 @@
     "vaul": "^1.1.2"
   },
   "peerDependencies": {
-    "next": "^16.3.3",
+    "next": "^16.3.4",
     "next-themes": "^0.4.6",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"

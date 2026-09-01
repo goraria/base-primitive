@@ -155,7 +155,7 @@ export function Header({
       className={cn(
         "z-50 w-full shrink-0 data-[behavior=sticky]:sticky data-[behavior=sticky]:top-0",
         !floating &&
-        "border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80",
+        "bg-background/95 shadow-[inset_0_-1px_0_var(--border)] backdrop-blur supports-[backdrop-filter]:bg-background/80",
         inset && "rounded-t-xl",
       )}
     >
