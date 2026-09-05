@@ -1,4 +1,3 @@
-@import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "./base.css";
@@ -6,7 +5,7 @@
 @import "./chart.css";
 
 @custom-variant dark (&:is(.dark *));
-@source "../**/*.{ts,tsx}";
+@source "../**/*.{js,mjs,ts,tsx}";
 
 @theme inline {
   --font-heading: var(--font-sans);
