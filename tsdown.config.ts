@@ -34,13 +34,6 @@ export default defineConfig({
     '.jpeg': 'copy',
     '.svg': 'copy',
   },
-  copy: [
-    {
-      from: "src/styles/*.css",
-      to: "dist",
-      flatten: true,
-    },
-  ],
   format: ["esm"],
   sourcemap: false,
   minify: false,

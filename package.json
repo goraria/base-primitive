@@ -122,10 +122,6 @@
       "import": "./dist/globals.css",
       "default": "./dist/globals.css"
     },
-    "./postcss.config": {
-      "import": "./postcss.config.mjs",
-      "default": "./postcss.config.mjs"
-    },
     "./package.json": "./package.json"
   },
   "files": [
@@ -133,11 +129,11 @@
     "src/assets"
   ],
   "scripts": {
-    "build": "tsdown",
+    "build": "tsdown && pnpm exec tailwindcss -i ./src/styles/globals.css -o ./dist/globals.css --minify",
     "buildprepack": "pnpm build",
     "prepack": "pnpm build",
     "update": "pnpm update",
-    "er": "tsdown && node ./scripts/copy-assets.mjs",
+    "er": "pnpm build",
     "dev": "tsdown --watch",
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
@@ -163,7 +159,7 @@
     "@tanstack/react-form": "^1.33.5",
     "@tanstack/react-query": "^5.102.8",
     "@tanstack/react-ranger": "^0.0.5",
-    "@tanstack/react-router": "^1.170.32",
+    "@tanstack/react-router": "^1.170.33",
     "@tanstack/react-table": "^9.2.4",
     "@tanstack/react-virtual": "^3.14.10",
     "class-variance-authority": "^0.7.1",
@@ -173,7 +169,6 @@
     "date-fns": "^4.4.0",
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^13.2.0",
-    "fs-extra": "^11.4.0",
     "input-otp": "^1.5.0",
     "lucide-react": "^1.41.0",
     "media-chrome": "^4.19.2",
@@ -183,7 +178,7 @@
     "react-fast-marquee": "^1.6.5",
     "react-image-crop": "^11.1.2",
     "react-medium-image-zoom": "^5.4.9",
-    "react-resizable-panels": "^4.12.3",
+    "react-resizable-panels": "^4.12.4",
     "react-svg-credit-card-payment-icons": "^6.0.4",
     "react-use-measure": "^2.1.7",
     "recharts": "3.10.1",
@@ -204,8 +199,8 @@
     "react-dom": "^19.2.8"
   },
   "devDependencies": {
+    "@tailwindcss/cli": "^4.3.3",
     "@tailwindcss/postcss": "^4.3.3",
-    "@types/fs-extra": "^11.0.4",
     "@types/node": "^26.4.1",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
