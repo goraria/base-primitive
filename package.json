@@ -19,7 +19,7 @@
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "style": "./dist/globals.css",
+  "style": "./src/styles/globals.css",
   "sideEffects": [
     "**/*.css"
   ],
@@ -119,17 +119,17 @@
       "default": "./src/assets/*"
     },
     "./globals.css": {
-      "import": "./dist/globals.css",
-      "default": "./dist/globals.css"
+      "import": "./src/styles/globals.css",
+      "default": "./src/styles/globals.css"
     },
     "./package.json": "./package.json"
   },
   "files": [
     "dist",
-    "src/assets"
+    "src"
   ],
   "scripts": {
-    "build": "tsdown && pnpm exec tailwindcss -i ./src/styles/globals.css -o ./dist/globals.css --minify",
+    "build": "tsdown",
     "buildprepack": "pnpm build",
     "prepack": "pnpm build",
     "update": "pnpm update",
@@ -199,7 +199,6 @@
     "react-dom": "^19.2.8"
   },
   "devDependencies": {
-    "@tailwindcss/cli": "^4.3.3",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^26.4.1",
     "@types/react": "^19.2.18",

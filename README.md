@@ -1,11 +1,11 @@
-# gorth-ui
+# @gorth/primitive
 
 Shared React UI library.
 
 ## Install from GitHub
 
 ```bash
-pnpm add gorth-ui@github:goraria/gorth-ui
+pnpm add @gorth/primitive@github:goraria/base-primitive
 ```
 
 Or via dependency alias in another project:
@@ -13,31 +13,30 @@ Or via dependency alias in another project:
 ```json
 {
   "dependencies": {
-    "ui": "github:goraria/gorth-ui"
+    "@gorth/primitive": "github:goraria/base-primitive"
   }
 }
 ```
 
 ## Usage
 
-Import library CSS once in your app entry (for Next.js App Router, put this in `app/layout.tsx`):
+Import Tailwind once, then import the Primitive source stylesheet. Primitive
+registers its own component source, so consumers do not need a `node_modules`
+`@source` path:
 
-```tsx
-import "gorth-ui/globals.css";
+```css
+@import "tailwindcss";
+@import "@gorth/primitive/globals.css";
+
+@source "../**/*.{ts,tsx}";
 ```
 
 ```tsx
-import { Button } from 'gorth-ui';
+import { Button } from "@gorth/primitive/custom/button"
 
 export function Demo() {
-  return <Button>Click me</Button>;
+  return <Button>Click me</Button>
 }
-```
-
-If you installed with alias `ui`, import from `ui` instead:
-
-```tsx
-import { Button } from 'ui';
 ```
 
 ## Development
