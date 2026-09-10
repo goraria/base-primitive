@@ -1,7 +1,7 @@
 "use client"
 
 import { LoaderCircleIcon, LoaderIcon, LoaderPinwheelIcon, type LucideProps } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 
 type SpinnerVariantProps = Omit<SpinnerProps, "variant">
 

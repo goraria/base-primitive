@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/custom/dropdown"
 import { MoonStar, Moon, Sun, Monitor } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 
 export function ModeSwitcher({
   className,

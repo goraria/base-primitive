@@ -23,7 +23,7 @@ import ReactCrop, {
   type ReactCropProps,
 } from "react-image-crop"
 import { Button } from "@/components/custom/button"
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 
 import "react-image-crop/dist/ReactCrop.css"
 

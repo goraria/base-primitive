@@ -10,7 +10,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/custom/badge";
 import { Search, History, FileText, User, Settings, ShoppingCart } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
 
 export interface SearchBarHolderProps {
   placeholder?: string;

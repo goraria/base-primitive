@@ -5,7 +5,7 @@ import { Radio as RadioPrimitive } from "@base-ui/react/radio"
 import type { ComponentProps, HTMLAttributes } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { RadioGroup } from "@/components/ui/radio-group"
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 
 export type ChoiceboxProps = ComponentProps<typeof RadioGroup>
 

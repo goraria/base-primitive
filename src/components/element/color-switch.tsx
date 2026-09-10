@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { Button } from "@/components/custom/button"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 // import { useConfig } from "@/hooks/use-config";
 
 export function ColorSwitch(props: {}) {

@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 // import Image from "next/image";
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 
 export function TextBanner({
   title,

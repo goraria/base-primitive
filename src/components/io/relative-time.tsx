@@ -2,7 +2,7 @@
 //
 // import { useControllableState } from "radix-ui/internal"
 // import { createContext, type HTMLAttributes, useContext, useEffect, useState } from "react"
-// import { cn } from "@/lib/utils"
+// import { cn } from "cn"
 //
 // const formatDate = (date: Date, timeZone: string, options?: Intl.DateTimeFormatOptions) =>
 //   new Intl.DateTimeFormat(

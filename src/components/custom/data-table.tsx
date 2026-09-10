@@ -66,6 +66,7 @@ import { Button } from "@/components/custom/button";
 import { Badge } from "@/components/custom/badge";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
 
 import {
   ArrowUpDown,
@@ -85,7 +86,6 @@ import {
   Download,
   X,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
 import type {
   DataTableColumnHeaderProps,
   DataTableAllProps,

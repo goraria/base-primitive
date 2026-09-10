@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { cloneElement, useLayoutEffect, useRef, useState } from "react"
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 
 const DefaultHomeIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg

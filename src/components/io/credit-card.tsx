@@ -10,7 +10,7 @@ import {
   useState,
 } from "react"
 import { PaymentIcon } from "react-svg-credit-card-payment-icons"
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 
 const useSupportsHover = () => {
   const [supportsHover, setSupportsHover] = useState(false)

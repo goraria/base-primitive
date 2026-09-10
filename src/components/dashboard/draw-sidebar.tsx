@@ -8,7 +8,7 @@ import {
   DrawerTrigger,
 } from "@/components/custom/drawer";
 import { SidebarProvider, SidebarTrigger } from "@/components/custom/sidebar";
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
 import type { AppSidebarProps } from "@/lib/utils/interface";
 
 export function DrawSidebar({

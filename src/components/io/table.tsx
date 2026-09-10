@@ -35,7 +35,7 @@
 //   Table as TableRaw,
 //   TableRow as TableRowRaw,
 // } from "@/components/ui/table"
-// import { cn } from "@/lib/utils"
+// import { cn } from "cn"
 
 // export type { ColumnDef } from "@tanstack/react-table"
 

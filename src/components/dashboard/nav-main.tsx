@@ -29,7 +29,7 @@ import {
   SidebarMenuSubItem,
   useSidebar,
 } from "@/components/custom/sidebar"
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 import { NavCoreProps, NavMainItem } from "@/lib/utils/interface"
 
 function isPathActive(pathname: string, url: string) {

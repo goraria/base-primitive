@@ -3,7 +3,7 @@
 import { Briefcase, Calendar, Home, Settings, Shield } from "lucide-react"
 import type React from "react"
 import { useEffect, useMemo, useRef, useState } from "react"
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 
 type IconComponentType = React.ElementType<{ className?: string }>
 

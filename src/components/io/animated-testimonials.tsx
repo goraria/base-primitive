@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { useEffect, useState } from "react"
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 
 export interface Testimonial {
   quote: string

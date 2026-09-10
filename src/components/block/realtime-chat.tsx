@@ -1,6 +1,6 @@
 // 'use client'
 
-// import { cn } from '@/lib/utils'
+// import { cn } from 'cn'
 // import { ChatMessageItem } from '@/components/block/chat-message'
 // import { useChatScroll } from '@/hooks/use-chat-scroll'
 // import {

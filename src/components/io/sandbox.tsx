@@ -5,7 +5,7 @@ import type { ComponentProps, ReactNode } from "react"
 import { Badge } from "@/components/ui/badge"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 
 type SandboxState = "running" | "completed" | "error"
 

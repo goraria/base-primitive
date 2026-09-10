@@ -4,7 +4,7 @@ import { MinusIcon, PlusIcon } from "lucide-react"
 import { type HTMLMotionProps, motion, type SpringOptions } from "motion/react"
 import * as React from "react"
 import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 import { SlidingNumber, type SlidingNumberProps } from "@/components/io/sliding-number"
 
 export interface CounterProps extends Omit<HTMLMotionProps<"div">, "children"> {

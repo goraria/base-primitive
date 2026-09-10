@@ -2,7 +2,7 @@
 
 import React, { JSX } from "react";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
 import { formatUserInitials } from "@/lib/utils/formatter";
 import {
   Avatar,

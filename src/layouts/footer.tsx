@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/custom/button";
 import { useLayout } from "@/providers/layout"
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 import { FooterProps } from "@/lib/utils/interface"
 
 export function Footer({

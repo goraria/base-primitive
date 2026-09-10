@@ -23,7 +23,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 import { HeaderProps, NavMainItem } from "@/lib/utils/interface"
 import { useLayout } from "@/providers/layout"
 

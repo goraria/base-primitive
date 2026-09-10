@@ -3,7 +3,7 @@
 import { ArrowRightIcon } from "lucide-react"
 import type { ComponentProps, HTMLAttributes } from "react"
 import { Badge } from "@/components/ui/badge"
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 
 export type AnnouncementProps = ComponentProps<typeof Badge> & {
   themed?: boolean

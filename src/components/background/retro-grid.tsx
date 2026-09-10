@@ -1,6 +1,6 @@
 "use client"
 
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 
 export interface RetroGridProps {
   /** Additional CSS classes */

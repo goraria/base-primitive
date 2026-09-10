@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion"
 import { useCallback, useEffect, useRef } from "react"
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 
 export interface BackgroundGradientAnimationProps {
   gradientBackgroundStart?: string

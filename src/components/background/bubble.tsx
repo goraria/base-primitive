@@ -2,7 +2,7 @@
 
 import { motion, type SpringOptions, useMotionValue, useSpring } from "framer-motion"
 import { useCallback, useEffect, useRef } from "react"
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 
 export interface BubbleBackgroundProps {
   className?: string

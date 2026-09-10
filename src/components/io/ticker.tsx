@@ -3,7 +3,7 @@
 import type { HTMLAttributes, ReactNode } from "react"
 import { createContext, memo, useContext, useMemo } from "react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 
 interface TickerContextValue {
   formatter: Intl.NumberFormat

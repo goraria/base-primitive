@@ -2,8 +2,7 @@
 
 import * as React from "react"
 import { Collapsible as CollapsiblePrimitive } from "@base-ui/react/collapsible"
-
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 
 function Collapsible({ children, render, ...props }: CollapsiblePrimitive.Root.Props) {
   return (

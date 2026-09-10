@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion"
 import type React from "react"
 import { createContext, type ReactNode, useContext, useEffect, useRef, useState } from "react"
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 import { useOnClickOutside } from "@/hooks/use-on-click-outside"
 
 interface ModalContextType {

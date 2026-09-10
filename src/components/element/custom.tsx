@@ -1,6 +1,6 @@
 // components/ui/option-card.tsx
 import React, { ComponentProps, ReactNode } from "react";
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 import { RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox";

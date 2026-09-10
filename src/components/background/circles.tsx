@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 
 interface BackgroundCirclesProps {
   className?: string

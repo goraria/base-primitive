@@ -3,6 +3,7 @@
 import {
   type CSSProperties,
   type SVGProps,
+  useState,
 } from 'react'
 import type { VariantProps } from 'class-variance-authority'
 import { RadioPrimitive, RadioGroupPrimitive } from '@/components/custom/radio'
@@ -30,7 +31,7 @@ import { IconNavbarScroll } from '@/components/icons/icon-navbar-scroll'
 import { IconNavbarSticky } from '@/components/icons/icon-navbar-sticky'
 import { IconWidthCentered } from '@/components/icons/icon-width-centered'
 import { IconWidthFull } from '@/components/icons/icon-width-full'
-import { cn } from '@/lib/utils'
+import { cn } from 'cn'
 import { useDirection } from '@/providers/direction'
 import {
   type Collapsible,
@@ -52,6 +53,16 @@ import {
   DrawerTrigger,
 } from '@/components/custom/drawer'
 import { useSidebar } from '@/components/custom/sidebar'
+import { useIsMobile } from '@/hooks/use-mobile'
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/custom/sheet'
 
 export interface CustomizerProps {
   className?: string
@@ -64,6 +75,8 @@ export function Customizer({
   variant = 'ghost',
   size = 'icon',
 }: CustomizerProps) {
+  const isMobile = useIsMobile()
+  const [customizerOpen, setCustomizerOpen] = useState(false)
   const { setOpen } = useSidebar()
   const { customizer, resetCustomizer, setColor } = useCustomizer()
   const { resetDir } = useDirection()
@@ -78,8 +91,65 @@ export function Customizer({
     resetCustomizer()
   }
 
+  const customizerBody = (
+    <div className='no-scrollbar flex min-h-0 flex-1 flex-col gap-2 overflow-x-hidden overflow-y-auto p-4'>
+      <ThemeConfig />
+      <SidebarConfig />
+      <LayoutConfig />
+      <DirConfig />
+      <WidthConfig />
+      <NavbarBehaviorConfig />
+      <Separator className='-mx-4 my-2 shrink-0' />
+      <CustomizerConfig customizer={customizer} setColor={setColor} />
+    </div>
+  )
+
+  const resetButton = (
+    <Button
+      variant='destructive'
+      onClick={handleReset}
+      aria-label='Reset all settings to default values'
+    >
+      Reset
+    </Button>
+  )
+
+  if (!isMobile) {
+    return (
+      <Sheet open={customizerOpen} onOpenChange={setCustomizerOpen}>
+        <SheetTrigger
+          render={
+            <Button
+              size={size}
+              variant={variant}
+              className={className}
+              aria-label='Open customizer'
+            />
+          }
+        >
+          <Settings aria-hidden='true' />
+        </SheetTrigger>
+        <SheetContent side='right'>
+          <SheetHeader className='border-b text-start'>
+            <SheetTitle>Customizer</SheetTitle>
+            <SheetDescription>
+              Customize and preview in real time.
+            </SheetDescription>
+          </SheetHeader>
+          {customizerBody}
+          <SheetFooter className='border-t'>{resetButton}</SheetFooter>
+        </SheetContent>
+      </Sheet>
+    )
+  }
+
   return (
-    <Drawer modal swipeDirection='right'>
+    <Drawer
+      modal
+      open={customizerOpen}
+      onOpenChange={setCustomizerOpen}
+      swipeDirection='right'
+    >
       <DrawerTrigger
         render={
           <Button
@@ -99,24 +169,9 @@ export function Customizer({
             Customize and preview in real time.
           </DrawerDescription>
         </DrawerHeader>
-        <div className='no-scrollbar flex min-h-0 flex-1 flex-col gap-2 overflow-x-hidden overflow-y-auto p-4'>
-          <ThemeConfig />
-          <SidebarConfig />
-          <LayoutConfig />
-          <DirConfig />
-          <WidthConfig />
-          <NavbarBehaviorConfig />
-          <Separator className='-mx-4 my-2 shrink-0' />
-          <CustomizerConfig customizer={customizer} setColor={setColor} />
-        </div>
+        {customizerBody}
         <DrawerFooter className='border-t p-4'>
-          <Button
-            variant='destructive'
-            onClick={handleReset}
-            aria-label='Reset all settings to default values'
-          >
-            Reset
-          </Button>
+          {resetButton}
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
