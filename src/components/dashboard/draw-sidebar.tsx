@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { AppSidebar } from "@/components/dashboard/app-sidebar";
 import {
   Drawer,
@@ -7,7 +8,14 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/custom/drawer";
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/custom/sheet";
 import { SidebarProvider, SidebarTrigger } from "@/components/custom/sidebar";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "cn";
 import type { AppSidebarProps } from "@/lib/utils/interface";
 
@@ -17,28 +25,48 @@ export function DrawSidebar({
   className,
   ...props
 }: AppSidebarProps) {
+  const isMobile = useIsMobile();
+  const [open, setOpen] = useState(false);
+  const trigger = (
+    <SidebarTrigger
+      className="size-9 rounded-md"
+      aria-label="Open sidebar navigation"
+    />
+  );
+  const sidebar = (
+    <AppSidebar
+      data={data}
+      auth={auth}
+      {...props}
+      collapsible="none"
+      className={cn("h-full w-full", className)}
+    />
+  );
+
   return (
     <SidebarProvider defaultOpen={false} className="contents min-h-0 w-auto">
-      <Drawer modal swipeDirection="left">
-        <DrawerTrigger
-          render={
-            <SidebarTrigger
-              className="size-9 rounded-md"
-              aria-label="Open sidebar navigation"
-            />
-          }
-        />
-        <DrawerContent className="h-svh w-64 gap-0">
-          <DrawerTitle className="sr-only">Navigation</DrawerTitle>
-          <AppSidebar
-            data={data}
-            auth={auth}
-            {...props}
-            collapsible="none"
-            className={cn("h-full w-full", className)}
-          />
-        </DrawerContent>
-      </Drawer>
+      {isMobile ? (
+        <Drawer
+          modal
+          open={open}
+          onOpenChange={setOpen}
+          swipeDirection="left"
+        >
+          <DrawerTrigger render={trigger} />
+          <DrawerContent className="h-svh w-64 gap-0">
+            <DrawerTitle className="sr-only">Navigation</DrawerTitle>
+            {sidebar}
+          </DrawerContent>
+        </Drawer>
+      ) : (
+        <Sheet open={open} onOpenChange={setOpen}>
+          <SheetTrigger render={trigger} />
+          <SheetContent side="left" className="h-svh w-64 gap-0">
+            <SheetTitle className="sr-only">Navigation</SheetTitle>
+            {sidebar}
+          </SheetContent>
+        </Sheet>
+      )}
     </SidebarProvider>
   );
 }
