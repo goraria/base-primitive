@@ -11,12 +11,13 @@ import { useTheme } from '@/providers/theme'
 import {
   BASE_COLOR_OPTIONS,
   CHART_COLOR_OPTIONS,
+  DEFAULT_CUSTOMIZER_STATE,
   THEME_COLOR_OPTIONS,
   type ColorOption,
   type CustomizerState,
   useCustomizer,
 } from '@/hooks/use-customizer'
-import { Check, CircleCheck, RotateCcw, Settings } from 'lucide-react'
+import { Check, CircleCheck, RotateCcw, Settings, X } from 'lucide-react'
 import { IconDir } from '@/components/icons/icon-dir'
 import { IconLayoutCompact } from '@/components/icons/icon-layout-compact'
 import { IconLayoutDefault } from '@/components/icons/icon-layout-default'
@@ -45,9 +46,9 @@ import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import {
   Drawer,
+  DrawerClose,
   DrawerContent,
   DrawerDescription,
-  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
@@ -56,9 +57,9 @@ import { useSidebar } from '@/components/custom/sidebar'
 import { useIsMobile } from '@/hooks/use-mobile'
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -77,11 +78,32 @@ export function Customizer({
 }: CustomizerProps) {
   const isMobile = useIsMobile()
   const [customizerOpen, setCustomizerOpen] = useState(false)
-  const { setOpen } = useSidebar()
+  const { open, setOpen } = useSidebar()
   const { customizer, resetCustomizer, setColor } = useCustomizer()
-  const { resetDir } = useDirection()
-  const { setTheme } = useTheme()
-  const { resetLayout } = useLayout()
+  const { defaultDir, dir, resetDir } = useDirection()
+  const { setTheme, theme } = useTheme()
+  const {
+    collapsible,
+    defaultCollapsible,
+    defaultNavbarBehavior,
+    defaultVariant,
+    defaultWidth,
+    navbarBehavior,
+    resetLayout,
+    variant: layoutVariant,
+    width,
+  } = useLayout()
+  const showReset =
+    theme !== 'system' ||
+    dir !== defaultDir ||
+    !open ||
+    collapsible !== defaultCollapsible ||
+    layoutVariant !== defaultVariant ||
+    width !== defaultWidth ||
+    navbarBehavior !== defaultNavbarBehavior ||
+    customizer.base !== DEFAULT_CUSTOMIZER_STATE.base ||
+    customizer.paint !== DEFAULT_CUSTOMIZER_STATE.paint ||
+    customizer.chart !== DEFAULT_CUSTOMIZER_STATE.chart
 
   const handleReset = () => {
     setOpen(true)
@@ -104,15 +126,16 @@ export function Customizer({
     </div>
   )
 
-  const resetButton = (
+  const resetButton = showReset ? (
     <Button
+      size='icon'
       variant='destructive'
       onClick={handleReset}
       aria-label='Reset all settings to default values'
     >
-      Reset
+      <RotateCcw className='size-4' />
     </Button>
-  )
+  ) : null
 
   if (!isMobile) {
     return (
@@ -129,15 +152,23 @@ export function Customizer({
         >
           <Settings aria-hidden='true' />
         </SheetTrigger>
-        <SheetContent side='right'>
-          <SheetHeader className='border-b text-start'>
+        <SheetContent side='right' showCloseButton={false}>
+          <SheetHeader className='relative border-b pr-24 text-start'>
             <SheetTitle>Customizer</SheetTitle>
             <SheetDescription>
               Customize and preview in real time.
             </SheetDescription>
+            <div className='absolute top-4 right-4 flex items-center gap-2'>
+              {resetButton}
+              <SheetClose
+                render={<Button size='icon' variant='ghost' />}
+              >
+                <X className='size-4' />
+                <span className='sr-only'>Close</span>
+              </SheetClose>
+            </div>
           </SheetHeader>
           {customizerBody}
-          <SheetFooter className='border-t'>{resetButton}</SheetFooter>
         </SheetContent>
       </Sheet>
     )
@@ -163,16 +194,22 @@ export function Customizer({
         <Settings aria-hidden='true' />
       </DrawerTrigger>
       <DrawerContent className='flex flex-col gap-0'>
-        <DrawerHeader className='border-b p-4 text-start'>
+        <DrawerHeader className='relative border-b p-4 pr-24 text-start'>
           <DrawerTitle>Customizer</DrawerTitle>
           <DrawerDescription>
             Customize and preview in real time.
           </DrawerDescription>
+          <div className='absolute top-4 right-4 flex items-center gap-2'>
+            {resetButton}
+            <DrawerClose
+              render={<Button size='icon' variant='ghost' />}
+            >
+              <X className='size-4' />
+              <span className='sr-only'>Close</span>
+            </DrawerClose>
+          </div>
         </DrawerHeader>
         {customizerBody}
-        <DrawerFooter className='border-t p-4'>
-          {resetButton}
-        </DrawerFooter>
       </DrawerContent>
     </Drawer>
   )

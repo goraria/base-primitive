@@ -124,8 +124,18 @@ export function ThemeProvider({
   )
 
   useIsomorphicLayoutEffect(() => {
-    applyTheme(resolvedTheme)
-  }, [applyTheme, resolvedTheme])
+    const nextResolvedTheme =
+      activeTheme === "system" ? getSystemTheme() : activeTheme
+
+    applyTheme(nextResolvedTheme)
+
+    if (
+      activeTheme === "system" &&
+      nextResolvedTheme !== systemTheme
+    ) {
+      setSystemTheme(nextResolvedTheme as "light" | "dark")
+    }
+  }, [activeTheme, applyTheme, systemTheme])
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)")

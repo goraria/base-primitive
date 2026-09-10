@@ -61,7 +61,12 @@ export function DrawSidebar({
       ) : (
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger render={trigger} />
-          <SheetContent side="left" className="h-svh w-64 gap-0">
+          <SheetContent
+            side="left"
+            showCloseButton={false}
+            className="h-svh gap-0"
+            style={{ width: "16rem" }}
+          >
             <SheetTitle className="sr-only">Navigation</SheetTitle>
             {sidebar}
           </SheetContent>
