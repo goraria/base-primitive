@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "@/components/custom/toast";
 import {
   Bar,
   Progress,
@@ -15,7 +16,6 @@ import {
   useProgress,
 } from "@bprogress/next";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ToasterProvider } from "@/providers/toaster";
 import { ThemeProvider } from "@/providers/theme";
 import { FontProvider } from "@/providers/font";
 import {
@@ -105,10 +105,9 @@ export function ApplicationProvider({
                 <Suspense fallback={null}>
                   <SuspenseProgress />
                 </Suspense>
-                <TooltipProvider>
-                  {children}
-                  <ToasterProvider />
-                </TooltipProvider>
+                <Toaster>
+                  <TooltipProvider>{children}</TooltipProvider>
+                </Toaster>
               </ProgressProvider>
             </LayoutProvider>
           </DirectionProvider>
