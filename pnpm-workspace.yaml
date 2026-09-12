@@ -6,3 +6,17 @@ allowBuilds:
 minimumReleaseAgeExclude:
   - date-fns@4.4.0
   - shadcn@4.8.3
+  - '@next/env@16.3.5'
+  - '@next/swc-darwin-arm64@16.3.5'
+  - '@next/swc-darwin-x64@16.3.5'
+  - '@next/swc-linux-arm64-gnu@16.3.5'
+  - '@next/swc-linux-arm64-musl@16.3.5'
+  - '@next/swc-linux-x64-gnu@16.3.5'
+  - '@next/swc-linux-x64-musl@16.3.5'
+  - '@next/swc-win32-arm64-msvc@16.3.5'
+  - '@next/swc-win32-x64-msvc@16.3.5'
+  - '@tanstack/react-virtual@3.14.12'
+  - '@tanstack/virtual-core@3.17.10'
+  - '@types/three@0.186.0'
+  - lucide-react@1.45.0
+  - next@16.3.5

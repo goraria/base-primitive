@@ -1,6 +1,6 @@
 {
   "name": "@gorth/primitive",
-  "version": "2.2.8",
+  "version": "2.2.9",
   "description": "Shared shadcn-based UI package",
   "type": "module",
   "author": "Gorthenburg",
@@ -161,7 +161,7 @@
     "@tanstack/react-ranger": "^0.0.5",
     "@tanstack/react-router": "^1.170.35",
     "@tanstack/react-table": "^9.2.4",
-    "@tanstack/react-virtual": "^3.14.11",
+    "@tanstack/react-virtual": "^3.14.12",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
@@ -194,7 +194,7 @@
     "vaul": "^1.1.2"
   },
   "peerDependencies": {
-    "next": "^16.3.4",
+    "next": "^16.3.5",
     "next-themes": "^0.4.6",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
@@ -204,12 +204,12 @@
     "@types/node": "^26.5.0",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
-    "@types/three": "^0.185.4",
+    "@types/three": "^0.186.0",
     "eslint": "^9.39.5",
     "prettier": "^3.9.6",
     "tailwindcss": "^4.3.3",
     "tsdown": "^0.23.0",
     "typescript": "^5.9.3"
   },
-  "packageManager": "pnpm@10.33.4"
+  "packageManager": "pnpm@12.3.4"
 }
