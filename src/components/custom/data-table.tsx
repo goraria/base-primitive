@@ -221,8 +221,8 @@ export function DataTablePaginationOldAll<TData extends RowData>({
         <span className="font-bold text-primary">{selectedRows}</span> of{" "}
         <span className="font-bold text-primary">{totalRows}</span> rows selected.
       </div>
-      <div className="flex items-center space-x-6 lg:space-x-8">
-        <div className="flex items-center space-x-2">
+      <div className="flex items-center gap-6 lg:gap-8">
+        <div className="flex items-center gap-2">
           <p className="text-sm font-medium">Rows per page</p>
           <Select
             value={`${table.state.pagination.pageSize}`}
@@ -247,7 +247,7 @@ export function DataTablePaginationOldAll<TData extends RowData>({
           Page {table.state.pagination.pageIndex + 1} of{" "}
           {table.getPageCount()}
         </div>
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center gap-2">
           <Button
             variant="outline"
             size="icon"
@@ -374,9 +374,9 @@ export function DataTablePaginationAll<TData extends RowData>({
           <span className="font-bold text-primary">{totalRows}</span> rows selected.
         </div>
       </div>
-      <div className="flex items-center space-x-6 lg:space-x-8">
+      <div className="flex items-center gap-6 lg:gap-8">
         {/* Pagination Numbers */}
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center gap-2">
           <Button
             variant="outline"
             size="icon"
@@ -929,10 +929,10 @@ export function DataTableAll<TData extends RowData>({
           {/* Clear filters */}
           {/*</Button>*/}
         </div>
-        {/* <div className="flex items-center space-x-2">
+        {/* <div className="flex items-center gap-2">
          <p className="text-sm font-medium">Rows per page</p>
          </div> */}
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center gap-2">
           <Select
             value={`${table.state.pagination.pageSize}`}
             onValueChange={(value) => {

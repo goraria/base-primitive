@@ -25,6 +25,8 @@ export function Footer({
     <div
       className={cn(
         "w-full",
+        !floating &&
+        "bg-background/95 shadow-[inset_0_1px_0_var(--border)] backdrop-blur supports-[backdrop-filter]:bg-background/80",
         floating &&
         "rounded-lg bg-background/95 shadow-sm ring-1 ring-sidebar-border backdrop-blur supports-[backdrop-filter]:bg-background/80",
       )}
