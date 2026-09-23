@@ -130,7 +130,7 @@
   ],
   "scripts": {
     "build": "tsdown --minify --config-loader tsx",
-    "prepare": "bun run build",
+    "prepack": "bun run build",
     "update": "bun update",
     "er": "bun run build",
     "dev": "tsdown --watch",
