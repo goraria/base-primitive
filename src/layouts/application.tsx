@@ -80,7 +80,10 @@ export async function ApplicationLayout({
     "system"
   )
   const htmlCustomizerAttributes = {
-    "color-base": cookieStore.get("color-base")?.value ?? "neutral",
+    "color-ground":
+      cookieStore.get("color-ground")?.value ??
+      cookieStore.get("color-base")?.value ??
+      "neutral",
     "color-paint": cookieStore.get("color-paint")?.value ?? "primary",
     "color-chart": cookieStore.get("color-chart")?.value ?? "neutral",
     wide: initialWidth === "full-width" ? "wide" : "contained",

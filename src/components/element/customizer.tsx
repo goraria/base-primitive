@@ -9,7 +9,7 @@ import type { VariantProps } from 'class-variance-authority'
 import { RadioPrimitive, RadioGroupPrimitive } from '@/components/custom/radio'
 import { useTheme } from '@/providers/theme'
 import {
-  BASE_COLOR_OPTIONS,
+  GROUND_COLOR_OPTIONS,
   CHART_COLOR_OPTIONS,
   DEFAULT_CUSTOMIZER_STATE,
   THEME_COLOR_OPTIONS,
@@ -101,7 +101,7 @@ export function Customizer({
     layoutVariant !== defaultVariant ||
     width !== defaultWidth ||
     navbarBehavior !== defaultNavbarBehavior ||
-    customizer.base !== DEFAULT_CUSTOMIZER_STATE.base ||
+    customizer.ground !== DEFAULT_CUSTOMIZER_STATE.ground ||
     customizer.paint !== DEFAULT_CUSTOMIZER_STATE.paint ||
     customizer.chart !== DEFAULT_CUSTOMIZER_STATE.chart
 
@@ -280,10 +280,10 @@ function CustomizerConfig({
     <section className='flex flex-col gap-2'>
       <Badge className='self-start'>Theming</Badge>
       <ColorGroup
-        label='Base Color'
-        options={BASE_COLOR_OPTIONS}
-        value={customizer.base}
-        onValueChange={(value) => setColor('base', value)}
+        label='Ground Color'
+        options={GROUND_COLOR_OPTIONS}
+        value={customizer.ground}
+        onValueChange={(value) => setColor('ground', value)}
       />
       <ColorGroup
         label='Paint Color'

@@ -89,7 +89,7 @@
   --color-professional-gray: var(--professional-gray);
   --color-professional-gray-dark: var(--professional-gray-dark);
 
-  --color-base: var(--base);
+  --color-ground: var(--ground);
   --color-paint: var(--paint);
   --color-chart: var(--chart);
 }
@@ -178,7 +178,7 @@
   --professional-gray: #7a838b;
   --professional-gray-dark: #4e5965;
 
-  --base: oklch(0.556 0 0);
+  --ground: oklch(0.556 0 0);
   --paint: #737373;
   --chart: oklch(0.556 0 0);
 }
@@ -266,7 +266,7 @@
   --professional-gray: #7a838b;
   --professional-gray-dark: #4e5965;
 
-  --base: oklch(0.556 0 0);
+  --ground: oklch(0.556 0 0);
   --paint: #737373;
   --chart: oklch(0.556 0 0);
 }
