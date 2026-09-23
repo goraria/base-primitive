@@ -12,7 +12,7 @@ import {
   UserRound,
 } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/custom/button";
 import {
   Popover,
   PopoverContent,

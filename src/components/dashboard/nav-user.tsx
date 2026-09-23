@@ -24,7 +24,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/custom/sidebar";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/custom/button";
 import {
   BadgeCheck,
   Bell,
@@ -216,7 +216,7 @@ export function NavUser({
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="p-0 cursor-pointer"
+                  className="p-0"
                 />
               }
             >
@@ -338,7 +338,7 @@ export function NavDropdownItem({
 }) {
   return (
     <>
-      <DropdownMenuItem className="cursor-pointer" onClick={action}>
+      <DropdownMenuItem className="" onClick={action}>
         <Icon className="size-4" />
         {link ? <Link href={link}>{title}</Link> : <span>{title}</span>}
       </DropdownMenuItem>

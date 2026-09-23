@@ -10,7 +10,7 @@ import { SearchBarHolder } from "@/components/element/search-bar";
 import { ModeToggle } from "@/components/element/mode-toggle";
 import { Customizer } from "@/components/element/customizer";
 import { Utility } from "@/components/element/utility";
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/custom/button"
 import { Search } from "lucide-react";
 
 export function NavElement({
@@ -18,9 +18,9 @@ export function NavElement({
 }: {
 	user?: any | null
 }) {
-  const router = useRouter();
-  const [openSearch, setOpenSearch] = useState(false);
-	
+	const router = useRouter();
+	const [openSearch, setOpenSearch] = useState(false);
+
 	return (
 		<>
 			{/*<div className="hidden lg:flex">*/}
@@ -44,12 +44,12 @@ export function NavElement({
 			{/* Theme Custom */}
 			<Customizer />
 			{/* Notifications */}
-			<NotifyButton/>
+			<NotifyButton />
 			{/* Carts */}
 			{/*<CartButton/>*/}
-      {/*<CartCanvas/>*/}
+			{/*<CartCanvas/>*/}
 			{/* Utility */}
-			<Utility/>
+			<Utility />
 
 			{/* {user?.role === "customer" ? (
 				<>

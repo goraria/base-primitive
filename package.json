@@ -1,6 +1,6 @@
 {
   "name": "@gorth/primitive",
-  "version": "3.0.1",
+  "version": "3.1.0",
   "description": "Shared shadcn-based UI package",
   "type": "module",
   "author": "Gorthenburg",
@@ -154,10 +154,10 @@
     "@bprogress/react": "^1.2.7",
     "@shadcn/helpers": "^0.2.0",
     "@shadcn/react": "^0.3.1",
-    "@tanstack/ai": "^0.55.0",
-    "@tanstack/ai-react": "^0.27.0",
+    "@tanstack/ai": "^0.58.0",
+    "@tanstack/ai-react": "^0.27.3",
     "@tanstack/react-form": "^1.33.5",
-    "@tanstack/react-query": "^5.103.1",
+    "@tanstack/react-query": "^5.103.2",
     "@tanstack/react-ranger": "^0.0.5",
     "@tanstack/react-router": "^1.170.38",
     "@tanstack/react-table": "^9.2.4",
@@ -165,21 +165,21 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
-    "cn": "^0.3.0",
+    "cn": "^0.4.0",
     "color": "^5.0.3",
     "date-fns": "^4.4.0",
     "embla-carousel-react": "^8.6.0",
-    "framer-motion": "^13.4.0",
+    "framer-motion": "^13.4.1",
     "input-otp": "^1.5.0",
     "lucide-react": "^1.47.0",
     "media-chrome": "^4.19.2",
-    "motion": "^13.4.0",
+    "motion": "^13.4.1",
     "react-day-picker": "^10.0.1",
     "react-dropzone": "^20.1.2",
     "react-fast-marquee": "^1.6.5",
     "react-image-crop": "^11.1.2",
     "react-medium-image-zoom": "^5.4.9",
-    "react-resizable-panels": "^4.12.4",
+    "react-resizable-panels": "^4.13.2",
     "react-svg-credit-card-payment-icons": "^6.0.4",
     "react-use-measure": "^2.1.7",
     "recharts": "3.10.1",
@@ -194,7 +194,7 @@
     "vaul": "^1.1.2"
   },
   "peerDependencies": {
-    "next": "^16.3.5",
+    "next": "^16.3.6",
     "next-themes": "^0.4.6",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
@@ -211,5 +211,5 @@
     "tsdown": "^0.23.0",
     "typescript": "^5.9.3"
   },
-  "packageManager": "pnpm@10.33.4"
+  "packageManager": "bun@1.4.2"
 }
